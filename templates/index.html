@@ -15,7 +15,13 @@
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
-        <h1>ProMan</h1>
-        <div id="boards">Boards are loading...</div>
+        <div class="wrapper">
+            <nav class="flex-row">
+                <h1>PRoMan</h1>
+                <a href="#" type="button"><i class="fas fa-clipboard-list"></i>New Board</a>
+                <a href="#" type="button"><i class="fas fa-sign-in-alt"></i>Login</a>
+            </nav>
+            <div id="boards">Boards are loading...</div>
+        </div>
     </body>
 </html>
