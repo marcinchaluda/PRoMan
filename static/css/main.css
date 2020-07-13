@@ -3,11 +3,64 @@
     padding: 0;
 }
 
-.flex-row {
+.flex-row-start {
     display: flex;
     justify-content: flex-start;
+    width: 100vw;
+}
+
+.flex-row-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header {
+    padding: 2em 0;
+    background-color: #73172F;
+    color: #BFBFBF;
+}
+
+.header h1 {
+    padding: 0 1em;
+    border-right: 1px solid #BFBFBF;
+}
+
+.header a {
+    margin: 0 2em;
+    padding: 0.2em 1em;
+    color: #BFBFBF;
+    text-decoration: none;
+    border: 1px solid #BFBFBF;
+    border-radius: 10px;
+}
+
+.login-details {
+
+    width: 16vw;
+}
+
+i {
+    padding-right: 0.4em;
+}
+
+.header a:hover {
+    background-color: #BFBFBF;
+    color: #73172F;
 }
 
 #boards {
-    background-color: green;
+    background-color: #BFBFBF;
+}
+
+footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    padding: 0.5em 2em 0.5em 0;
+    background-color: #73172F;
+    color: #BFBFBF;
+}
+.copyrights {
+
 }
