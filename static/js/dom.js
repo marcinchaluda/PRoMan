@@ -1,9 +1,21 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
+const displayTablesURL = '/get-boards';
 
 export let dom = {
     init: function () {
-        // This function should run once, when the page is loaded.
+        fetch(displayTablesURL).then(response => {
+            if(response.status !== 200) {
+                console.log(`Looks like there was a problem. Status code: ${response.status}`)
+                return;
+            }
+            response.json().then(tables => {
+                document.querySelector('.boards').innerHTML = tables;
+                console.log(tables);
+            });
+        }).catch(error => {
+            console.error(`Fetch error ${error}`);
+        });
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
