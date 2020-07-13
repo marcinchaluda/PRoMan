@@ -4,6 +4,18 @@ const displayTablesURL = '/get-boards';
 
 export let dom = {
     init: function () {
+        fetch(displayTablesURL).then(response => {
+            if(response.status !== 200) {
+                console.log(`Looks like there was a problem. Status code: ${response.status}`)
+                return;
+            }
+            response.json().then(tables => {
+                document.querySelector('.boards').innerHTML = tables;
+                console.log(tables);
+            });
+        }).catch(error => {
+            console.error(`Fetch error ${error}`);
+        });
         // fetch(displayTablesURL).then(response => {
         //     if(response.status !== 200) {
         //         console.log(`Looks like there was a problem. Status code: ${response.status}`)
