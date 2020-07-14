@@ -1,3 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.flex-row-start {
+    display: flex;
+    justify-content: flex-start;
+    width: 100vw;
+}
+
+.flex-row-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header {
+    padding: 2em 0;
+    background-color: #73172F;
+    color: #BFBFBF;
+}
+
+.header h1, .board-container h3 {
+    padding: 0 1em;
+    border-right: 1px solid #BFBFBF;
+}
+
+.board-container h3 {
+    padding-top: 0.2em;
+    border-right: 1px solid #73172F;
+}
+
+.header a,  li a {
+    margin: 0 1.5em;
+    padding: 0.2em 1em;
+    color: #BFBFBF;
+    text-decoration: none;
+    border: 1px solid #BFBFBF;
+    border-radius: 10px;
+}
+
+.board-container li a {
+    color: #73172F;
+    border: 1px solid #73172F;
+    background-color: whitesmoke;
+}
+
+.board-container li a:hover {
+    color: whitesmoke;
+    background-color: #73172F;
+}
+
+.login-details {
+    width: 16vw;
+}
+
+i {
+    padding-right: 0.4em;
+}
+
+.header a:hover {
+    background-color: #BFBFBF;
+    color: #73172F;
+}
+
 #boards {
-    background-color: green;
+    /*background-color: #BFBFBF;*/
+}
+
+footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    padding: 0.5em 2em 0.5em 0;
+    background-color: #73172F;
+    color: #BFBFBF;
+}
+
+.board-container {
+    box-sizing: content-box;
+    margin: 0 10vw;
+    width: 80vw;
+}
+
+.board-container li {
+    width: 100%;
+    border: 2px solid #73172F;
+    /*border-radius: 20px;*/
+    list-style: none;
+    color: #73172F;
+    background-color: #BFBFBF;
+    margin: 4em 0 0 0;
+    padding: 1em 0;
+}
+
+.board-details i {
+    align-self: center;
+    padding: 0 1em 0 0;
+    font-size: 1.5em;
+}
+
+.close {
+    content: '\f00d';
+}
+
+.board-details i:hover {
+    cursor: pointer;
+    font-size: 1.7em;
+    color: darkgoldenrod;
+
+}
+
+.cards-container {
+    display: none;
+    margin: 1em 0 0 0;
+    width: 100%;
+    border: 2px solid #73172F;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.cell {
+    margin: 0.7em 0.3em;
+    background-color: ghostwhite;
+    border: 1px solid #73172F;
+}
+
+.cell h3 {
+    padding-bottom: 0.3em;
+    border-right: none;
+    color: #73172F;
+    border-bottom: 1px solid #73172F;
+}
+
+.show {
+    display: flex;
 }
