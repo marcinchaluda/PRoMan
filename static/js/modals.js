@@ -8,6 +8,27 @@ function createModal(id, headerText) {
     const modalBody = createElementWithClasses('div', ['modal-body']);
     const modalFooter = createElementWithClasses('div', ['modal-footer']);
 
+    const closeXButton = createCloseXButton(modal);
+    const headerDescription = createHeader(headerText);
+
+    appendChildren(modalHeader, [closeXButton, headerDescription]);
+    appendChildren(modalContent, [modalHeader, modalBody, modalFooter]);
+
+    modal.appendChild(modalContent);
+    modal.setAttribute('id', id);
+
+    return modal
+}
+
+function createHeader(headerText) {
+    const header = createElementWithClasses('h2', []);
+    const textToAdd = document.createTextNode(headerText);
+    header.appendChild(textToAdd);
+
+    return header
+}
+
+function createCloseXButton(modal) {
     const closeXButton = createElementWithClasses('span', ['close']);
     const textXButton = document.createTextNode('x');
     closeXButton.appendChild(textXButton);
@@ -16,25 +37,14 @@ function createModal(id, headerText) {
         modal.style.display = "none";
     }
 
-    const headerDescription = createElementWithClasses('h2', []);
-    const textToAdd = document.createTextNode(headerText);
-
-    headerDescription.appendChild(textToAdd);
-
-    modalHeader.appendChild(closeXButton);
-    modalHeader.appendChild(headerDescription);
-
-    modalContent.appendChild(modalHeader);
-    modalContent.appendChild(modalBody);
-    modalContent.appendChild(modalFooter);
-
-    modal.appendChild(modalContent);
-
-    modal.setAttribute('id', id);
-
-    return modal
+    return closeXButton
 }
 
+function appendChildren(parent, listOfChildren) {
+    for (const child of listOfChildren) {
+        parent.appendChild(child);
+    }
+}
 
 function createElementWithClasses(typeOfElement, listOfClasses) {
     const element = document.createElement(typeOfElement);
