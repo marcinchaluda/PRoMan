@@ -51,6 +51,11 @@
     background-color: whitesmoke;
 }
 
+.board-container li a:hover {
+    color: whitesmoke;
+    background-color: #73172F;
+}
+
 .login-details {
 
     width: 16vw;
