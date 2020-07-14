@@ -19,9 +19,13 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function(boards){
-            dom.showBoards(boards);
-        });
+        return new Promise((resolve => {
+            dataHandler.getBoards(function(boards){
+                dom.showBoards(boards);
+                resolve();
+            });
+        }))
+
     },
     showBoards: function (boards) {
         // shows boards appending them to #boards div
@@ -36,7 +40,7 @@ export let dom = {
 
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
-        const showFirstTableDetails = document.querySelector('.box-container div:first-child');
+        const showFirstTableDetails = document.querySelector('.board-container div:first-child');
         showFirstTableDetails.classList.add('.show');
     },
     loadCards: function (boardId) {
@@ -83,7 +87,7 @@ function generateBoardDetails() {
         cardList += `
             <div class='cell'>
                 <h3>${defaultColumns[index]} ${index}</h3>
-                <div class="tasks flex-column">asdas</div>
+                <div class="tasks flex-column">asdas${index}</div>
             </div>
         `;
     }

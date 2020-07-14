@@ -142,3 +142,19 @@ footer {
 .show {
     display: flex;
 }
+
+.dragged-task {
+    background-color: #D9AB91;
+}
+
+.dragged-task-source {
+    opacity: 0.3;
+}
+
+.active-column {
+    background-color: #BFB3A4;
+}
+
+.over-column {
+    background-color: #D93240;
+}
