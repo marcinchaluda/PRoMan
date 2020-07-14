@@ -1,7 +1,6 @@
 from flask import Flask, render_template, url_for
 from util import json_response
 
-import data_handler
 import data_manager
 
 app = Flask(__name__)
@@ -31,7 +30,7 @@ def get_cards_for_board(board_id: int):
     All cards that belongs to a board
     :param board_id: id of the parent board
     """
-    return data_handler.get_cards_for_board(board_id)
+    return data_manager.get_cards_data(board_id)
 
 
 def main():
