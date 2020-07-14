@@ -14,24 +14,41 @@
     justify-content: flex-end;
 }
 
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .header {
     padding: 2em 0;
     background-color: #73172F;
     color: #BFBFBF;
 }
 
-.header h1 {
+.header h1, .board-container h3 {
     padding: 0 1em;
     border-right: 1px solid #BFBFBF;
 }
 
-.header a {
-    margin: 0 2em;
+.board-container h3 {
+    padding-top: 0.2em;
+    border-right: 1px solid #73172F;
+}
+
+.header a,  li a {
+    margin: 0 1.5em;
     padding: 0.2em 1em;
     color: #BFBFBF;
     text-decoration: none;
     border: 1px solid #BFBFBF;
     border-radius: 10px;
+}
+
+.board-container li a {
+    color: #73172F;
+    border: 1px solid #73172F;
+    background-color: whitesmoke;
 }
 
 .login-details {
@@ -49,7 +66,7 @@ i {
 }
 
 #boards {
-    background-color: #BFBFBF;
+    /*background-color: #BFBFBF;*/
 }
 
 footer {
@@ -61,6 +78,20 @@ footer {
     background-color: #73172F;
     color: #BFBFBF;
 }
-.copyrights {
 
+.board-container {
+    box-sizing: content-box;
+    margin: 0 10vw;
+    width: 80vw;
+}
+
+.board-container li {
+    width: 100%;
+    border: 2px solid #73172F;
+    /*border-radius: 20px;*/
+    list-style: none;
+    color: #73172F;
+    background-color: #BFBFBF;
+    margin: 4em 0 0 0;
+    padding: 1em 0;
 }

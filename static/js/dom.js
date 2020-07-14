@@ -4,18 +4,6 @@ const displayTablesURL = '/get-boards';
 
 export let dom = {
     init: function () {
-        fetch(displayTablesURL).then(response => {
-            if(response.status !== 200) {
-                console.log(`Looks like there was a problem. Status code: ${response.status}`)
-                return;
-            }
-            response.json().then(tables => {
-                document.querySelector('.boards').innerHTML = tables;
-                console.log(tables);
-            });
-        }).catch(error => {
-            console.error(`Fetch error ${error}`);
-        });
         // fetch(displayTablesURL).then(response => {
         //     if(response.status !== 200) {
         //         console.log(`Looks like there was a problem. Status code: ${response.status}`)
@@ -33,22 +21,16 @@ export let dom = {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function(boards){
             dom.showBoards(boards);
+            console.log(boards)
         });
     },
     showBoards: function (boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
-
-        let boardList = '';
-
-        for(let board of boards){
-            boardList += `
-                <li>${board.title}</li>
-            `;
-        }
+        const boardList = generateBoards(boards);
 
         const outerHtml = `
-            <ul class="board-container">
+            <ul class="board-container flex-column">
                 ${boardList}
             </ul>
         `;
@@ -65,3 +47,20 @@ export let dom = {
     },
     // here comes more features
 };
+
+function generateBoards(boards) {
+    let boardList = '';
+
+    for(let board of boards){
+        boardList += `
+            <li class="flex-row-start">
+                <h3>${board.title}</h3>
+                <a href="#" type="button">
+                    <i class="fas fa-plus-circle"></i>New card
+                </a>
+                <div class="cards-container"></div>
+            </li>
+        `;
+    }
+    return boardList;
+}
