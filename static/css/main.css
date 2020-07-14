@@ -57,7 +57,6 @@
 }
 
 .login-details {
-
     width: 16vw;
 }
 
@@ -99,4 +98,47 @@ footer {
     background-color: #BFBFBF;
     margin: 4em 0 0 0;
     padding: 1em 0;
+}
+
+.board-details i {
+    align-self: center;
+    padding: 0 1em 0 0;
+    font-size: 1.5em;
+}
+
+.close {
+    content: '\f00d';
+}
+
+.board-details i:hover {
+    cursor: pointer;
+    font-size: 1.7em;
+    color: darkgoldenrod;
+
+}
+
+.cards-container {
+    display: none;
+    margin: 1em 0 0 0;
+    width: 100%;
+    border: 2px solid #73172F;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.cell {
+    margin: 0.7em 0.3em;
+    background-color: ghostwhite;
+    border: 1px solid #73172F;
+}
+
+.cell h3 {
+    padding-bottom: 0.3em;
+    border-right: none;
+    color: #73172F;
+    border-bottom: 1px solid #73172F;
+}
+
+.show {
+    display: flex;
 }
