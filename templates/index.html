@@ -12,14 +12,16 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modals.css') }}">
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+        <script src="../static/js/modals.js" defer></script>
     </head>
     <body>
         <div class="wrapper">
             <nav class="header flex-row-start">
                 <div class="title flex-row-start">
                     <h1>PRoMan</h1>
-                    <a href="#" type="button"><i class="fas fa-clipboard"></i>New board</a>
+                    <a id="new-board-button" href="#" type="button"><i class="fas fa-clipboard"></i>New board</a>
                 </div>
                 <div class="login-details flex-row-end">
                     <a href="#" type="button"><i class="fas fa-sign-in-alt"></i>Login</a>
