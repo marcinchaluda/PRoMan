@@ -19,11 +19,13 @@
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+  position: fixed;
+  top: 20%;
 }
 
 /* The Close Button */
 .close {
-  color: #aaa;
+  color: black;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -69,5 +71,5 @@
 /* Add Animation */
 @keyframes animatetop {
   from {top: -300px; opacity: 0}
-  to {top: 0; opacity: 1}
+  to {top: 20%; opacity: 1}
 }
