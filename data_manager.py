@@ -33,5 +33,5 @@ def add_new_card(cursor: RealDictCursor, card_data: dict):
 
     cursor.execute("""
                 INSERT INTO cards (title, board_id, status_id) 
-                VALUES (%(b_title)s, %(c_board_id)s, %(c_status)s)
-            """, {'c_title': card_data['title'], 'c_board_id': card_data['boardId'], 'c_status': card_data['Id']})
+                VALUES (%(c_title)s, %(c_board_id)s, %(c_status)s)
+            """, {'c_title': card_data['title'], 'c_board_id': card_data['boardId'], 'c_status': card_data['statusId']})

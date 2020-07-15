@@ -54,7 +54,7 @@ def save_new_card():
     """
     card_data = request.json
 
-    data_manager.add_new_board(card_data)
+    data_manager.add_new_card(card_data)
 
     return {'status': 200}
 
