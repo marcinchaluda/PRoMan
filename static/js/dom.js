@@ -20,9 +20,14 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function (boards) {
-            dom.showBoards(boards);
-        });
+
+        return new Promise((resolve => {
+            dataHandler.getBoards(function(boards){
+                dom.showBoards(boards);
+                resolve();
+            });
+        }))
+
     },
     showBoards: function (boards) {
         // shows boards appending them to #boards div
@@ -37,7 +42,7 @@ export let dom = {
 
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
-        const showFirstTableDetails = document.querySelector('.box-container div:first-child');
+        const showFirstTableDetails = document.querySelector('.board-container div:first-child');
         showFirstTableDetails.classList.add('.show');
     },
     loadCards: function (boardId) {
@@ -60,10 +65,10 @@ export let dom = {
 
 function generateBoards(boards) {
     let boardList = '';
-
+//TODO dodany boardid na testy, później do usunięcia
     for (let [index, board] of boards.entries()) {
         boardList += `
-            <li class="flex-row-start">
+            <li class="flex-row-start" boardId="${board.id}">
                 <div class="title flex-row-start">
                     <h3>${board.title}</h3>
                     <a href="#" type="button">

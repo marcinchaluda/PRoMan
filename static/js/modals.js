@@ -1,6 +1,21 @@
 import {dataHandler} from "./data_handler.js";
 import {dom} from "./dom.js";
 
+export let modals = {
+    mojaFunckjaTestowa: function () {
+        const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
+
+        for (let newCardButton of allButtonsAddNewCard) {
+            newCardButton.setAttribute('boardId', '1');
+
+            newCardButton.onclick = function () {
+                newCardModal.style.display = "block";
+                localStorage.setItem('activeBoard', newCardButton.getAttribute('boardId'));
+            }
+        }
+    }
+}
+
 // function create basic template for modal
 function createModal(id, headerText) {
     const modal = createElementWithClasses('div', ['modal']);
@@ -118,11 +133,14 @@ function sendNewCardTitleToServer() {
     const modalNewBoard = document.querySelector('#new-card-modal');
     modalNewBoard.style.display = "none"
 
-    // const inputValue = document.getElementById('card-title').value
-    // dom.displayNewCard(inputValue);
-    // dataHandler.createNewCard(inputValue, function (response) {
-    //     //TODO zapisuje dane do DB, co robić z jakimś responsem po stronie frontu
-    // });
+    const data = {
+        boardId: localStorage.getItem('activeBoard'),
+        statusId: 0
+    }
+
+    dataHandler.createNewCard(data, function (response) {
+        //TODO zapisuje dane do DB, co robić z jakimś responsem po stronie frontu
+    });
 }
 
 const body = document.querySelector('body');
