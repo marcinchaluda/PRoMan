@@ -1,7 +1,6 @@
 // It uses data_handler.js to visualize elements
-import {dataHandler} from "./data_handler.js";
-
-const defaultColumns = ['New', 'In Progress', 'Testing', 'Done'];
+import { dataHandler } from "./data_handler.js";
+import { generateBoards, handleDetailButton, assignTask } from './container_generator.js'
 
 export let dom = {
     init: function () {
@@ -20,7 +19,7 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function (boards) {
+        dataHandler.getBoards(function(boards) {
             dom.showBoards(boards);
         });
     },
@@ -37,62 +36,25 @@ export let dom = {
 
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
-        const showFirstTableDetails = document.querySelector('.box-container div:first-child');
-        showFirstTableDetails.classList.add('.show');
+        document.body.appendChild(boardsContainer);
+        handleDetailButton();
     },
+
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
+        dataHandler.getBoard(boardId, function (response) {
+            dom.showCards(response);
+        });
+
     },
     showCards: function (cards) {
-        // shows the cards of a board
-        // it adds necessary event listeners also
-        // let cardsContainer = document.querySelector('.cards-container');
-        // console.log(cardsContainer)
-        // pipe extension -> pipes value into a function
-        // cards |> generateBoardDetails |> cardsContainer.appendChild;
-        // cardsContainer.appendChild(generateBoardDetails(cards))
+        assignTask(cards);
     },
     displayNewBoard: function (title) {
         addBoard(title)
     },
     // here comes more features
 };
-
-function generateBoards(boards) {
-    let boardList = '';
-
-    for (let [index, board] of boards.entries()) {
-        boardList += `
-            <li class="flex-row-start">
-                <div class="title flex-row-start">
-                    <h3>${board.title}</h3>
-                    <a href="#" type="button">
-                        <i class="fas fa-plus-circle"></i>New card
-                    </a>
-                </div>
-                <div class="board-details flex-row-end">
-                    <i class="fas fa-ellipsis-h"></i>
-                </div>
-            </li>
-            <div class="cards-container flex-row-start ${index == 0 ? 'show' : ''}"}>${generateBoardDetails()}</div>
-        `;
-    }
-    return boardList;
-}
-
-function generateBoardDetails() {
-    let cardList = '';
-
-    for (let index in defaultColumns) {
-        cardList += `
-            <div class='cell'>
-                <h3>${defaultColumns[index]} ${index}</h3>
-                <div class="tasks flex-column">asdas</div>
-            </div>
-        `;
-    }
-    return cardList;
-}
 
 // TODO temporary function, later it will be used function from feature 1
 function addBoard(title) {

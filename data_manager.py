@@ -18,6 +18,19 @@ def get_boards_data(cursor: RealDictCursor) -> list:
 
 
 @database_common.connection_handler
+def get_cards_data(cursor: RealDictCursor, board_id: int) -> list:
+    """Get id of last added record"""
+
+    cursor.execute("""
+                SELECT *  
+                FROM cards
+                WHERE board_id = %(b_id)s
+            """, {'b_id': board_id})
+
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def add_new_board(cursor: RealDictCursor, board_title: str):
     """Add new board to database"""
 
