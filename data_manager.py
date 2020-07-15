@@ -32,6 +32,7 @@ def add_new_card(cursor: RealDictCursor, card_data: dict):
     """Add new card to database"""
 
     cursor.execute("""
-                INSERT INTO cards (title, board_id, status_id) 
-                VALUES (%(c_title)s, %(c_board_id)s, %(c_status)s)
+                INSERT INTO cards (title, board_id, status_id, order_number) 
+                VALUES (%(c_title)s, %(c_board_id)s, %(c_status)s, 
+                    (SELECT MAX(order_number) + 1 FROM cards WHERE status_id = 0 AND board_id = %(c_board_id)s))
             """, {'c_title': card_data['title'], 'c_board_id': card_data['boardId'], 'c_status': card_data['statusId']})
