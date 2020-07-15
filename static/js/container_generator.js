@@ -10,7 +10,7 @@ export function generateBoards(boards) {
 
     for(let board of boards){
         boardList += `
-            <li class="flex-row-start">
+            <li class="flex-row-start" boardId="${board.id}">
                 <div class="title flex-row-start">
                     <h3>${board.title}</h3>
                     <a href="#" type="button">
