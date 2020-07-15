@@ -46,6 +46,19 @@ def save_new_board():
     return {'status': 200}
 
 
+@app.route("/save-new-card", methods=['POST'])
+@json_response
+def save_new_card():
+    """
+    Add new card to database
+    """
+    card_data = request.json
+
+    data_manager.add_new_board(card_data)
+
+    return {'status': 200}
+
+
 def main():
     app.run(debug=True)
 
