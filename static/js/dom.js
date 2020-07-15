@@ -80,5 +80,3 @@ function addBoard(title) {
 
     boardContainer.insertAdjacentHTML("beforeend", newBoard);
 }
-
-

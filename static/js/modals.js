@@ -1,6 +1,21 @@
 import {dataHandler} from "./data_handler.js";
 import {dom} from "./dom.js";
 
+export let modals = {
+    modalsInit: function () {
+        const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
+
+        for (let newCardButton of allButtonsAddNewCard) {
+            newCardButton.setAttribute('boardId', '1');
+
+            newCardButton.onclick = function () {
+                newCardModal.style.display = "block";
+                localStorage.setItem('activeBoard', newCardButton.getAttribute('boardId'));
+            }
+        }
+    }
+}
+
 // function create basic template for modal
 function createModal(id, headerText) {
     const modal = createElementWithClasses('div', ['modal']);
@@ -57,18 +72,18 @@ function createElementWithClasses(typeOfElement, listOfClasses) {
 }
 
 // Inject data to basic modal to create modal for adding new boards
-function fillNewBoardModal() {
-    const modalContent = document.querySelector('#new-board-modal > .modal-content');
-    const modalBody = document.querySelector('#new-board-modal > .modal-content > .modal-body');
-    const modalFooter = document.querySelector('#new-board-modal > .modal-content > .modal-footer');
+function fillNewBoardModal(modalId, inputId) {
+    const modalContent = document.querySelector(`#${modalId} > .modal-content`);
+    const modalBody = document.querySelector(`#${modalId} > .modal-content > .modal-body`);
+    const modalFooter = document.querySelector(`#${modalId} > .modal-content > .modal-footer`);
 
-    const boardTitleInput = createNewTextInput('board-title')
+    const boardTitleInput = createNewTextInput(inputId)
     modalBody.appendChild(boardTitleInput);
 
     const saveButton = createSaveButton();
     modalFooter.appendChild(saveButton)
 
-    const newBoardForm = createNewBoardForm(modalBody, modalFooter);
+    const newBoardForm = createNewBoardForm(modalBody, modalFooter, modalId);
 
     modalContent.appendChild(newBoardForm);
 }
@@ -92,19 +107,19 @@ function createSaveButton() {
     return newButton
 }
 
-function createNewBoardForm(modalBody, modalFooter) {
+function createNewBoardForm(modalBody, modalFooter, modalId) {
     const newForm = document.createElement('form');
     newForm.appendChild(modalBody);
     newForm.appendChild(modalFooter);
-    newForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        sendNewTitleToServer();
+    newForm.addEventListener('submit', function (evant) {
+        evant.preventDefault();
+        modalId === 'new-board-modal' ? sendNewBoardTitleToServer() : sendNewCardTitleToServer();
     })
 
     return newForm
 }
 
-function sendNewTitleToServer() {
+function sendNewBoardTitleToServer() {
     const modalNewBoard = document.querySelector('#new-board-modal');
     modalNewBoard.style.display = "none"
 
@@ -115,11 +130,35 @@ function sendNewTitleToServer() {
     });
 }
 
-// Add new basic modal to page for new board creation and fill with content
+function sendNewCardTitleToServer() {
+    const modalNewBoard = document.querySelector('#new-card-modal');
+    modalNewBoard.style.display = "none"
+
+    const data = {
+        title: document.getElementById('card-title').value,
+        boardId: Number(localStorage.getItem('activeBoard')),
+        statusId: 0
+    }
+
+    dataHandler.createNewCard(data, function (response) {
+        //TODO zapisuje dane do DB, co robić z jakimś responsem po stronie frontu
+        console.log(response);
+    });
+}
+
+// -------------------------------------------------------------------------------------
+
 const body = document.querySelector('body');
+
+// Add new basic modal to page for new board creation and fill with content
 const newBoardModal = createModal('new-board-modal', 'Create new board');
 body.appendChild(newBoardModal);
-fillNewBoardModal(newBoardModal);
+fillNewBoardModal('new-board-modal', 'board-title');
+
+// Add new basic modal to page for new card creation and fill with content
+const newCardModal = createModal('new-card-modal', 'Create new task');
+body.appendChild(newCardModal);
+fillNewBoardModal('new-card-modal', 'card-title');
 
 // Call modal on click New Board button
 const newBoardButton = document.getElementById('new-board-button');

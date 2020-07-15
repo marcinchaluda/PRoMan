@@ -1,4 +1,5 @@
 import { dom } from "./dom.js";
+import { modals } from "./modals.js";
 import { dragAndDropHandler} from "./drag_and_drop_handler.js";
 
 // This function is to initialize the application
@@ -9,6 +10,7 @@ function init() {
     dom.loadBoards()
         .then(() => {
             dragAndDropHandler.init();
+            modals.modalsInit();
         });
 }
 
