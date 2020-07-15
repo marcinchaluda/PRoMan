@@ -57,18 +57,18 @@ function createElementWithClasses(typeOfElement, listOfClasses) {
 }
 
 // Inject data to basic modal to create modal for adding new boards
-function fillNewBoardModal() {
-    const modalContent = document.querySelector('#new-board-modal > .modal-content');
-    const modalBody = document.querySelector('#new-board-modal > .modal-content > .modal-body');
-    const modalFooter = document.querySelector('#new-board-modal > .modal-content > .modal-footer');
+function fillNewBoardModal(modalId, inputId) {
+    const modalContent = document.querySelector(`#${modalId} > .modal-content`);
+    const modalBody = document.querySelector(`#${modalId} > .modal-content > .modal-body`);
+    const modalFooter = document.querySelector(`#${modalId} > .modal-content > .modal-footer`);
 
-    const boardTitleInput = createNewTextInput('board-title')
+    const boardTitleInput = createNewTextInput(inputId)
     modalBody.appendChild(boardTitleInput);
 
     const saveButton = createSaveButton();
     modalFooter.appendChild(saveButton)
 
-    const newBoardForm = createNewBoardForm(modalBody, modalFooter);
+    const newBoardForm = createNewBoardForm(modalBody, modalFooter, modalId);
 
     modalContent.appendChild(newBoardForm);
 }
@@ -91,19 +91,19 @@ function createSaveButton() {
     return newButton
 }
 
-function createNewBoardForm(modalBody, modalFooter) {
+function createNewBoardForm(modalBody, modalFooter, modalId) {
     const newForm = document.createElement('form');
     newForm.appendChild(modalBody);
     newForm.appendChild(modalFooter);
     newForm.addEventListener('submit', function (evant) {
         evant.preventDefault();
-        sendNewTitleToServer();
+        modalId === 'new-board-modal' ? sendNewBoardTitleToServer() : sendNewCardTitleToServer();
     })
 
     return newForm
 }
 
-function sendNewTitleToServer() {
+function sendNewBoardTitleToServer() {
     const modalNewBoard = document.querySelector('#new-board-modal');
     modalNewBoard.style.display = "none"
 
@@ -114,11 +114,26 @@ function sendNewTitleToServer() {
     });
 }
 
-// Add new basic modal to page for new board creation and fill with content
+function sendNewCardTitleToServer() {
+    const modalNewBoard = document.querySelector('#new-card-modal');
+    modalNewBoard.style.display = "none"
+
+    // const inputValue = document.getElementById('card-title').value
+    // dom.displayNewCard(inputValue);
+    // dataHandler.createNewCard(inputValue, function (response) {
+    //     //TODO zapisuje dane do DB, co robić z jakimś responsem po stronie frontu
+    // });
+}
+
 const body = document.querySelector('body');
+// Add new basic modal to page for new board creation and fill with content
 const newBoardModal = createModal('new-board-modal', 'Create new board');
 body.appendChild(newBoardModal);
-fillNewBoardModal(newBoardModal);
+fillNewBoardModal('new-board-modal', 'board-title');
+
+const newCardModal = createModal('new-card-modal', 'Create new task');
+body.appendChild(newCardModal);
+fillNewBoardModal('new-card-modal', 'card-title');
 
 // Call modal on click New Board button
 const newBoardButton = document.getElementById('new-board-button');
