@@ -1,5 +1,6 @@
 // It uses data_handler.js to visualize elements
-import { dataHandler } from "./data_handler.js";
+import {dataHandler} from "./data_handler.js";
+
 const defaultColumns = ['New', 'In Progress', 'Testing', 'Done'];
 
 export let dom = {
@@ -19,7 +20,7 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function(boards){
+        dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
         });
     },
@@ -51,13 +52,16 @@ export let dom = {
         // cards |> generateBoardDetails |> cardsContainer.appendChild;
         // cardsContainer.appendChild(generateBoardDetails(cards))
     },
+    displayNewBoard: function (title) {
+        addBoard(title)
+    },
     // here comes more features
 };
 
 function generateBoards(boards) {
     let boardList = '';
 
-    for(let [index, board] of boards.entries()){
+    for (let [index, board] of boards.entries()) {
         boardList += `
             <li class="flex-row-start">
                 <div class="title flex-row-start">
@@ -88,4 +92,25 @@ function generateBoardDetails() {
         `;
     }
     return cardList;
+}
+
+// TODO temporary function, later it will be used function from feature 1
+function addBoard(title) {
+    const boardContainer = document.querySelector('.board-container');
+    const newBoard = `
+            <li class="flex-row-start">
+                <div class="title flex-row-start">
+                    <h3>${title}</h3>
+                    <a href="#" type="button">
+                        <i class="fas fa-plus-circle"></i>New card
+                    </a>
+                </div>
+                <div class="board-details flex-row-end">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+            </li>
+            <div class="cards-container flex-row-start">${generateBoardDetails()}</div>
+        `;
+
+    boardContainer.insertAdjacentHTML("beforeend", newBoard);
 }

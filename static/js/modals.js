@@ -1,4 +1,5 @@
 import {dataHandler} from "./data_handler.js";
+import {dom} from "./dom.js";
 
 // function create basic template for modal
 function createModal(id, headerText) {
@@ -107,6 +108,7 @@ function sendNewTitleToServer() {
     modalNewBoard.style.display = "none"
 
     const inputValue = document.getElementById('board-title').value
+    dom.displayNewBoard(inputValue);
     dataHandler.createNewBoard(inputValue, function (response) {
         //TODO zapisuje dane do DB, co robić z jakimś responsem po stronie frontu
     });
