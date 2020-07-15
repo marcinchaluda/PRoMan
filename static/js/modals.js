@@ -76,6 +76,7 @@ function createNewTextInput(id) {
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
     newInput.setAttribute('id', id);
+    newInput.setAttribute('placeholder', 'Insert name')
 
     return newInput
 }
@@ -94,8 +95,8 @@ function createNewBoardForm(modalBody, modalFooter) {
     const newForm = document.createElement('form');
     newForm.appendChild(modalBody);
     newForm.appendChild(modalFooter);
-    newForm.addEventListener('submit', function (evant) {
-        evant.preventDefault();
+    newForm.addEventListener('submit', function (event) {
+        event.preventDefault();
         sendNewTitleToServer();
     })
 

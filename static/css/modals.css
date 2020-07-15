@@ -8,7 +8,7 @@
     height: 100%;
     overflow: auto;
     background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 /* Modal Content */
@@ -20,21 +20,29 @@
     border: 1px solid #888;
     width: 30%;
     top: 20%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
     animation-name: animatetop;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
 }
 
 /* Modal Header */
 .modal-header {
+    display: flex;
+    justify-content: space-between;
     padding: 2px 16px;
     background-color: #73172F;
-    color: white;
+    color: #BFBFBF;
     height: 3em;
 }
 
 .modal-h2{
-    width: 40%;
+    padding-top: 0.5em;
+    width: 60%;
+}
+
+.modal-header span {
+    color: #BFBFBF;
+    padding: 0.2em 0.1em 0 0;
 }
 
 /* The Close Button */
@@ -47,22 +55,43 @@
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: darkgoldenrod;
     text-decoration: none;
     cursor: pointer;
 }
 
 /* Modal Body */
 .modal-body {
-    padding: 2px 16px;
+    padding: 1.5em;
+    text-align: center;
+}
+
+.modal-body input {
+    font-size: 1.2em;
 }
 
 /* Modal Footer */
 .modal-footer {
-    padding: 2px 16px;
+    text-align: center;
+    padding: 0.8em;
     background-color: #73172F;
     color: white;
 }
+
+.modal-footer button {
+    cursor: pointer;
+    padding: 0.3em 1.8em;
+    color: #BFBFBF;
+    background-color: #73172F;
+    border-radius: 10px;
+    border: 1px solid #BFBFBF;
+    font-size: 1em;
+}
+
+.modal-footer button:hover {
+    background-color: #BFBFBF;
+    color: #73172F;
+    }
 
 /* Add Animation */
 @keyframes animatetop {
