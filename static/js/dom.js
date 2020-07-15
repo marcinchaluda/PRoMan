@@ -19,9 +19,13 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function(boards) {
-            dom.showBoards(boards);
-        });
+        return new Promise((resolve => {
+            dataHandler.getBoards(function(boards){
+                dom.showBoards(boards);
+                resolve();
+            });
+        }))
+
     },
     showBoards: function (boards) {
         // shows boards appending them to #boards div
@@ -76,3 +80,5 @@ function addBoard(title) {
 
     boardContainer.insertAdjacentHTML("beforeend", newBoard);
 }
+
+
