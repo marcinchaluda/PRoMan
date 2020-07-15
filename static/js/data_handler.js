@@ -52,7 +52,6 @@ export let dataHandler = {
         this._api_get('/get-boards', (response) => {
             this._data['boards'] = response;
             callback(response);
-            console.log(response)
         });
     },
     getBoard: function (boardId, callback) {
@@ -60,7 +59,6 @@ export let dataHandler = {
         this._api_get(`/get-cards/${boardId}`, (response) => {
             this._data['cards'] = response;
             callback(response);
-            console.log(response)
         });
     },
     getStatuses: function (callback) {
