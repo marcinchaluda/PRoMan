@@ -11,7 +11,7 @@ function createModal(id, headerText) {
     const closeXButton = createCloseXButton(modal);
     const headerDescription = createHeader(headerText);
 
-    appendChildren(modalHeader, [closeXButton, headerDescription]);
+    appendChildren(modalHeader, [headerDescription, closeXButton]);
     appendChildren(modalContent, [modalHeader, modalBody, modalFooter]);
 
     modal.appendChild(modalContent);
@@ -21,7 +21,7 @@ function createModal(id, headerText) {
 }
 
 function createHeader(headerText) {
-    const header = createElementWithClasses('h2', []);
+    const header = createElementWithClasses('h2', ['modal-h2']);
     const textToAdd = document.createTextNode(headerText);
     header.appendChild(textToAdd);
 
