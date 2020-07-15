@@ -135,7 +135,7 @@ function sendNewCardTitleToServer() {
 
     const data = {
         title: document.getElementById('card-title').value,
-        boardId: localStorage.getItem('activeBoard'),
+        boardId: Number(localStorage.getItem('activeBoard')),
         statusId: 0
     }
 
