@@ -41,6 +41,7 @@ def save_new_board():
     Add new board to database
     """
     board_title = request.json
+    print(board_title)
     data_manager.add_new_board(board_title)
 
     return {'status': 200}

@@ -71,7 +71,7 @@ function addBoard(title) {
                     <i class="fas fa-ellipsis-h"></i>
                 </div>
             </li>
-            <div class="cards-container flex-row-start">${generateBoardDetails()}</div>
+            <div class="cards-container flex-row-start"></div>
         `;
 
     boardContainer.insertAdjacentHTML("beforeend", newBoard);
