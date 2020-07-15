@@ -38,12 +38,12 @@ def get_cards_for_board(board_id: int):
 @json_response
 def save_new_board():
     """
-
+    Add new board to database
     """
     board_title = request.json
-    print(board_title)
+    data_manager.add_new_board(board_title)
 
-    return 'wracam z piwnicy'
+    return {'status': 200}
 
 
 def main():
