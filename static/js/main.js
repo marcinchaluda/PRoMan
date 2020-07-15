@@ -8,7 +8,7 @@ function init() {
     // loads the boards to the screen
     dom.loadBoards()
         .then(() => {
-            modals.mojaFunckjaTestowa()
+            modals.modalsInit()
         });
 
 }

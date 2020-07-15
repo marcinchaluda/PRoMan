@@ -2,7 +2,7 @@ import {dataHandler} from "./data_handler.js";
 import {dom} from "./dom.js";
 
 export let modals = {
-    mojaFunckjaTestowa: function () {
+    modalsInit: function () {
         const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
 
         for (let newCardButton of allButtonsAddNewCard) {
@@ -134,6 +134,7 @@ function sendNewCardTitleToServer() {
     modalNewBoard.style.display = "none"
 
     const data = {
+        title: document.getElementById('card-title').value,
         boardId: localStorage.getItem('activeBoard'),
         statusId: 0
     }
@@ -142,6 +143,9 @@ function sendNewCardTitleToServer() {
         //TODO zapisuje dane do DB, co robić z jakimś responsem po stronie frontu
     });
 }
+
+// -------------------------------------------------------------------------------------
+
 
 const body = document.querySelector('body');
 // Add new basic modal to page for new board creation and fill with content
