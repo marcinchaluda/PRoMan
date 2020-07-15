@@ -106,9 +106,13 @@ footer {
     font-size: 1.5em;
 }
 
-.close {
-    content: '\f00d';
-}
+/*.board-details i {*/
+/*    content: '\f141';*/
+/*}*/
+
+/*.board-details i:after {*/
+/*    content: '\f00d';*/
+/*}*/
 
 .board-details i:hover {
     cursor: pointer;
@@ -119,6 +123,7 @@ footer {
 
 .cards-container {
     display: none;
+    overflow: hidden;
     margin: 1em 0 0 0;
     width: 100%;
     border: 2px solid #73172F;
@@ -138,6 +143,10 @@ footer {
     color: #73172F;
     border-bottom: 1px solid #73172F;
 }
+
+/*.board-details.show i:after {*/
+/*    content: '\f00d';*/
+/*}*/
 
 .show {
     display: flex;
