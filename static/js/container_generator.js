@@ -9,6 +9,7 @@ export function generateBoards(boards) {
     let boardList = '';
 
     for(let board of boards){
+
         boardList += `
             <li class="flex-row-start" boardId="${board.id}">
                 <div class="title flex-row-start">
@@ -23,7 +24,7 @@ export function generateBoards(boards) {
             </li>
             <div class="cards-container flex-row-start hide-details"} containerBoardId="${board.id}">${generateBoardDetails(board)}</div>
         `;
-
+        dom.loadCards(board.id);
     }
     return boardList;
 }
@@ -47,8 +48,7 @@ export function handleDetailButton() {
 
     detailBtn.forEach(button => {
         button.addEventListener('click', function () {
-            const id = button.getAttribute('boardId');
-            dom.loadCards(id);
+            button.getAttribute('boardId');
             const cardsContainer = button.parentElement.parentElement.nextElementSibling;
             cardsContainer.classList.toggle('show');
             if (cardsContainer.style.maxHeight){
@@ -59,8 +59,6 @@ export function handleDetailButton() {
 
             button.className = button.classList.contains('fa-ellipsis-h') ?
                 'detail-button fas fa-times' : 'detail-button fas fa-ellipsis-h';
-
-            dom.loadCards(id);
         });
     });
 }
@@ -71,12 +69,7 @@ export function assignTask(cards) {
 
         const columnName = defaultColumns[card.status_id];
         const tasks = [...document.querySelector(`[containerBoardId="${card.board_id}"]`).children];
-
         tasks.forEach(column => {
-            // column.setAttribute('statusID', card.status_id);
-            // column.children[taskContainer].setAttribute('cardId', card.id);
-            // column.children[taskContainer].setAttribute('order', card.order);
-            clearTaskContainer(card, column);
             if (column.getAttribute('id') === columnName) {
                 const task = document.createElement('div');
                 task.textContent = card.title;
@@ -84,11 +77,4 @@ export function assignTask(cards) {
             }
         });
     });
-}
-
-function clearTaskContainer(card, column) {
-    const cardsContainer = document.querySelector(`[containerBoardId="${card.board_id}"]`)
-    if (!cardsContainer.classList.contains('show')) {
-        column.children[taskContainer].innerHTML = '';
-    }
 }

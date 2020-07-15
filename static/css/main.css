@@ -74,7 +74,7 @@ i {
 }
 
 footer {
-    position: absolute;
+    position: fixed;
     right: 0;
     bottom: 0;
     width: 100vw;
@@ -85,7 +85,7 @@ footer {
 
 .board-container {
     box-sizing: content-box;
-    margin: 0 10vw;
+    margin: 0 9vw;
     width: 80vw;
 }
 
@@ -106,14 +106,6 @@ footer {
     font-size: 1.5em;
 }
 
-/*.board-details i {*/
-/*    content: '\f141';*/
-/*}*/
-
-/*.board-details i:after {*/
-/*    content: '\f00d';*/
-/*}*/
-
 .board-details i:hover {
     cursor: pointer;
     font-size: 1.7em;
@@ -133,7 +125,9 @@ footer {
     max-height: 0;
 }
 .cell {
-    margin: 0.7em 0.3em;
+    /*align-self: center;*/
+    width: 20%;
+    margin: 0.7em auto;
     background-color: ghostwhite;
     border: 1px solid #73172F;
 }
@@ -145,10 +139,14 @@ footer {
     border-bottom: 1px solid #73172F;
 }
 
-/*.board-details.show i:after {*/
-/*    content: '\f00d';*/
-/*}*/
-
 .show {
     border: 2px solid #73172F;
+}
+
+.tasks div {
+    align-self: center;
+    width: 80%;
+    margin: 0.3em 0;
+    border: 1px solid #73172F;
+    text-align: center;
 }

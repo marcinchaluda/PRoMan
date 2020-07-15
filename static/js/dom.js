@@ -19,7 +19,7 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function(boards){
+        dataHandler.getBoards(function(boards) {
             dom.showBoards(boards);
         });
     },
@@ -42,13 +42,13 @@ export let dom = {
 
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        dataHandler.getBoard(boardId, response => this.showCards(response));
+        dataHandler.getBoard(boardId, function (response) {
+            dom.showCards(response);
+        });
 
     },
     showCards: function (cards) {
-        // shows the cards of a board
-        // it adds necessary event listeners also
-            assignTask(cards);
+        assignTask(cards);
     },
     // here comes more features
 };
