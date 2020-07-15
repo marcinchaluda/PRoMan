@@ -59,8 +59,8 @@ function dragEndHandler() {
 
 function columnEnterHandler(event) {
     if (event.dataTransfer.types.includes("type/dragged-task")) {
-        this.classList.add("over-column");
         event.preventDefault();
+        this.classList.add("over-column");
     }
 }
 
@@ -79,9 +79,14 @@ function columnLeaveHandler(event) {
 }
 
 function columnDropHandler(event) {
-    const draggedTaskSource = document.querySelector(".dragged-task-source");
-    event.currentTarget.appendChild(draggedTaskSource);
     event.preventDefault();
+    const aboveDestinationTask = getDraggedTaskAboveDestinationTask(this, event.clientY);
+    const draggedTaskSource = document.querySelector(".dragged-task-source");
+    if (aboveDestinationTask == null) {
+        event.currentTarget.appendChild(draggedTaskSource);
+    } else {
+        event.currentTarget.insertBefore(draggedTaskSource, aboveDestinationTask);
+    }
 }
 
 function deferredOriginChanges(origin, draggedTaskClassName) {
@@ -100,4 +105,17 @@ function markColumns(marked = true) {
             column.classList.remove("over-column");
         }
     }
+}
+
+function getDraggedTaskAboveDestinationTask(column, y) {
+    const tasks = Array.from(column.querySelectorAll(".show .tasks:not(.dragged-task-source)"));
+    return tasks.reduce((closest, child) => {
+        const taskDiv = child.getBoundingClientRect();
+        const offset = y - taskDiv.top - taskDiv.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return {offset: offset, task: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).task;
 }
