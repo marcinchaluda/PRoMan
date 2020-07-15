@@ -106,9 +106,13 @@ footer {
     font-size: 1.5em;
 }
 
-.close {
-    content: '\f00d';
-}
+/*.board-details i {*/
+/*    content: '\f141';*/
+/*}*/
+
+/*.board-details i:after {*/
+/*    content: '\f00d';*/
+/*}*/
 
 .board-details i:hover {
     cursor: pointer;
@@ -118,14 +122,16 @@ footer {
 }
 
 .cards-container {
-    display: none;
+    overflow: hidden;
     margin: 1em 0 0 0;
     width: 100%;
-    border: 2px solid #73172F;
     text-align: center;
     border-radius: 10px;
+    transition: max-height 0.5s ease-out;
 }
-
+.hide-details {
+    max-height: 0;
+}
 .cell {
     margin: 0.7em 0.3em;
     background-color: ghostwhite;
@@ -139,6 +145,10 @@ footer {
     border-bottom: 1px solid #73172F;
 }
 
+/*.board-details.show i:after {*/
+/*    content: '\f00d';*/
+/*}*/
+
 .show {
-    display: flex;
+    border: 2px solid #73172F;
 }

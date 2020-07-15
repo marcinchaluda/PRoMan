@@ -19,6 +19,28 @@ export let dataHandler = {
     _api_post: function (url, data, callback) {
         // it is not called from outside
         // sends the data to the API, and calls callback function
+        fetch(url, {
+            method: 'POST',
+            credentials: "include",
+            body: JSON.stringify({
+                data: data,
+            }),
+            cache: "no-cache",
+            headers: new Headers({
+                'content-type': 'application/json',
+            })
+        }).then(response => {
+            if (response.status !== 200) {
+                console.log(`Looks like there was a problem. Status code: ${response.status}`);
+                return;
+            }
+            response.json().then(data => {
+                console.log(data);
+                callback(data);
+            });
+        }).catch(error => {
+            console.error(`Fetch error ${error}`);
+        });
     },
     init: function () {
     },
@@ -30,10 +52,16 @@ export let dataHandler = {
         this._api_get('/get-boards', (response) => {
             this._data['boards'] = response;
             callback(response);
+            console.log(response)
         });
     },
     getBoard: function (boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
+        this._api_get(`/get-cards/${boardId}`, (response) => {
+            this._data['cards'] = response;
+            callback(response);
+            console.log(response)
+        });
     },
     getStatuses: function (callback) {
         // the statuses are retrieved and then the callback function is called with the statuses
