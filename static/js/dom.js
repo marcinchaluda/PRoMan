@@ -1,6 +1,6 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
-import { generateBoards, generateBoardDetails } from './container_generator.js'
+import { generateBoards, handleDetailButton } from './container_generator.js'
 
 export let dom = {
     init: function () {
@@ -36,23 +36,25 @@ export let dom = {
 
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+
+        handleDetailButton();
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        dataHandler.getBoard(function (boardId) {
-            dom.showCards(boardId);
+        dataHandler.getBoard(function () {
+            dom.showCards(1);
         })
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        const detailBtn = document.querySelectorAll('.fas.fa-ellipsis-h');
-        console.log(detailBtn)
-        detailBtn.forEach(button => {
-            button.addEventListener('click', function () {
-                button.parentElement.parentElement.nextElementSibling.classList.toggle('show');
-            });
-        })
+        // const detailBtn = document.querySelectorAll('.fas.fa-ellipsis-h');
+        // console.log(detailBtn)
+        // detailBtn.forEach(button => {
+        //     button.addEventListener('click', function () {
+        //         button.parentElement.parentElement.nextElementSibling.classList.toggle('show');
+        //     });
+        // })
     },
     // here comes more features
 };
