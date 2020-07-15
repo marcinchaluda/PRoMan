@@ -141,18 +141,20 @@ function sendNewCardTitleToServer() {
 
     dataHandler.createNewCard(data, function (response) {
         //TODO zapisuje dane do DB, co robić z jakimś responsem po stronie frontu
+        console.log(response);
     });
 }
 
 // -------------------------------------------------------------------------------------
 
-
 const body = document.querySelector('body');
+
 // Add new basic modal to page for new board creation and fill with content
 const newBoardModal = createModal('new-board-modal', 'Create new board');
 body.appendChild(newBoardModal);
 fillNewBoardModal('new-board-modal', 'board-title');
 
+// Add new basic modal to page for new card creation and fill with content
 const newCardModal = createModal('new-card-modal', 'Create new task');
 body.appendChild(newCardModal);
 fillNewBoardModal('new-card-modal', 'card-title');
