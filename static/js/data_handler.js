@@ -75,7 +75,13 @@ export let dataHandler = {
             this._data['newCard'] = response;
             callback(response);
         });
+    },
+
+    updateCardPosition: function (cardPosition, callback) {
+        this._api_post('/update-card-position', cardPosition, (response) => {
+            this._data['cardPosition'] = response;
+            callback(response);
+        });
     }
-    
     // here comes more features
 };

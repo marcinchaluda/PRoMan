@@ -34,7 +34,7 @@ export function generateBoardDetails(board) {
 
     for (let index in defaultColumns) {
         cardList += `
-            <div class='cell' id="${defaultColumns[index]}">
+            <div class='cell' id="${defaultColumns[index]}" status-id="${index}">
                 <h3>${defaultColumns[index]}</h3>
                 <div class="tasks flex-column" cardId="${board.id}"></div>
             </div>
@@ -66,7 +66,6 @@ export function handleDetailButton() {
 export function assignTask(cards) {
 
     cards.forEach(card => {
-
         const columnName = defaultColumns[card.status_id];
         const tasks = [...document.querySelector(`[containerBoardId="${card.board_id}"]`).children];
         tasks.forEach(column => {
@@ -74,6 +73,8 @@ export function assignTask(cards) {
                 const task = document.createElement('div');
                 task.textContent = card.title;
                 task.classList.add("task");
+                task.setAttribute("task-id", card.id);
+                task.setAttribute("order-number", card.order_number);
                 column.children[taskContainer].appendChild(task);
             }
         });

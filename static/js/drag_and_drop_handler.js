@@ -1,3 +1,5 @@
+import { dataHandler } from "./data_handler.js";
+
 export let dragAndDropHandler = {
     init: function () {
         initDragAndDrop();
@@ -92,12 +94,17 @@ function columnDropHandler(event) {
     const destinationColumnBoardId = this.getAttribute("cardid");
     if (event.dataTransfer.getData("boardId") === destinationColumnBoardId) {
         const aboveDestinationTask = getDraggedTaskAboveDestinationTask(this, event.clientY);
+        
         const draggedTaskSource = document.querySelector(".dragged-task-source");
         if (aboveDestinationTask == null) {
             event.currentTarget.appendChild(draggedTaskSource);
         } else {
             event.currentTarget.insertBefore(draggedTaskSource, aboveDestinationTask);
         }
+        const taskPosition = getTaskPosition(draggedTaskSource, this);
+        dataHandler.updateCardPosition(taskPosition, function (response) {
+            console.log(response);
+        });
     }
 }
 
@@ -131,3 +138,16 @@ function getDraggedTaskAboveDestinationTask(column, y) {
         }
     }, { offset: Number.NEGATIVE_INFINITY }).task;
 }
+
+function getTaskPosition(task, column) {
+    let taskId, taskStatusId, taskOrderNumber;
+    console.log(task)
+    taskId = task.getAttribute("task-id");
+    taskStatusId = column.parentElement.getAttribute("status-id");
+    // taskOrderNumber
+    return {id: parseInt(taskId), statusId: parseInt(taskStatusId), orderNumber: 0};
+}
+
+// function setTaskAttributes(task, attributes) {
+//     task.setAttribute(attributes["orderNumber"])
+// }
