@@ -138,8 +138,9 @@ footer {
 .cell h3 {
     padding-bottom: 0.3em;
     border-right: none;
-    color: #73172F;
-    border-bottom: 1px solid #73172F;
+    color: #BFBFBF;
+    /*border-bottom: 1px solid #73172F;*/
+    background-color: #73172F;
 }
 
 .show {
