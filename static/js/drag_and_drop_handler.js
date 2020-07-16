@@ -108,15 +108,15 @@ function columnDropHandler(event) {
         [taskPosition, changedInDropTaskIds] = getNewTaskPosition(draggedTaskSource, this, aboveDestinationTask);
         changedTaskIds = changedInDragTaskIds.concat(changedInDropTaskIds);
         changedTaskIdsUnique = changedTaskIds.filter((item, pos) => changedTaskIds.indexOf(item) === pos);
-
-        console.log(changedTasks)
+        console.log(changedTaskIdsUnique)
         dataHandler.updateCardPosition(taskPosition, function (response) {
             console.log(response);
         });
-        if (changedTaskIdsUnique != []) {
+        if (Array.isArray(changedTaskIdsUnique) && changedTaskIdsUnique.length) {
             changedTaskIdsUnique.forEach(taskId => {
-                changedTasks[taskId.toString()] = document.querySelector(`[task-id='${taskId}']`).getAttribute("order-number");
+                changedTasks[parseInt(taskId)] = parseInt(document.querySelector(`[task-id='${taskId}']`).getAttribute("order-number"));
             });
+            console.log(changedTasks)
             dataHandler.updateCardsOrderNumbers(changedTasks, function (response) {
             console.log(response);
         });
@@ -145,6 +145,7 @@ function markColumns(boardId, marked = true) {
 
 function getDraggedTaskAboveDestinationTask(column, y) {
     const tasks = Array.from(column.querySelectorAll(tasksSelector + ":not(.dragged-task-source)"));
+    console.log(tasks)
     return tasks.reduce((closest, child) => {
         const taskDiv = child.getBoundingClientRect();
         const offset = y - taskDiv.top - taskDiv.height / 2;
@@ -200,7 +201,7 @@ function prepareOtherTasks(column, offset, taskOrderNumber = 0, reduce = 0) {
 
 function getChangedInDragTaskIds(statusIdBeforeDrag, orderNumberBeforeDrag, destinationColumnBoardId) {
     let changedInDragTaskIds;
-    const sourceDragColumn = document.querySelector(`[containerboardid='${destinationColumnBoardId}'] .cell[status-id='${statusIdBeforeDrag}']`);
+    const sourceDragColumn = document.querySelector(`[containerboardid='${destinationColumnBoardId}'] [status-id='${statusIdBeforeDrag}']`);
     changedInDragTaskIds = prepareOtherTasks(sourceDragColumn, 0, orderNumberBeforeDrag, 1);
     return changedInDragTaskIds;
 }

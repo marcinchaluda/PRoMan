@@ -67,6 +67,7 @@ def update_card_position():
     Update card order_number and/or status_id
     """
     card_position = request.json
+    print("card position")
     print(card_position)
     data_manager.update_card_position(card_position)
     return {'status': 200}
@@ -79,6 +80,8 @@ def update_cards_order_numbers():
     Update cards order_numbers
     """
     order_numbers = request.json
+    print("order numbers")
+    print(order_numbers)
     for key, order_number in order_numbers.items():
         data_manager.update_card_order_number(key, order_number)
         return {'status': 200}
