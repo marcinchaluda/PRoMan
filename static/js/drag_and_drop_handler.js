@@ -17,7 +17,7 @@ function initTasks(tasks) {
     }
 }
 
-function initTask(task) {
+export function initTask(task) {
     task.setAttribute("draggable", "true");
     task.addEventListener("dragstart", dragStartHandler);
     task.addEventListener("drag", dragHandler);

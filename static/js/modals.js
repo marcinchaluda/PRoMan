@@ -4,13 +4,12 @@ import {dom} from "./dom.js";
 export let modals = {
     modalsInit: function () {
         const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
-
         for (let newCardButton of allButtonsAddNewCard) {
-            newCardButton.setAttribute('boardId', '1');
-
             newCardButton.onclick = function () {
                 newCardModal.style.display = "block";
-                localStorage.setItem('activeBoard', newCardButton.getAttribute('boardId'));
+
+                const parentLiElement = newCardButton.closest("li");
+                localStorage.setItem('activeBoard', parentLiElement.getAttribute('boardid'));
             }
         }
     }
@@ -134,15 +133,19 @@ function sendNewCardTitleToServer() {
     const modalNewBoard = document.querySelector('#new-card-modal');
     modalNewBoard.style.display = "none"
 
+    const newCardTitle = document.getElementById('card-title').value;
+    const newCardBoardId = Number(localStorage.getItem('activeBoard'))
+
     const data = {
-        title: document.getElementById('card-title').value,
-        boardId: Number(localStorage.getItem('activeBoard')),
+        title: newCardTitle,
+        boardId: newCardBoardId,
         statusId: 0
     }
 
     dataHandler.createNewCard(data, function (response) {
-        //TODO zapisuje dane do DB, co robić z jakimś responsem po stronie frontu
-        console.log(response);
+        //TODO atrybuty z response dodac
+        const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
+        dom.displayNewCard(column, newCardTitle, response.card.id, response.card.order_number);
     });
 }
 

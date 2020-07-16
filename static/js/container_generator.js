@@ -78,3 +78,13 @@ export function assignTask(cards) {
         });
     });
 }
+
+export function createNewTask(title, taskId, taskNumberOrder) {
+    const task = document.createElement('div');
+    task.textContent = title;
+    task.classList.add('task')
+    task.setAttribute('task-id', taskId)
+    task.setAttribute('order-number', taskNumberOrder)
+
+    return task
+}
