@@ -78,17 +78,18 @@ i {
 }
 
 footer {
+    box-sizing: border-box;
     position: fixed;
-    right: 0;
-    bottom: 0;
     width: 100vw;
+    bottom: 0;
     padding: 0.5em 2em 0.5em 0;
     background-color: #73172F;
     color: #BFBFBF;
+    clear: both;
 }
 
 .board-container {
-    box-sizing: content-box;
+    box-sizing: border-box;
     margin: 0 9vw;
     width: 80vw;
 }
@@ -119,8 +120,7 @@ footer {
 
 .cards-container {
     display: none;
-    overflow: hidden;
-    margin: 1em 0 0 0;
+    margin: 1em 0 1em 0;
     width: 100%;
     text-align: center;
     border-radius: 10px;
@@ -147,6 +147,11 @@ footer {
     border: 2px solid #73172F;
 }
 
+.tasks {
+    min-height: 25%;
+    padding-bottom: 3em;
+}
+
 .tasks div {
     align-self: center;
     width: 80%;
@@ -169,5 +174,5 @@ footer {
 }
 
 .over-column {
-    background-color: #D93240;
+    background-color: #EFBFBF;
 }

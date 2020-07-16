@@ -25,6 +25,7 @@ def get_cards_data(cursor: RealDictCursor, board_id: int) -> list:
                 SELECT *  
                 FROM cards
                 WHERE board_id = %(b_id)s
+                ORDER BY status_id, order_number
             """, {'b_id': board_id})
 
     return cursor.fetchall()
@@ -59,3 +60,23 @@ def add_new_card(cursor: RealDictCursor, card_data: dict) -> dict:
             """, {'c_title': card_data['title'], 'c_board_id': card_data['boardId'], 'c_status': card_data['statusId']})
 
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def update_card_position(cursor: RealDictCursor, card_position: dict):
+    """Update card position"""
+
+    cursor.execute("""
+                UPDATE cards
+                SET status_id = %(status_id)s, order_number = %(order_number)s
+                WHERE id = %(id)s
+                """, {"status_id": card_position["statusId"], "order_number": card_position["orderNumber"], "id": card_position["id"]})
+
+
+@database_common.connection_handler
+def update_card_order_number(cursor: RealDictCursor, card_id: int, order_number: int):
+    cursor.execute("""
+                UPDATE cards
+                SET order_number = %(order_number)s
+                WHERE id = %(id)s
+                """, {"order_number": order_number, "id": card_id})

@@ -62,6 +62,29 @@ def save_new_card():
             'card': attributes}
 
 
+@app.route("/update-card-position", methods=['POST'])
+@json_response
+def update_card_position():
+    """
+    Update card order_number and/or status_id
+    """
+    card_position = request.json
+    data_manager.update_card_position(card_position)
+    return {'status': 200}
+
+
+@app.route("/update-cards-order-numbers", methods=['POST'])
+@json_response
+def update_cards_order_numbers():
+    """
+    Update cards order_numbers
+    """
+    order_numbers = request.json
+    for key, order_number in order_numbers.items():
+        data_manager.update_card_order_number(int(key), int(order_number))
+    return {'status': 200}
+
+
 def main():
     app.run(debug=True)
 
