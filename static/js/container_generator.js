@@ -1,5 +1,6 @@
 import { dataHandler } from './data_handler.js';
 import { dom } from './dom.js';
+import {initColumns} from "./drag_and_drop_handler.js";
 
 const defaultColumns = {0: 'New', 1: 'In Progress', 2: 'Testing', 3:'Done'};
 const captureInnerTextContainer = 16;
@@ -11,6 +12,8 @@ export function generateBoards(boards) {
     for(let board of boards){
 
         boardList += createTemplateOfBoardsHTML(board.title, board.id, true, board);
+        const column = document.getElementsByClassName('tasks');
+        // initColumns(column);
         dom.loadCards(board.id);
     }
     return boardList;
@@ -29,19 +32,19 @@ export function createTemplateOfBoardsHTML(title, id, cards=false, boardData={})
                     <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
                 </div>
             </li>
-            <div class="cards-container flex-row-start hide-details"} containerBoardId="${id}">${cards ? generateBoardDetails(boardData) : ""}</div>
+            <div class="cards-container flex-row-start hide-details"} containerBoardId="${id}">${cards ? generateBoardDetails(id) : ""}</div>
         `
 
 }
 
-export function generateBoardDetails(board) {
+export function generateBoardDetails(id) {
     let cardList = '';
 
     for (let index in defaultColumns) {
         cardList += `
             <div class='cell' id="${defaultColumns[index]}">
                 <h3>${defaultColumns[index]}</h3>
-                <div class="tasks flex-column" cardId="${board.id}"></div>
+                <div class="tasks flex-column" cardId="${id}"></div>
             </div>
         `;
     }
@@ -52,26 +55,24 @@ export function handleDetailButton() {
     const detailBtn = document.querySelectorAll('.detail-button');
 
     detailBtn.forEach(button => {
-        button.addEventListener('click', function () {
-            button.getAttribute('boardId');
-            const cardsContainer = button.parentElement.parentElement.nextElementSibling;
-            cardsContainer.classList.toggle('show');
-            if (cardsContainer.style.maxHeight){
-              cardsContainer.style.maxHeight = null;
-            } else {
-              cardsContainer.style.maxHeight = cardsContainer.scrollHeight + captureInnerTextContainer + "px";
-            }
+        handleEvent(button);
+    });
+}
 
-            button.className = button.classList.contains('fa-ellipsis-h') ?
-                'detail-button fas fa-times' : 'detail-button fas fa-ellipsis-h';
-        });
+export function handleEvent (button) {
+    button.addEventListener('click', function () {
+        button.getAttribute('boardId');
+        const cardsContainer = button.parentElement.parentElement.nextElementSibling;
+        cardsContainer.classList.toggle('show');
+
+        button.className = button.classList.contains('fa-ellipsis-h') ?
+            'detail-button fas fa-times' : 'detail-button fas fa-ellipsis-h';
     });
 }
 
 export function assignTask(cards) {
 
     cards.forEach(card => {
-
         const columnName = defaultColumns[card.status_id];
         const tasks = [...document.querySelector(`[containerBoardId="${card.board_id}"]`).children];
         tasks.forEach(column => {
@@ -79,7 +80,12 @@ export function assignTask(cards) {
                 const task = document.createElement('div');
                 task.textContent = card.title;
                 column.children[taskContainer].appendChild(task);
-            }
+            };
         });
     });
+}
+
+export function getLastButton() {
+    const buttons = [...document.querySelectorAll('.board-details > i')];
+    return buttons[buttons.length - 1];
 }

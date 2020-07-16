@@ -1,6 +1,7 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
 import { generateBoards, handleDetailButton, assignTask, createTemplateOfBoardsHTML } from './container_generator.js'
+import { handleEvent, getLastButton } from "./container_generator.js";
 
 export let dom = {
     init: function () {
@@ -56,8 +57,10 @@ export let dom = {
     },
     displayNewBoard: function (title, board_id) {
         const boardContainer = document.querySelector('.board-container');
-        const newBoard = createTemplateOfBoardsHTML(title, board_id);
+        const newBoard = createTemplateOfBoardsHTML(title, board_id, true);
         boardContainer.insertAdjacentHTML("beforeend", newBoard);
+
+        handleEvent(getLastButton());
     },
     // here comes more features
 };
