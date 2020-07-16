@@ -73,19 +73,29 @@ export function handleEvent (button) {
 export function assignTask(cards) {
 
     cards.forEach(card => {
-        const columnName = defaultColumns[card.status_id];
         const tasks = [...document.querySelector(`[containerBoardId="${card.board_id}"]`).children];
         tasks.forEach(column => {
-            if (column.getAttribute('id') === columnName) {
-                const task = document.createElement('div');
-                task.textContent = card.title;
-                column.children[taskContainer].appendChild(task);
-            };
+            createColumn(column, card);
         });
     });
+}
+
+export function createColumn (column, card) {
+    const columnName = defaultColumns[card.status_id];
+
+    if (column.getAttribute('id') === columnName) {
+        const task = document.createElement('div');
+        task.textContent = card.title;
+        column.children[taskContainer].appendChild(task);
+    };
 }
 
 export function getLastButton() {
     const buttons = [...document.querySelectorAll('.board-details > i')];
     return buttons[buttons.length - 1];
+}
+
+export function initNewColumnsWithDragAndDrop(board_id) {
+    // const tasks = [...document.querySelectorAll(`[containerBoardId="${board_id}"]`)];
+    initColumns([...document.querySelectorAll(`[containerBoardId="${board_id}"]`)]);
 }
