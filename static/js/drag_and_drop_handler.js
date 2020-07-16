@@ -90,6 +90,7 @@ function columnLeaveHandler(event) {
 }
 
 function columnDropHandler(event) {
+    // TODO do refactor man!
     event.preventDefault();
     const destinationColumnBoardId = this.getAttribute("cardid");
     if (event.dataTransfer.getData("boardId") === destinationColumnBoardId) {
@@ -109,14 +110,12 @@ function columnDropHandler(event) {
         changedTaskIds = changedInDragTaskIds.concat(changedInDropTaskIds);
         changedTaskIdsUnique = changedTaskIds.filter((item, pos) => changedTaskIds.indexOf(item) === pos);
         dataHandler.updateCardPosition(taskPosition, function (response) {
-            console.log(response);
         });
         if (Array.isArray(changedTaskIdsUnique) && changedTaskIdsUnique.length) {
             changedTaskIdsUnique.forEach(taskId => {
                 changedTasks[parseInt(taskId)] = parseInt(document.querySelector(`[task-id='${taskId}']`).getAttribute("order-number"));
             });
             dataHandler.updateCardsOrderNumbers(changedTasks, function (response) {
-            console.log(response);
         });
         }
 

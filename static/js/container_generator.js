@@ -100,8 +100,8 @@ export function getLastButton() {
 }
 
 export function initNewColumnsWithDragAndDrop(board_id) {
-    // const tasks = [...document.querySelectorAll(`[containerBoardId="${board_id}"]`)];
-    initColumns([...document.querySelectorAll(`[containerBoardId="${board_id}"]`)]);
+    const tasks = document.querySelectorAll(`div[containerBoardId="${board_id}"] .tasks`);
+    initColumns(tasks);
 }
 
 export function createNewTask(title, taskId, taskNumberOrder) {
