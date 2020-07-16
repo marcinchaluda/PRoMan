@@ -120,19 +120,28 @@ function createNewBoardForm(modalBody, modalFooter, modalId) {
 
 function sendNewBoardTitleToServer() {
     const modalNewBoard = document.querySelector('#new-board-modal');
-    modalNewBoard.style.display = "none"
+    modalNewBoard.style.display = "none";
 
-    const inputValue = document.getElementById('board-title').value
+    const inputValue = document.getElementById('board-title').value;
 
     dataHandler.createNewBoard(inputValue, function (response) {
-        console.log(response)
-        dom.displayNewBoard(inputValue, response.board_id);
-    });
+            dom.displayNewBoard(inputValue, response.board_id);
+            addFunctionToNewCardButtton(response.board_id);
+        }
+    );
+}
+
+function addFunctionToNewCardButtton(boardId) {
+    const newCardButton = document.querySelector(`li[boardid="${boardId}"] > div >a`);
+    newCardButton.onclick = function () {
+        newCardModal.style.display = "block";
+        localStorage.setItem('activeBoard', boardId);
+    }
 }
 
 function sendNewCardTitleToServer() {
     const modalNewBoard = document.querySelector('#new-card-modal');
-    modalNewBoard.style.display = "none"
+    modalNewBoard.style.display = "none";
 
     const newCardTitle = document.getElementById('card-title').value;
     const newCardBoardId = Number(localStorage.getItem('activeBoard'))
@@ -141,7 +150,7 @@ function sendNewCardTitleToServer() {
         title: newCardTitle,
         boardId: newCardBoardId,
         statusId: 0
-    }
+    };
 
     dataHandler.createNewCard(data, function (response) {
         //TODO atrybuty z response dodac
