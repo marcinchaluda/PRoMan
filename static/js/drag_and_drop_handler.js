@@ -94,14 +94,13 @@ function columnDropHandler(event) {
     const destinationColumnBoardId = this.getAttribute("cardid");
     if (event.dataTransfer.getData("boardId") === destinationColumnBoardId) {
         const aboveDestinationTask = getDraggedTaskAboveDestinationTask(this, event.clientY);
-        
         const draggedTaskSource = document.querySelector(".dragged-task-source");
         if (aboveDestinationTask == null) {
             event.currentTarget.appendChild(draggedTaskSource);
         } else {
             event.currentTarget.insertBefore(draggedTaskSource, aboveDestinationTask);
         }
-        const taskPosition = getTaskPosition(draggedTaskSource, this);
+        const taskPosition = getTaskPosition(draggedTaskSource, this, aboveDestinationTask);
         dataHandler.updateCardPosition(taskPosition, function (response) {
             console.log(response);
         });
@@ -139,13 +138,32 @@ function getDraggedTaskAboveDestinationTask(column, y) {
     }, { offset: Number.NEGATIVE_INFINITY }).task;
 }
 
-function getTaskPosition(task, column) {
+function getTaskPosition(task, column, aboveDestinationTask) {
     let taskId, taskStatusId, taskOrderNumber;
-    console.log(task)
     taskId = task.getAttribute("task-id");
     taskStatusId = column.parentElement.getAttribute("status-id");
-    // taskOrderNumber
-    return {id: parseInt(taskId), statusId: parseInt(taskStatusId), orderNumber: 0};
+    taskOrderNumber = getTaskOrderNumber(aboveDestinationTask, column);
+    setOrderNumberAttribute(task, taskOrderNumber);
+    return {id: parseInt(taskId), statusId: parseInt(taskStatusId), orderNumber: taskOrderNumber};
+}
+
+
+function getTaskOrderNumber(aboveDestinationTask, column) {
+    let taskOrderNumber;
+    if (aboveDestinationTask == null) {
+        taskOrderNumber = column.childElementCount - 1;
+    } else if (parseInt(aboveDestinationTask.getAttribute("order-number")) === 0) {
+        taskOrderNumber = 0;
+        //move another
+    } else {
+        taskOrderNumber = parseInt(aboveDestinationTask.getAttribute("order-number")) - 1;
+        // move another
+    }
+    return taskOrderNumber;
+}
+
+function setOrderNumberAttribute(task, orderNumber) {
+    task.setAttribute("order-number", orderNumber);
 }
 
 // function setTaskAttributes(task, attributes) {
