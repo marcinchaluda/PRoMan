@@ -21,7 +21,7 @@
 .flex-column {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .header {
@@ -149,12 +149,13 @@ footer {
 }
 
 .tasks {
-    min-height: 25%;
-    padding-bottom: 3em;
+    min-height: calc(100% - 2em);
+    overflow: hidden;
 }
 
 .tasks div {
     align-self: center;
+    justify-content: flex-start;
     width: 80%;
     margin: 0.3em 0;
     border: 1px solid #73172F;
