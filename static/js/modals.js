@@ -145,7 +145,7 @@ function sendNewCardTitleToServer() {
     dataHandler.createNewCard(data, function (response) {
         //TODO atrybuty z response dodac
         const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
-        dom.displayNewCard(column, newCardTitle);
+        dom.displayNewCard(column, newCardTitle, response.card.id, response.card.order_number);
     });
 }
 
