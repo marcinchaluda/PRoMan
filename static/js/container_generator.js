@@ -51,11 +51,6 @@ export function handleDetailButton() {
             button.getAttribute('boardId');
             const cardsContainer = button.parentElement.parentElement.nextElementSibling;
             cardsContainer.classList.toggle('show');
-            if (cardsContainer.style.maxHeight){
-              cardsContainer.style.maxHeight = null;
-            } else {
-              cardsContainer.style.maxHeight = cardsContainer.scrollHeight + captureInnerTextContainer + "px";
-            }
 
             button.className = button.classList.contains('fa-ellipsis-h') ?
                 'detail-button fas fa-times' : 'detail-button fas fa-ellipsis-h';
