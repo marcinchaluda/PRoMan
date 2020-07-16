@@ -52,7 +52,7 @@ def add_new_card(cursor: RealDictCursor, card_data: dict) -> dict:
                 THEN (SELECT MAX(order_number) + 1 FROM cards WHERE status_id = 0 AND board_id = %(c_board_id)s)
             ELSE 0
         END))
-    RETURNING (id, order_number)
+    RETURNING id, order_number
             """, {'c_title': card_data['title'], 'c_board_id': card_data['boardId'], 'c_status': card_data['statusId']})
 
     return cursor.fetchone()

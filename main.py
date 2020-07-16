@@ -53,12 +53,13 @@ def save_new_card():
     """
     Add new card to database
     """
-    card_data = request.json
-    print(card_data)
+    new_card_data = request.json
+    print(new_card_data)
 
-    data_manager.add_new_card(card_data)
+    attributes = data_manager.add_new_card(new_card_data)
 
-    return {'status': 200}
+    return {'status': 200,
+            'card': attributes}
 
 
 def main():
