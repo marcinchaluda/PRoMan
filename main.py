@@ -67,8 +67,22 @@ def update_card_position():
     Update card order_number and/or status_id
     """
     card_position = request.json
+    print(card_position)
     data_manager.update_card_position(card_position)
     return {'status': 200}
+
+
+@app.route("/update-cards-order-numbers", methods=['POST'])
+@json_response
+def update_cards_order_numbers():
+    """
+    Update cards order_numbers
+    """
+    order_numbers = request.json
+    for key, order_number in order_numbers.items():
+        data_manager.update_card_order_number(key, order_number)
+        return {'status': 200}
+
 
 def main():
     app.run(debug=True)
