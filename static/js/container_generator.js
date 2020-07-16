@@ -11,7 +11,7 @@ export function generateBoards(boards) {
     for(let board of boards){
 
         boardList += `
-            <li class="flex-row-start" boardId="${board.id}">
+            <li class="flex-row-start" data-board-id="${board.id}">
                 <div class="title flex-row-start">
                     <h3>${board.title}</h3>
                     <a href="#" type="button">
@@ -19,10 +19,10 @@ export function generateBoards(boards) {
                     </a>
                 </div>
                 <div class="board-details flex-row-end">
-                    <i class="detail-button fas fa-ellipsis-h" boardId="${board.id}"></i>
+                    <i class="detail-button fas fa-ellipsis-h" data-board-id="${board.id}"></i>
                 </div>
             </li>
-            <div class="cards-container flex-row-start hide-details"} containerBoardId="${board.id}">${generateBoardDetails(board)}</div>
+            <div class="cards-container flex-row-start hide-details"} data-container-board-id="${board.id}">${generateBoardDetails(board)}</div>
         `;
         dom.loadCards(board.id);
     }
@@ -36,7 +36,7 @@ export function generateBoardDetails(board) {
         cardList += `
             <div class='cell' id="${defaultColumns[index]}">
                 <h3>${defaultColumns[index]}</h3>
-                <div class="tasks flex-column" cardId="${board.id}"></div>
+                <div class="tasks flex-column" data-card-id="${board.id}"></div>
             </div>
         `;
     }
@@ -48,7 +48,7 @@ export function handleDetailButton() {
 
     detailBtn.forEach(button => {
         button.addEventListener('click', function () {
-            button.getAttribute('boardId');
+            button.getAttribute('data-board-id'); // Isn't it redundant?
             const cardsContainer = button.parentElement.parentElement.nextElementSibling;
             cardsContainer.classList.toggle('show');
             if (cardsContainer.style.maxHeight){

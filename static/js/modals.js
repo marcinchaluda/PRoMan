@@ -6,11 +6,11 @@ export let modals = {
         const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
 
         for (let newCardButton of allButtonsAddNewCard) {
-            newCardButton.setAttribute('boardId', '1');
+            newCardButton.setAttribute('data-board-id', '1');
 
             newCardButton.onclick = function () {
                 newCardModal.style.display = "block";
-                localStorage.setItem('activeBoard', newCardButton.getAttribute('boardId'));
+                localStorage.setItem('activeBoard', newCardButton.getAttribute('data-board-id'));
             }
         }
     }
