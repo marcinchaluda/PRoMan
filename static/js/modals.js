@@ -15,7 +15,7 @@ export let modals = {
     }
 }
 
-// function create basic template for modal
+// Function create basic template for modal
 function createModal(id, headerText) {
     const modal = createElementWithClasses('div', ['modal']);
     const modalContent = createElementWithClasses('div', ['modal-content']);
@@ -32,7 +32,7 @@ function createModal(id, headerText) {
     modal.appendChild(modalContent);
     modal.setAttribute('id', id);
 
-    return modal
+    return modal;
 }
 
 function createHeader(headerText) {
@@ -40,7 +40,7 @@ function createHeader(headerText) {
     const textToAdd = document.createTextNode(headerText);
     header.appendChild(textToAdd);
 
-    return header
+    return header;
 }
 
 function createCloseXButton(modal) {
@@ -52,7 +52,7 @@ function createCloseXButton(modal) {
         modal.style.display = "none";
     }
 
-    return closeXButton
+    return closeXButton;
 }
 
 function appendChildren(parent, listOfChildren) {
@@ -67,7 +67,7 @@ function createElementWithClasses(typeOfElement, listOfClasses) {
         element.classList.add(classOnList);
     }
 
-    return element
+    return element;
 }
 
 // Inject data to basic modal to create modal for adding new boards
@@ -76,11 +76,11 @@ function fillNewBoardModal(modalId, inputId) {
     const modalBody = document.querySelector(`#${modalId} > .modal-content > .modal-body`);
     const modalFooter = document.querySelector(`#${modalId} > .modal-content > .modal-footer`);
 
-    const boardTitleInput = createNewTextInput(inputId)
+    const boardTitleInput = createNewTextInput(inputId);
     modalBody.appendChild(boardTitleInput);
 
     const saveButton = createSaveButton();
-    modalFooter.appendChild(saveButton)
+    modalFooter.appendChild(saveButton);
 
     const newBoardForm = createNewBoardForm(modalBody, modalFooter, modalId);
 
@@ -91,9 +91,9 @@ function createNewTextInput(id) {
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
     newInput.setAttribute('id', id);
-    newInput.setAttribute('placeholder', 'Insert name')
+    newInput.setAttribute('placeholder', 'Insert name');
 
-    return newInput
+    return newInput;
 }
 
 function createSaveButton() {
@@ -103,7 +103,7 @@ function createSaveButton() {
     const textSaveButton = document.createTextNode('Save');
     newButton.appendChild(textSaveButton);
 
-    return newButton
+    return newButton;
 }
 
 function createNewBoardForm(modalBody, modalFooter, modalId) {
@@ -113,9 +113,9 @@ function createNewBoardForm(modalBody, modalFooter, modalId) {
     newForm.addEventListener('submit', function (evant) {
         evant.preventDefault();
         modalId === 'new-board-modal' ? handleNewBoardEvants() : handleNewCardEvants();
-    })
+    });
 
-    return newForm
+    return newForm;
 }
 
 function handleNewBoardEvants() {
