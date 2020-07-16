@@ -78,3 +78,9 @@ export function assignTask(cards) {
         });
     });
 }
+
+export function createNewTask(parent, title) {
+    const task = document.createElement('div');
+    task.textContent = title;
+    parent.appendChild(task)
+}

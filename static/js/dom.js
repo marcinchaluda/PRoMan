@@ -1,6 +1,6 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
-import { generateBoards, handleDetailButton, assignTask } from './container_generator.js'
+import { generateBoards, handleDetailButton, assignTask, createNewTask } from './container_generator.js'
 
 export let dom = {
     init: function () {
@@ -55,7 +55,10 @@ export let dom = {
         assignTask(cards);
     },
     displayNewBoard: function (title) {
-        addBoard(title)
+        addBoard(title);
+    },
+    displayNewCard: function (parent, title) {
+        createNewTask(parent, title);
     },
     // here comes more features
 };
