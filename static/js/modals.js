@@ -4,13 +4,12 @@ import {dom} from "./dom.js";
 export let modals = {
     modalsInit: function () {
         const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
-
         for (let newCardButton of allButtonsAddNewCard) {
-            newCardButton.setAttribute('boardId', '1');
-
             newCardButton.onclick = function () {
                 newCardModal.style.display = "block";
-                localStorage.setItem('activeBoard', newCardButton.getAttribute('boardId'));
+
+                const parentLiElement = newCardButton.closest("li");
+                localStorage.setItem('activeBoard', parentLiElement.getAttribute('boardid'));
             }
         }
     }
