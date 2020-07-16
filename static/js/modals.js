@@ -119,8 +119,7 @@ function createNewBoardForm(modalBody, modalFooter, modalId) {
 }
 
 function sendNewBoardTitleToServer() {
-    const modalNewBoard = document.querySelector('#new-board-modal');
-    modalNewBoard.style.display = "none";
+    hideModal('#new-board-modal');
 
     const inputValue = document.getElementById('board-title').value;
 
@@ -140,11 +139,10 @@ function addFunctionToNewCardButtton(boardId) {
 }
 
 function sendNewCardTitleToServer() {
-    const modalNewBoard = document.querySelector('#new-card-modal');
-    modalNewBoard.style.display = "none";
+    hideModal('#new-card-modal');
 
     const newCardTitle = document.getElementById('card-title').value;
-    const newCardBoardId = Number(localStorage.getItem('activeBoard'))
+    const newCardBoardId = Number(localStorage.getItem('activeBoard'));
 
     const data = {
         title: newCardTitle,
@@ -153,10 +151,14 @@ function sendNewCardTitleToServer() {
     };
 
     dataHandler.createNewCard(data, function (response) {
-        //TODO atrybuty z response dodac
         const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
         dom.displayNewCard(column, newCardTitle, response.card.id, response.card.order_number);
     });
+}
+
+function hideModal(modalId) {
+    const modal = document.querySelector(modalId);
+    modal.style.display = "none";
 }
 
 // -------------------------------------------------------------------------------------
