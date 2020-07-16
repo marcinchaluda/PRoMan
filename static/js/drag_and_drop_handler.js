@@ -24,7 +24,7 @@ export function initTask(task) {
     task.addEventListener("dragend", dragEndHandler)
 }
 
-function initColumns(columns) {
+export function initColumns(columns) {
     for (const column of columns) {
         initColumn(column);
     }
