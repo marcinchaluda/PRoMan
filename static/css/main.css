@@ -93,7 +93,7 @@ footer {
 }
 
 .board-container {
-    box-sizing: content-box;
+    box-sizing: border-box;
     margin: 0 9vw;
     width: 80vw;
 }
@@ -128,7 +128,6 @@ footer {
 
 .cards-container {
     display: none;
-    /*overflow: hidden;*/
     margin: 1em 0 1em 0;
     width: 100%;
     text-align: center;
@@ -161,6 +160,7 @@ footer {
 
 .tasks {
     min-height: 25%;
+    padding-bottom: 3em;
 }
 
 .tasks div {
