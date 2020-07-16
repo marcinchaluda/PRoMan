@@ -108,7 +108,6 @@ function columnDropHandler(event) {
         [taskPosition, changedInDropTaskIds] = getNewTaskPosition(draggedTaskSource, this, aboveDestinationTask);
         changedTaskIds = changedInDragTaskIds.concat(changedInDropTaskIds);
         changedTaskIdsUnique = changedTaskIds.filter((item, pos) => changedTaskIds.indexOf(item) === pos);
-        console.log(changedTaskIdsUnique)
         dataHandler.updateCardPosition(taskPosition, function (response) {
             console.log(response);
         });
@@ -116,7 +115,6 @@ function columnDropHandler(event) {
             changedTaskIdsUnique.forEach(taskId => {
                 changedTasks[parseInt(taskId)] = parseInt(document.querySelector(`[task-id='${taskId}']`).getAttribute("order-number"));
             });
-            console.log(changedTasks)
             dataHandler.updateCardsOrderNumbers(changedTasks, function (response) {
             console.log(response);
         });
@@ -145,7 +143,7 @@ function markColumns(boardId, marked = true) {
 
 function getDraggedTaskAboveDestinationTask(column, y) {
     const tasks = Array.from(column.querySelectorAll(tasksSelector + ":not(.dragged-task-source)"));
-    console.log(tasks)
+    // console.log(tasks)
     return tasks.reduce((closest, child) => {
         const taskDiv = child.getBoundingClientRect();
         const offset = y - taskDiv.top - taskDiv.height / 2;
@@ -156,6 +154,7 @@ function getDraggedTaskAboveDestinationTask(column, y) {
         }
     }, { offset: Number.NEGATIVE_INFINITY }).task;
 }
+
 
 function getNewTaskPosition(task, column, aboveDestinationTask) {
     let taskId, taskStatusId, taskOrderNumber, changedTaskIds;
@@ -205,6 +204,3 @@ function getChangedInDragTaskIds(statusIdBeforeDrag, orderNumberBeforeDrag, dest
     changedInDragTaskIds = prepareOtherTasks(sourceDragColumn, 0, orderNumberBeforeDrag, 1);
     return changedInDragTaskIds;
 }
-// function setTaskAttributes(task, attributes) {
-//     task.setAttribute(attributes["orderNumber"])
-// }

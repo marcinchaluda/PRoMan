@@ -25,7 +25,7 @@ def get_cards_data(cursor: RealDictCursor, board_id: int) -> list:
                 SELECT *  
                 FROM cards
                 WHERE board_id = %(b_id)s
-                ORDER BY order_number
+                ORDER BY status_id, order_number
             """, {'b_id': board_id})
 
     return cursor.fetchall()
