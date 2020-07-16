@@ -54,7 +54,6 @@ def save_new_card():
     Add new card to database
     """
     new_card_data = request.json
-    print(new_card_data)
 
     attributes = data_manager.add_new_card(new_card_data)
 
