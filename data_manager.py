@@ -31,13 +31,16 @@ def get_cards_data(cursor: RealDictCursor, board_id: int) -> list:
 
 
 @database_common.connection_handler
-def add_new_board(cursor: RealDictCursor, board_title: str):
+def add_new_board(cursor: RealDictCursor, board_title: str) -> dict:
     """Add new board to database"""
 
     cursor.execute("""
                 INSERT INTO boards (title) 
                 VALUES (%(b_title)s)
+                RETURNING id
             """, {'b_title': board_title})
+
+    return cursor.fetchone()
 
 
 @database_common.connection_handler
