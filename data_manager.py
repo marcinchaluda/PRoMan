@@ -52,7 +52,7 @@ def add_new_card(cursor: RealDictCursor, card_data: dict) -> dict:
     INSERT INTO cards (title, board_id, status_id, order_number) 
     VALUES (%(c_title)s, %(c_board_id)s, %(c_status)s, 
         (SELECT CASE
-            WHEN (SELECT COUNT(*) FROM cards WHERE board_id = %(c_board_id)s) > 0 
+            WHEN (SELECT COUNT(*) FROM cards WHERE board_id = %(c_board_id)s AND status_id = 0) > 0 
                 THEN (SELECT MAX(order_number) + 1 FROM cards WHERE status_id = 0 AND board_id = %(c_board_id)s)
             ELSE 0
         END))
