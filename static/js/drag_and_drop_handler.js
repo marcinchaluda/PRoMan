@@ -44,7 +44,7 @@ function initColumn(column) {
 function dragStartHandler(event) {
     this.classList.add("dragged-task-source", "dragged-task");
     const transferredData = event.dataTransfer;
-    const draggedTaskBoardId = this.parentElement.parentElement.parentElement.getAttribute("containerboardid");
+    const draggedTaskBoardId = this.parentElement.getAttribute("cardid");
     markColumns(draggedTaskBoardId);
     transferredData.setData(`type/boardid/${draggedTaskBoardId}`, draggedTaskBoardId);
     transferredData.setData("boardId", draggedTaskBoardId);
@@ -58,13 +58,13 @@ function dragHandler() {
 }
 
 function dragEndHandler() {
-    const draggedTaskBoardId = this.parentElement.parentElement.parentElement.getAttribute("containerboardid");
+    const draggedTaskBoardId = this.parentElement.getAttribute("cardid");
     markColumns(draggedTaskBoardId, false);
     this.classList.remove("dragged-task-source");
 }
 
 function columnEnterHandler(event) {
-    const destinationColumnBoardId = this.parentElement.parentElement.getAttribute("containerboardid");
+    const destinationColumnBoardId = this.getAttribute("cardid");
     if (event.dataTransfer.types.includes(`type/boardid/${destinationColumnBoardId}`)) {
         event.preventDefault();
         this.classList.add("over-column");
@@ -72,14 +72,14 @@ function columnEnterHandler(event) {
 }
 
 function columnOverHandler(event) {
-    const destinationColumnBoardId = this.parentElement.parentElement.getAttribute("containerboardid");
+    const destinationColumnBoardId = this.getAttribute("cardid");
     if (event.dataTransfer.types.includes(`type/boardid/${destinationColumnBoardId}`)) {
         event.preventDefault();
     }
 }
 
 function columnLeaveHandler(event) {
-    const destinationColumnBoardId = this.parentElement.parentElement.getAttribute("containerboardid");
+    const destinationColumnBoardId = this.getAttribute("cardid");
     if (event.dataTransfer.types.includes(`type/boardid/${destinationColumnBoardId}`)
         && event.relatedTarget !== null
         && event.currentTarget !== event.relatedTarget.closest(columnsSelector)) {
@@ -89,7 +89,7 @@ function columnLeaveHandler(event) {
 
 function columnDropHandler(event) {
     event.preventDefault();
-    const destinationColumnBoardId = this.parentElement.parentElement.getAttribute("containerboardid");
+    const destinationColumnBoardId = this.getAttribute("cardid");
     if (event.dataTransfer.getData("boardId") === destinationColumnBoardId) {
         const aboveDestinationTask = getDraggedTaskAboveDestinationTask(this, event.clientY);
         const draggedTaskSource = document.querySelector(".dragged-task-source");
@@ -108,7 +108,7 @@ function deferredOriginChanges(origin, draggedTaskClassName) {
 }
 
 function markColumns(boardId, marked = true) {
-    const columns = document.querySelectorAll(`div[containerboardid='${boardId}'] ` + columnsSelector);
+    const columns = document.querySelectorAll(`[cardid='${boardId}']` + columnsSelector);
     for (let column of columns) {
         if (marked) {
             column.classList.add("active-column");

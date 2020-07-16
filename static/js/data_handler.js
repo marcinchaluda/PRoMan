@@ -76,5 +76,6 @@ export let dataHandler = {
             callback(response);
         });
     }
+    
     // here comes more features
 };
