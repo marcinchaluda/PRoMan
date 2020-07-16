@@ -112,13 +112,13 @@ function createNewBoardForm(modalBody, modalFooter, modalId) {
     newForm.appendChild(modalFooter);
     newForm.addEventListener('submit', function (evant) {
         evant.preventDefault();
-        modalId === 'new-board-modal' ? sendNewBoardTitleToServer() : sendNewCardTitleToServer();
+        modalId === 'new-board-modal' ? handleNewBoardEvants() : handleNewCardEvants();
     })
 
     return newForm
 }
 
-function sendNewBoardTitleToServer() {
+function handleNewBoardEvants() {
     hideModal('#new-board-modal');
 
     const inputValue = document.getElementById('board-title').value;
@@ -138,7 +138,7 @@ function addFunctionToNewCardButtton(boardId) {
     }
 }
 
-function sendNewCardTitleToServer() {
+function handleNewCardEvants() {
     hideModal('#new-card-modal');
 
     const newCardTitle = document.getElementById('card-title').value;
