@@ -124,9 +124,10 @@ function sendNewBoardTitleToServer() {
     modalNewBoard.style.display = "none"
 
     const inputValue = document.getElementById('board-title').value
-    dom.displayNewBoard(inputValue);
+
     dataHandler.createNewBoard(inputValue, function (response) {
-        //TODO zapisuje dane do DB, co robić z jakimś responsem po stronie frontu
+        console.log(response)
+        dom.displayNewBoard(inputValue, response.board_id);
     });
 }
 

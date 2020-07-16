@@ -1,6 +1,6 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
-import { generateBoards, handleDetailButton, assignTask } from './container_generator.js'
+import { generateBoards, handleDetailButton, assignTask, createTemplateOfBoardsHTML } from './container_generator.js'
 
 export let dom = {
     init: function () {
@@ -54,29 +54,31 @@ export let dom = {
     showCards: function (cards) {
         assignTask(cards);
     },
-    displayNewBoard: function (title) {
-        addBoard(title)
+    displayNewBoard: function (title, board_id) {
+        const boardContainer = document.querySelector('.board-container');
+        const newBoard = createTemplateOfBoardsHTML(title, board_id);
+        boardContainer.insertAdjacentHTML("beforeend", newBoard);
     },
     // here comes more features
 };
-
-// TODO temporary function, later it will be used function from feature 1
-function addBoard(title) {
-    const boardContainer = document.querySelector('.board-container');
-    const newBoard = `
-            <li class="flex-row-start">
-                <div class="title flex-row-start">
-                    <h3>${title}</h3>
-                    <a href="#" type="button">
-                        <i class="fas fa-plus-circle"></i>New card
-                    </a>
-                </div>
-                <div class="board-details flex-row-end">
-                    <i class="fas fa-ellipsis-h"></i>
-                </div>
-            </li>
-            <div class="cards-container flex-row-start"></div>
-        `;
-
-    boardContainer.insertAdjacentHTML("beforeend", newBoard);
-}
+//
+// // TODO temporary function, later it will be used function from feature 1
+// function addBoard(title) {
+//     const boardContainer = document.querySelector('.board-container');
+//     const newBoard = `
+//             <li class="flex-row-start">
+//                 <div class="title flex-row-start">
+//                     <h3>${title}</h3>
+//                     <a href="#" type="button">
+//                         <i class="fas fa-plus-circle"></i>New card
+//                     </a>
+//                 </div>
+//                 <div class="board-details flex-row-end">
+//                     <i class="fas fa-ellipsis-h"></i>
+//                 </div>
+//             </li>
+//             <div class="cards-container flex-row-start"></div>
+//         `;
+//
+//     boardContainer.insertAdjacentHTML("beforeend", newBoard);
+// }
