@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+#boards ul  {
+    margin-bottom: 5em;
+}
+
 .flex-row-start {
     display: flex;
     justify-content: flex-start;
@@ -73,14 +77,19 @@ i {
     /*background-color: #BFBFBF;*/
 }
 
+/*.boards {*/
+/*    position: relative;*/
+/*}*/
+
 footer {
+    box-sizing: border-box;
     position: fixed;
-    right: 0;
-    bottom: 0;
     width: 100vw;
+    bottom: 0;
     padding: 0.5em 2em 0.5em 0;
     background-color: #73172F;
     color: #BFBFBF;
+    clear: both;
 }
 
 .board-container {
@@ -100,6 +109,10 @@ footer {
     padding: 1em 0;
 }
 
+.board-container li:last-child {
+    margin: 4em 0;
+}
+
 .board-details i {
     align-self: center;
     padding: 0 1em 0 0;
@@ -114,16 +127,18 @@ footer {
 }
 
 .cards-container {
-    overflow: hidden;
-    margin: 1em 0 0 0;
+    display: none;
+    /*overflow: hidden;*/
+    margin: 1em 0 1em 0;
     width: 100%;
     text-align: center;
     border-radius: 10px;
     transition: max-height 0.2s ease-out;
 }
 .hide-details {
-    max-height: 0;
+    /*max-height: 0;*/
 }
+
 .cell {
     /*align-self: center;*/
     width: 20%;
@@ -140,7 +155,12 @@ footer {
 }
 
 .show {
+    display: flex;
     border: 2px solid #73172F;
+}
+
+.tasks {
+    min-height: 25%;
 }
 
 .tasks div {
