@@ -4,9 +4,12 @@ export let dragAndDropHandler = {
     }
 }
 
+const tasksSelector = ".task";
+const columnsSelector = ".tasks";
+
 function initDragAndDrop() {
-    const tasks = document.querySelectorAll(".show .tasks");
-    const columns = document.querySelectorAll(".show .cell");
+    const tasks = document.querySelectorAll(tasksSelector);
+    const columns = document.querySelectorAll(columnsSelector);
     initTasks(tasks);
     initColumns(columns);
 }
@@ -39,10 +42,12 @@ function initColumn(column) {
 
 
 function dragStartHandler(event) {
-    markColumns();
     this.classList.add("dragged-task-source", "dragged-task");
     const transferredData = event.dataTransfer;
-    transferredData.setData("type/dragged-task", "dragged-task");
+    const draggedTaskBoardId = this.parentElement.parentElement.parentElement.getAttribute("containerboardid");
+    markColumns(draggedTaskBoardId);
+    transferredData.setData(`type/boardid/${draggedTaskBoardId}`, draggedTaskBoardId);
+    transferredData.setData("boardId", draggedTaskBoardId);
     transferredData.setData("text/plain", this.textContent);
     deferredOriginChanges(this, "dragged-task");
 
@@ -53,39 +58,46 @@ function dragHandler() {
 }
 
 function dragEndHandler() {
-    markColumns(false);
+    const draggedTaskBoardId = this.parentElement.parentElement.parentElement.getAttribute("containerboardid");
+    markColumns(draggedTaskBoardId, false);
     this.classList.remove("dragged-task-source");
 }
 
 function columnEnterHandler(event) {
-    if (event.dataTransfer.types.includes("type/dragged-task")) {
+    const destinationColumnBoardId = this.parentElement.parentElement.getAttribute("containerboardid");
+    if (event.dataTransfer.types.includes(`type/boardid/${destinationColumnBoardId}`)) {
         event.preventDefault();
         this.classList.add("over-column");
     }
 }
 
 function columnOverHandler(event) {
-    if (event.dataTransfer.types.includes("type/dragged-task")) {
+    const destinationColumnBoardId = this.parentElement.parentElement.getAttribute("containerboardid");
+    if (event.dataTransfer.types.includes(`type/boardid/${destinationColumnBoardId}`)) {
         event.preventDefault();
     }
 }
 
 function columnLeaveHandler(event) {
-    if (event.dataTransfer.types.includes("type/dragged-task")
+    const destinationColumnBoardId = this.parentElement.parentElement.getAttribute("containerboardid");
+    if (event.dataTransfer.types.includes(`type/boardid/${destinationColumnBoardId}`)
         && event.relatedTarget !== null
-        && event.currentTarget !== event.relatedTarget.closest(".show .cell")) {
+        && event.currentTarget !== event.relatedTarget.closest(columnsSelector)) {
         this.classList.remove("over-column");
     }
 }
 
 function columnDropHandler(event) {
     event.preventDefault();
-    const aboveDestinationTask = getDraggedTaskAboveDestinationTask(this, event.clientY);
-    const draggedTaskSource = document.querySelector(".dragged-task-source");
-    if (aboveDestinationTask == null) {
-        event.currentTarget.appendChild(draggedTaskSource);
-    } else {
-        event.currentTarget.insertBefore(draggedTaskSource, aboveDestinationTask);
+    const destinationColumnBoardId = this.parentElement.parentElement.getAttribute("containerboardid");
+    if (event.dataTransfer.getData("boardId") === destinationColumnBoardId) {
+        const aboveDestinationTask = getDraggedTaskAboveDestinationTask(this, event.clientY);
+        const draggedTaskSource = document.querySelector(".dragged-task-source");
+        if (aboveDestinationTask == null) {
+            event.currentTarget.appendChild(draggedTaskSource);
+        } else {
+            event.currentTarget.insertBefore(draggedTaskSource, aboveDestinationTask);
+        }
     }
 }
 
@@ -95,8 +107,8 @@ function deferredOriginChanges(origin, draggedTaskClassName) {
     });
 }
 
-function markColumns(marked = true) {
-    const columns = document.querySelectorAll(".show .cell");
+function markColumns(boardId, marked = true) {
+    const columns = document.querySelectorAll(`div[containerboardid='${boardId}'] ` + columnsSelector);
     for (let column of columns) {
         if (marked) {
             column.classList.add("active-column");
@@ -108,7 +120,7 @@ function markColumns(marked = true) {
 }
 
 function getDraggedTaskAboveDestinationTask(column, y) {
-    const tasks = Array.from(column.querySelectorAll(".show .tasks:not(.dragged-task-source)"));
+    const tasks = Array.from(column.querySelectorAll(tasksSelector + ":not(.dragged-task-source)"));
     return tasks.reduce((closest, child) => {
         const taskDiv = child.getBoundingClientRect();
         const offset = y - taskDiv.top - taskDiv.height / 2;

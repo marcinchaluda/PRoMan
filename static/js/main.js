@@ -9,8 +9,8 @@ function init() {
     // loads the boards to the screen
     dom.loadBoards()
         .then(() => {
-            dragAndDropHandler.init();
             modals.modalsInit();
+            setTimeout(() => dragAndDropHandler.init(), 500);
         });
 }
 

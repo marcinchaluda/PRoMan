@@ -22,7 +22,7 @@ export function generateBoards(boards) {
                     <i class="detail-button fas fa-ellipsis-h" boardId="${board.id}"></i>
                 </div>
             </li>
-            <div class="cards-container flex-row-start hide-details"} containerBoardId="${board.id}">${generateBoardDetails(board)}</div>
+            <div class="cards-container flex-row-start hide-details" containerBoardId="${board.id}">${generateBoardDetails(board)}</div>
         `;
         dom.loadCards(board.id);
     }
@@ -73,6 +73,7 @@ export function assignTask(cards) {
             if (column.getAttribute('id') === columnName) {
                 const task = document.createElement('div');
                 task.textContent = card.title;
+                task.classList.add("task");
                 column.children[taskContainer].appendChild(task);
             }
         });
