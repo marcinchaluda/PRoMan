@@ -28,7 +28,7 @@ export function createTemplateOfBoardsHTML(title, id){
                 </div>
             </li>
             <div class="cards-container flex-row-start hide-details"} containerBoardId="${id}">${generateBoardDetails(id)}</div>
-        `
+        `;
 }
 
 export function generateBoardDetails(id) {
@@ -79,13 +79,12 @@ export function createColumn (column, card) {
 
     if (column.getAttribute('id') === columnName) {
         const task = document.createElement('div');
-        task.classList.add('task')
-        task.setAttribute('task-id', card.id)
-        task.setAttribute('order-number', card.order_number)
+        task.classList.add('task');
+        task.setAttribute('task-id', card.id);
+        task.setAttribute('order-number', card.order_number);
         task.textContent = card.title;
         column.children[taskContainer].appendChild(task);
-
-    };
+    }
 }
 
 export function getLastButton() {
@@ -94,8 +93,7 @@ export function getLastButton() {
 }
 
 export function initNewColumnsWithDragAndDrop(board_id) {
-    const tasks = document.querySelectorAll(`div[containerBoardId="${board_id}"] .tasks`);
-    initColumns(tasks);
+    initColumns(document.querySelectorAll(`div[containerBoardId="${board_id}"] .tasks`));
 }
 
 export function createNewTask(title, taskId, taskNumberOrder) {
