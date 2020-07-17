@@ -47,7 +47,7 @@ export let dom = {
     },
     displayNewBoard: function (title, board_id) {
         const boardContainer = document.querySelector('.board-container');
-        const newBoard = createTemplateOfBoardsHTML(title, board_id, true);
+        const newBoard = createTemplateOfBoardsHTML(title, board_id);
         boardContainer.insertAdjacentHTML("beforeend", newBoard);
 
         handleEvent(getLastButton());
