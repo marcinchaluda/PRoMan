@@ -26,7 +26,7 @@ export function initTask(task) {
     task.setAttribute("draggable", "true");
     task.addEventListener("dragstart", dragStartHandler);
     task.addEventListener("drag", dragHandler);
-    task.addEventListener("dragend", dragEndHandler)
+    task.addEventListener("dragend", dragEndHandler);
 }
 
 export function initColumns(columns) {
@@ -52,7 +52,6 @@ function dragStartHandler(event) {
     transferredData.setData("boardId", draggedTaskBoardId);
     transferredData.setData("text/plain", this.textContent);
     deferredOriginChanges(this, "dragged-task");
-
 }
 
 function dragHandler() {
@@ -118,7 +117,6 @@ function columnDropHandler(event) {
             dataHandler.updateCardsOrderNumbers(changedTasks, function (response) {
         });
         }
-
     }
 }
 
@@ -168,9 +166,9 @@ function getNewTaskPosition(task, column, aboveDestinationTask) {
 function getTaskOrderNumber(aboveDestinationTask, column) {
     let taskOrderNumber;
     let changedTaskIds = [];
+    // TODO Extract to new function
     if (aboveDestinationTask == null) {
         taskOrderNumber = column.childElementCount - 1;
-        // changedTaskIds = [];
     } else if (parseInt(aboveDestinationTask.getAttribute("order-number")) === 0) {
         taskOrderNumber = 0;
         changedTaskIds = prepareOtherTasks(column, 1);
