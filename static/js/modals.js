@@ -1,22 +1,21 @@
 import {dataHandler} from "./data_handler.js";
 import {dom} from "./dom.js";
 
-export let modals = {
-    modalsInit: function () {
-        const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
-        for (let newCardButton of allButtonsAddNewCard) {
-            newCardButton.onclick = function () {
-                newCardModal.style.display = "block";
+export function modalsInit() {
+    const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
+    for (let newCardButton of allButtonsAddNewCard) {
+        newCardButton.onclick = function () {
+            newCardModal.style.display = "block";
 
-                const parentLiElement = newCardButton.closest("li");
-                localStorage.setItem('activeBoard', parentLiElement.getAttribute('boardid'));
-            }
+            const parentLiElement = newCardButton.closest("li");
+            localStorage.setItem('activeBoard', parentLiElement.getAttribute('boardid'));
         }
     }
 }
 
 // Function create basic template for modal
 function createModal(id, headerText) {
+    //TODO Try to put variables in for loop or to file
     const modal = createElementWithClasses('div', ['modal']);
     const modalContent = createElementWithClasses('div', ['modal-content']);
     const modalHeader = createElementWithClasses('div', ['modal-header']);
