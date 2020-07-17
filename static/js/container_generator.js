@@ -8,13 +8,13 @@ export function generateBoards(boards) {
     let boardList = '';
 
     for(let board of boards){
-        boardList += createTemplateOfBoardsHTML(board.title, board.id, true, board);
+        boardList += createTemplateOfBoardsHTML(board.title, board.id);
         dom.loadCards(board.id);
     }
     return boardList;
 }
 
-export function createTemplateOfBoardsHTML(title, id, cards=false, boardData={}){
+export function createTemplateOfBoardsHTML(title, id){
     return `
             <li class="flex-row-start" boardId="${id}">
                 <div class="title flex-row-start">
@@ -27,7 +27,7 @@ export function createTemplateOfBoardsHTML(title, id, cards=false, boardData={})
                     <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
                 </div>
             </li>
-            <div class="cards-container flex-row-start hide-details"} containerBoardId="${id}">${cards ? generateBoardDetails(id) : ""}</div>
+            <div class="cards-container flex-row-start hide-details"} containerBoardId="${id}">${generateBoardDetails(id)}</div>
         `
 }
 
