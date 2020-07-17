@@ -1,19 +1,14 @@
-import { dataHandler } from './data_handler.js';
 import { dom } from './dom.js';
 import {initColumns} from "./drag_and_drop_handler.js";
 
 const defaultColumns = {0: 'New', 1: 'In Progress', 2: 'Testing', 3:'Done'};
-const captureInnerTextContainer = 16;
 const taskContainer = 1;
 
 export function generateBoards(boards) {
     let boardList = '';
 
     for(let board of boards){
-
         boardList += createTemplateOfBoardsHTML(board.title, board.id, true, board);
-        const column = document.getElementsByClassName('tasks');
-        // initColumns(column);
         dom.loadCards(board.id);
     }
     return boardList;
@@ -34,7 +29,6 @@ export function createTemplateOfBoardsHTML(title, id, cards=false, boardData={})
             </li>
             <div class="cards-container flex-row-start hide-details"} containerBoardId="${id}">${cards ? generateBoardDetails(id) : ""}</div>
         `
-
 }
 
 export function generateBoardDetails(id) {
