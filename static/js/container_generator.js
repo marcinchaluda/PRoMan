@@ -88,7 +88,7 @@ export function createColumn (column, card) {
 }
 
 export function getLastButton() {
-    const buttons = [...document.querySelectorAll('.board-details > i')];
+    const buttons = document.querySelectorAll('.board-details > i');
     return buttons[buttons.length - 1];
 }
 

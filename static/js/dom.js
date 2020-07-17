@@ -34,7 +34,7 @@ export let dom = {
             </ul>
         `;
 
-        let boardsContainer = document.querySelector('#boards');
+        const boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
         handleDetailButton();
     },
