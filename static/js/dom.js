@@ -64,4 +64,8 @@ export let dom = {
         parent.appendChild(newTask);
     },
 
+    deleteBoard: function(boardElement){
+        boardElement.remove();
+    },
+
 };
