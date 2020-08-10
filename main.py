@@ -14,9 +14,9 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/boards", methods=['GET', 'POST'])
+@app.route("/boards/<int:board_id>", methods=['GET', 'POST', 'DELETE'])
 @json_response
-def boards():
+def boards(board_id):
     """
     All the boards
     """
@@ -25,10 +25,14 @@ def boards():
     if method == 'GET':
         return data_manager.get_boards_data()
 
-    board_title = request.json
-    new_id = data_manager.add_new_board(board_title)
-    return {'status': 200,
-            'board_id': new_id['id']}
+    if method == 'POST':
+        board_title = request.json
+        new_id = data_manager.add_new_board(board_title)
+        return {'status': 200,
+                'board_id': new_id['id']}
+
+    data_manager.delete_board_by_id(board_id)
+    return {'status': 200}
 
 
 @app.route("/get-cards/<int:board_id>")
