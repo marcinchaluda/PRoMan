@@ -162,7 +162,6 @@ footer {
     text-align: center;
 }
 
-
 .dragged-task {
     background-color: #D9AB91;
 }
@@ -177,4 +176,11 @@ footer {
 
 .over-column {
     background-color: #EFBFBF;
+}
+ /*Login and registration forms styles*/
+
+.wrapper {
+    margin: 20vh auto;
+    text-align: center;
+    height: 100vh;
 }

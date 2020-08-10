@@ -1,10 +1,11 @@
 from flask import Flask, render_template, url_for, request
 from util import json_response
-
+from forms import LoginForm
 import data_handler
 import data_manager
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '3cCF66xASeTv8feXuYZNtQ'
 
 
 @app.route("/")
@@ -32,6 +33,22 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
     return data_manager.get_cards_data(board_id)
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='Login', form=form)
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    return render_template('register.html')
+
+
+@app.route("/logout")
+def logout():
+    pass
 
 
 @app.route("/save-new-board", methods=['POST'])
