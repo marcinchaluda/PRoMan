@@ -60,7 +60,7 @@ function appendChildren(parent, listOfChildren) {
     }
 }
 
-function createElementWithClasses(typeOfElement, listOfClasses) {
+export function createElementWithClasses(typeOfElement, listOfClasses) {
     const element = document.createElement(typeOfElement);
     for (let classOnList of listOfClasses) {
         element.classList.add(classOnList);

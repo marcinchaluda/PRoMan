@@ -1,4 +1,5 @@
 import {dataHandler} from "./data_handler.js";
+import {createElementWithClasses} from "./modals.js";
 
 export function deleteButtonsInit() {
     const boardTitleBars = document.querySelectorAll('.board-container > .flex-row-start > .title');
@@ -14,8 +15,7 @@ export function createDeleteBoardButton(boardId, elementToDelete) {
     const deleteButton = document.createElement('a');
     deleteButton.type = 'button';
 
-    const icon = document.createElement('i');
-    icon.classList.add('fas', 'fa-trash-alt');
+    const icon = createElementWithClasses('i', ['fas', 'fa-trash-alt']);
     deleteButton.appendChild(icon);
 
     const buttonDescription = document.createElement('span');
