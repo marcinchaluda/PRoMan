@@ -1,4 +1,5 @@
 import {dataHandler} from "./data_handler.js";
+import {createDeleteBoardButton} from "./board_handler.js";
 import {
     generateBoards,
     handleDetailButton,
@@ -56,6 +57,11 @@ export let dom = {
 
         handleEvent(getLastButton());
         initNewColumnsWithDragAndDrop(board_id);
+
+        const boardButtons = document.querySelector(`li[boardid="${board_id}"] > .title`);
+        const boardTitleBar = document.querySelector(`li[boardid="${board_id}"]`);
+        const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
+        boardButtons.appendChild(deleteButton);
     },
 
     displayNewCard: function (parent, title, taskId, taskOrderNumber) {
@@ -63,9 +69,4 @@ export let dom = {
         initTask(newTask);
         parent.appendChild(newTask);
     },
-
-    deleteBoard: function(boardElement){
-        boardElement.remove();
-    },
-
 };
