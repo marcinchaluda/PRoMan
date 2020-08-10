@@ -123,10 +123,9 @@ function handleNewBoardEvants() {
     const inputValue = document.getElementById('board-title').value;
 
     dataHandler.createNewBoard(inputValue, function (response) {
-            dom.displayNewBoard(inputValue, response.board_id);
-            addFunctionToNewCardButtton(response.board_id);
-        }
-    );
+        dom.displayNewBoard(inputValue, response.board_id);
+        addFunctionToNewCardButtton(response.board_id);
+    });
 }
 
 function addFunctionToNewCardButtton(boardId) {
