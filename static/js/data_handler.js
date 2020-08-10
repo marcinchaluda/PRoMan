@@ -38,7 +38,7 @@ export let dataHandler = {
 
         // Here we use an arrow function to keep the value of 'this' on dataHandler.
         //    if we would use function(){...} here, the value of 'this' would change.
-        this._api_get('/get-boards', (response) => {
+        this._api_get('/boards', (response) => {
             this._data['boards'] = response;
             callback(response);
         });
@@ -64,7 +64,7 @@ export let dataHandler = {
     },
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
-        this._api_post('/save-new-board', boardTitle, (response) => {
+        this._api_post('/boards', boardTitle, (response) => {
             this._data['newBoard'] = response;
             callback(response);
         });

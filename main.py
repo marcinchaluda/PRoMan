@@ -14,13 +14,21 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/get-boards")
+@app.route("/boards", methods=['GET', 'POST'])
 @json_response
-def get_boards():
+def boards():
     """
     All the boards
     """
-    return data_manager.get_boards_data()
+    method = request.method
+
+    if method == 'GET':
+        return data_manager.get_boards_data()
+
+    board_title = request.json
+    new_id = data_manager.add_new_board(board_title)
+    return {'status': 200,
+            'board_id': new_id['id']}
 
 
 @app.route("/get-cards/<int:board_id>")
@@ -31,20 +39,6 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
     return data_manager.get_cards_data(board_id)
-
-
-@app.route("/save-new-board", methods=['POST'])
-@json_response
-def save_new_board():
-    """
-    Add new board to database
-    """
-    board_title = request.json
-
-    new_id = data_manager.add_new_board(board_title)
-
-    return {'status': 200,
-            'board_id': new_id['id']}
 
 
 @app.route("/save-new-card", methods=['POST'])
