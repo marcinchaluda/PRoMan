@@ -14,10 +14,9 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/boards", methods=['GET', 'POST'])
-@app.route("/boards/<int:board_id>", methods=['DELETE'])
+@app.route("/boards", methods=['GET', 'POST', 'DELETE'])
 @json_response
-def boards(board_id=0):
+def boards():
     """
     All the boards
     """
@@ -32,6 +31,7 @@ def boards(board_id=0):
         return {'status': 200,
                 'board_id': new_id['id']}
 
+    board_id = request.json
     data_manager.delete_record('boards', board_id)
     return {'status': 200}
 
