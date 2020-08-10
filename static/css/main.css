@@ -49,6 +49,10 @@
     border-radius: 10px;
 }
 
+.header a.btn-user {
+    margin: 0 1em 0 0;
+}
+
 .board-container li a {
     color: #73172F;
     border: 1px solid #73172F;
@@ -61,7 +65,8 @@
 }
 
 .login-details {
-    width: 16vw;
+    width: 25vw;
+    margin-right: 2em;
 }
 
 i {
@@ -179,8 +184,23 @@ footer {
 }
  /*Login and registration forms styles*/
 
-.wrapper {
-    margin: 20vh auto;
+/*.wrapper {*/
+/*    margin: 20vh auto;*/
+/*    text-align: center;*/
+/*    height: 100vh;*/
+/*}*/
+.logged {
     text-align: center;
-    height: 100vh;
+    line-height: 1.5em;
+    padding: 0.1em 2em 0 0;
+}
+
+.alert {
+    width: 100%;
+    font-size: 1.5em;
+    color: red;
+    background-color: yellow;
+    padding: 0.3em;
+    text-align: center;
+    margin-top: 1em;
 }

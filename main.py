@@ -1,14 +1,15 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, redirect, session, flash
 from util import json_response
-from forms import LoginForm
-import data_handler
+from forms import LoginForm, RegistrationForm
 import data_manager
+import registration
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '3cCF66xASeTv8feXuYZNtQ'
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
     """
     This is a one-pager which shows all the boards and cards
@@ -38,17 +39,37 @@ def get_cards_for_board(board_id: int):
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        user = data_manager.is_user_exist(form.username.data)
+        if user is not None and form.username.data == user['username'] and registration.\
+                verify_password(form.password.data, user['password']):
+            session['username'] = form.username.data
+            flash(f'{form.username.data} logged in')
+            return redirect(url_for('index'))
+        flash('Login Unsuccessful. Please check username and password')
     return render_template('login.html', title='Login', form=form)
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user_data = {
+            'username': form.username.data,
+            'email': form.email.data,
+            'password': registration.hash_password(form.password.data),
+        }
+        data_manager.add_new_user(user_data)
+        flash(f'Account for {form.username.data} created! You are now able to log in')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
 
 
 @app.route("/logout")
 def logout():
-    pass
+    session.pop('username', None)
+    flash('You are successfully log out')
+    return redirect(url_for('index'))
 
 
 @app.route("/save-new-board", methods=['POST'])
