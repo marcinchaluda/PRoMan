@@ -38,6 +38,7 @@
                     {% if messages %}
                         {% for category, message in  messages %}
                             <div class="alert">
+                                <a type="button" class="close">&times;</a>
                                 {{ message }}
                             </div>
                         {% endfor %}
