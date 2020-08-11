@@ -1,7 +1,7 @@
 import {dataHandler} from "./data_handler.js";
 import {createElementWithClasses} from "./modals.js";
 
-export function deleteButtonsInit() {
+export function deleteBoardButtonsInit() {
     const boardTitleBars = document.querySelectorAll('.board-container > .flex-row-start > .title');
     for (let boardTitleBar of boardTitleBars) {
         const parentLiElement = boardTitleBar.closest("li");
