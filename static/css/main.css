@@ -41,7 +41,7 @@
 }
 
 .header a,  li a {
-    margin: 0 1.5em;
+    margin: 0  0 0 1.5em;
     padding: 0.2em 1em;
     color: #BFBFBF;
     text-decoration: none;
@@ -58,6 +58,7 @@
     color: #73172F;
     border: 1px solid #73172F;
     background-color: whitesmoke;
+    cursor: pointer;
 }
 
 .board-container li a:hover {
@@ -119,7 +120,6 @@ footer {
 
 .board-details i:hover {
     cursor: pointer;
-    font-size: 1.7em;
     color: darkgoldenrod;
 
 }
