@@ -1,4 +1,5 @@
 from psycopg2.extras import RealDictCursor
+from psycopg2 import sql
 
 import database_common
 
@@ -81,3 +82,28 @@ def update_card_order_number(cursor: RealDictCursor, card_id: int, order_number:
                 SET order_number = %(order_number)s
                 WHERE id = %(id)s
                 """, {"order_number": order_number, "id": card_id})
+
+
+@database_common.connection_handler
+def is_user_exist(cursor: RealDictCursor, datum):
+    """Check if user exist in a database"""
+    base_query = sql.SQL('SELECT * FROM users ')
+    if '@' in datum:
+        where_clause = sql.SQL('WHERE email={email}').format(email=sql.Literal(datum))
+    else:
+        where_clause = sql.SQL('WHERE username={username}').format(username=sql.Literal(datum))
+
+    cursor.execute(base_query + where_clause)
+
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def add_new_user(cursor: RealDictCursor, user_data):
+    """Add new user to a database"""
+
+    query = sql.SQL('''INSERT INTO users (username, email, password) VALUES ( {username}, {email}, {password});''')\
+        .format(username=sql.Literal(user_data['username']),
+                email=sql.Literal(user_data['email']),
+                password=sql.Literal(user_data['password']))
+    cursor.execute(query)
