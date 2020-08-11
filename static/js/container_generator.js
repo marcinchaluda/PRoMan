@@ -54,6 +54,11 @@ export function handleDetailButton() {
     });
 }
 
+export function handleRefreshButton() {
+    const refreshButton = document.getElementById('refresh-button');
+    refreshButton.addEventListener('click', () => window.location.reload());
+}
+
 export function handleEvent (button) {
     button.addEventListener('click', function () {
         button.getAttribute('boardId');
