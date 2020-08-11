@@ -105,6 +105,7 @@ export function createNewTask(title, taskId, taskNumberOrder) {
     task.classList.add('task');
     task.setAttribute('task-id', taskId);
     task.setAttribute('order-number', taskNumberOrder);
+    task.appendChild(createDeleteCardButton(task, taskId));
 
     return task;
 }
