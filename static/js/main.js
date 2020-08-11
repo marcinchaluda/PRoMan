@@ -9,6 +9,7 @@ function init() {
             modalsInit();
             setTimeout(() => dragAndDropHandler.init(), 500);
         });
+    dom.handleFormButtons();
 }
 
 init();
