@@ -108,7 +108,7 @@ function columnDropHandler(event) {
         if (taskStatusIdBeforeDrag !== taskStatusIdAfterDrop) {
             newTasksData = newTasksData.concat(getNewTasksDataForColumn(destinationColumnBoardId, taskStatusIdAfterDrop))
         }
-        
+
         dataHandler.updateCardsPosition(newTasksData, response => {
             console.log(response.status)
         })

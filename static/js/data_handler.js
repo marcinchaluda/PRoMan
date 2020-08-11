@@ -79,18 +79,5 @@ export let dataHandler = {
     updateCardsPosition: function (cardsData, callback) {
         this._api_post('/update-cards-position', cardsData, callback);
     },
-    // updateCardPosition: function (cardPosition, callback) {
-    //     this._api_post('/update-card-position', cardPosition, (response) => {
-    //         this._data['cardPosition'] = response;
-    //         callback(response);
-    //     });
-    // },
-    //
-    // updateCardsOrderNumbers: function (cardsOrderNumbers, callback) {
-    //     this._api_post('/update-cards-order-numbers', cardsOrderNumbers, (response) => {
-    //         this._data['cardsOrderNumbers'] = response;
-    //         callback(response);
-    //     });
-    // }
     // here comes more features
 };
