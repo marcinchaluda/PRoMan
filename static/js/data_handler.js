@@ -60,7 +60,7 @@ export let dataHandler = {
     },
     getBoard: function (boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
-        this._api_get(`/get-cards/${boardId}`, (response) => {
+        this._api_get(`/cards?boardId=${boardId}`, (response) => {
             this._data['cards'] = response;
             callback(response);
         });
@@ -86,7 +86,7 @@ export let dataHandler = {
     },
     createNewCard: function (cardData, callback) {
         // creates new card, saves it and calls the callback function with its data
-        this._api_post('/save-new-card', cardData, (response) => {
+        this._api_post('/cards', cardData, (response) => {
             this._data['newCard'] = response;
             callback(response);
         });

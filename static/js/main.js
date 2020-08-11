@@ -11,7 +11,6 @@ function init() {
             deleteButtonsInit();
             setTimeout(() => dragAndDropHandler.init(), 500);
         });
-    dom.handleFormButtons();
 }
 
 init();
