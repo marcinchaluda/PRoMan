@@ -72,16 +72,7 @@ def update_card_position(cursor: RealDictCursor, card_position: dict):
                 UPDATE cards
                 SET status_id = %(status_id)s, order_number = %(order_number)s
                 WHERE id = %(id)s
-                """, {"status_id": card_position["statusId"], "order_number": card_position["orderNumber"], "id": card_position["id"]})
-
-
-@database_common.connection_handler
-def update_card_order_number(cursor: RealDictCursor, card_id: int, order_number: int):
-    cursor.execute("""
-                UPDATE cards
-                SET order_number = %(order_number)s
-                WHERE id = %(id)s
-                """, {"order_number": order_number, "id": card_id})
+                """, {"status_id": card_position["statusId"], "order_number": card_position["orderNumber"], "id": card_position["taskId"]})
 
 
 @database_common.connection_handler
