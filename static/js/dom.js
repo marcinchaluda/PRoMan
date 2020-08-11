@@ -11,7 +11,7 @@ import {
     initNewColumnsWithDragAndDrop
 } from './container_generator.js';
 
-import {dragAndDropHandler, initTask} from './drag_and_drop_handler.js';
+import {initTask} from './drag_and_drop_handler.js';
 
 
 export let dom = {
@@ -43,7 +43,6 @@ export let dom = {
     loadCards: function (boardId) {
         dataHandler.getBoard(boardId, function (response) {
             dom.showCards(response);
-            dragAndDropHandler.init();
         });
     },
 

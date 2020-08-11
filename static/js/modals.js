@@ -77,6 +77,10 @@ function injectDataToModalTemplate(modalId, inputId) {
 
     const boardTitleInput = createNewTextInput(inputId);
     modalBody.appendChild(boardTitleInput);
+    if (modalId === 'new-board-modal') {
+        const checkboxContainer = createCheckboxContainer();
+        modalBody.appendChild(checkboxContainer);
+    }
 
     const saveButton = createSaveButton();
     modalFooter.appendChild(saveButton);
@@ -93,6 +97,35 @@ function createNewTextInput(id) {
     newInput.setAttribute('placeholder', 'Insert name');
 
     return newInput;
+}
+
+function createCheckboxContainer() {
+    const container = document.createElement('div');
+    const boardPrivateCheckbox = createNewCheckbox();
+    const checkboxLabel = createLabelForCheckbox();
+    container.classList.add('checkbox-container');
+    container.appendChild(boardPrivateCheckbox);
+    container.appendChild(checkboxLabel);
+
+    return container;
+}
+
+function createNewCheckbox() {
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('id', 'board-private');
+    checkbox.setAttribute('name', 'board-private');
+    checkbox.setAttribute('value', 'private');
+
+    return checkbox;
+}
+
+function createLabelForCheckbox() {
+    const label = document.createElement('label');
+    label.setAttribute('for', 'board-private');
+    label.innerText = 'Create private board';
+
+    return label;
 }
 
 function createSaveButton() {
