@@ -89,7 +89,6 @@ function columnLeaveHandler(event) {
 }
 
 function columnDropHandler(event) {
-    // TODO do refactor man!
     event.preventDefault();
     const destinationColumnBoardId = this.getAttribute("cardid");
     if (event.dataTransfer.getData("boardId") === destinationColumnBoardId) {
@@ -110,7 +109,7 @@ function columnDropHandler(event) {
         }
 
         dataHandler.updateCardsPosition(newTasksData, response => {
-            console.log(response.status)
+            // console.log(response.status)
         })
     }
 }
