@@ -17,13 +17,26 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/get-boards")
+@app.route("/boards", methods=['GET', 'POST', 'DELETE'])
 @json_response
-def get_boards():
+def boards():
     """
     All the boards
     """
-    return data_manager.get_boards_data()
+    method = request.method
+
+    if method == 'GET':
+        return data_manager.get_boards_data()
+
+    if method == 'POST':
+        board_title = request.json
+        new_id = data_manager.add_new_board(board_title)
+        return {'status': 200,
+                'board_id': new_id['id']}
+
+    board_id = request.json
+    data_manager.delete_record('boards', board_id)
+    return {'status': 200}
 
 
 @app.route("/get-cards/<int:board_id>")
@@ -70,20 +83,6 @@ def logout():
     session.pop('username', None)
     flash('You are successfully log out')
     return redirect(url_for('index'))
-
-
-@app.route("/save-new-board", methods=['POST'])
-@json_response
-def save_new_board():
-    """
-    Add new board to database
-    """
-    board_title = request.json
-
-    new_id = data_manager.add_new_board(board_title)
-
-    return {'status': 200,
-            'board_id': new_id['id']}
 
 
 @app.route("/save-new-card", methods=['POST'])

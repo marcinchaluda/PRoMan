@@ -31,6 +31,21 @@ export let dataHandler = {
             .then(response => response.json())  // parse the response as JSON
             .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
+    _api_delete: function (url, data, callback) {
+        // it is not called from outside
+        // sends the data to the API, and calls callback function
+        fetch(url, {
+            method: 'DELETE',
+            credentials: 'same-origin',
+            body: JSON.stringify(data),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+            .then(response => response.json())  // parse the response as JSON
+            .then(json_response => callback(json_response));  // Call the `callback` with the returned object
+    },
     init: function () {
     },
     getBoards: function (callback) {
@@ -38,7 +53,7 @@ export let dataHandler = {
 
         // Here we use an arrow function to keep the value of 'this' on dataHandler.
         //    if we would use function(){...} here, the value of 'this' would change.
-        this._api_get('/get-boards', (response) => {
+        this._api_get('/boards', (response) => {
             this._data['boards'] = response;
             callback(response);
         });
@@ -64,7 +79,7 @@ export let dataHandler = {
     },
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
-        this._api_post('/save-new-board', boardTitle, (response) => {
+        this._api_post('/boards', boardTitle, (response) => {
             this._data['newBoard'] = response;
             callback(response);
         });
@@ -78,6 +93,21 @@ export let dataHandler = {
     },
     updateCardsPosition: function (cardsData, callback) {
         this._api_post('/update-cards-position', cardsData, callback);
+    },
+
+    updateCardsOrderNumbers: function (cardsOrderNumbers, callback) {
+        this._api_post('/update-cards-order-numbers', cardsOrderNumbers, (response) => {
+            this._data['cardsOrderNumbers'] = response;
+            callback(response);
+        });
+    },
+
+    deleteBoard: function (boardId, callback) {
+        // delete board with provided id
+        this._api_delete('/boards', boardId, (response) => {
+            this._data['boardId'] = response;
+            callback(response);
+        });
     },
     // here comes more features
 };
