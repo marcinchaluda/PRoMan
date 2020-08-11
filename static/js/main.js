@@ -7,9 +7,8 @@ function init() {
     dom.loadBoards()
         .then(() => {
             modalsInit();
-            deleteButtonsInit();
+            deleteBoardButtonsInit();
         });
-    // dom.handleFormButtons();
 }
 
 init();
