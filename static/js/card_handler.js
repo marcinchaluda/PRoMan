@@ -3,7 +3,6 @@ import {createElementWithClasses} from "./modals.js";
 
 export function deleteCardButtonsInit() {
     const tasks = document.querySelectorAll('.task');
-    console.log(tasks);
     for (let task of tasks) {
         const cardId = task.getAttribute('task-id');
         task.appendChild(createDeleteCardButton(task, cardId));
