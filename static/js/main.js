@@ -9,7 +9,6 @@ function init() {
         .then(() => {
             modalsInit();
             deleteButtonsInit();
-            setTimeout(() => dragAndDropHandler.init(), 500);
         });
 }
 
