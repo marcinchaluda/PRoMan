@@ -1,5 +1,6 @@
 import { dom } from './dom.js';
 import {initColumns} from "./drag_and_drop_handler.js";
+import { createDeleteCardButton } from "./card_handler.js";
 
 const defaultColumns = {0: 'New', 1: 'In Progress', 2: 'Testing', 3:'Done'};
 const taskContainer = 1;
@@ -83,6 +84,8 @@ export function createColumn (column, card) {
         task.setAttribute('task-id', card.id);
         task.setAttribute('order-number', card.order_number);
         task.textContent = card.title;
+        task.appendChild(createDeleteCardButton(task, card.id));
+
         column.children[taskContainer].appendChild(task);
     }
 }

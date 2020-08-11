@@ -109,5 +109,13 @@ export let dataHandler = {
             callback(response);
         });
     },
+
+    deleteCard: function (cardId, callback) {
+        // delete board with provided id
+        this._api_delete('/cards', cardId, (response) => {
+            this._data['cardId'] = response;
+            callback(response);
+        });
+    },
     // here comes more features
 };
