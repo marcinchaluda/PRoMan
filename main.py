@@ -17,13 +17,26 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/get-boards")
+@app.route("/boards", methods=['GET', 'POST', 'DELETE'])
 @json_response
-def get_boards():
+def boards():
     """
     All the boards
     """
-    return data_manager.get_boards_data()
+    method = request.method
+
+    if method == 'GET':
+        return data_manager.get_boards_data()
+
+    if method == 'POST':
+        board_title = request.json
+        new_id = data_manager.add_new_board(board_title)
+        return {'status': 200,
+                'board_id': new_id['id']}
+
+    board_id = request.json
+    data_manager.delete_record('boards', board_id)
+    return {'status': 200}
 
 
 @app.route("/get-cards/<int:board_id>")
@@ -72,20 +85,6 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route("/save-new-board", methods=['POST'])
-@json_response
-def save_new_board():
-    """
-    Add new board to database
-    """
-    board_title = request.json
-
-    new_id = data_manager.add_new_board(board_title)
-
-    return {'status': 200,
-            'board_id': new_id['id']}
-
-
 @app.route("/save-new-card", methods=['POST'])
 @json_response
 def save_new_card():
@@ -100,26 +99,15 @@ def save_new_card():
             'card': attributes}
 
 
-@app.route("/update-card-position", methods=['POST'])
+@app.route("/update-cards-position", methods=['POST'])
 @json_response
-def update_card_position():
+def update_cards_position():
     """
     Update card order_number and/or status_id
     """
-    card_position = request.json
-    data_manager.update_card_position(card_position)
-    return {'status': 200}
-
-
-@app.route("/update-cards-order-numbers", methods=['POST'])
-@json_response
-def update_cards_order_numbers():
-    """
-    Update cards order_numbers
-    """
-    order_numbers = request.json
-    for key, order_number in order_numbers.items():
-        data_manager.update_card_order_number(int(key), int(order_number))
+    cards_position = request.json
+    for card_position in cards_position:
+        data_manager.update_card_position(card_position)
     return {'status': 200}
 
 

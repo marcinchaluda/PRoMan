@@ -27,7 +27,7 @@ export function createTemplateOfBoardsHTML(title, id){
                     <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
                 </div>
             </li>
-            <div class="cards-container flex-row-start hide-details"} containerBoardId="${id}">${generateBoardDetails(id)}</div>
+            <div class="cards-container flex-row-start hide-details" containerBoardId="${id}">${generateBoardDetails(id)}</div>
         `;
 }
 

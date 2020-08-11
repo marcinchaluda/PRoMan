@@ -60,7 +60,7 @@ function appendChildren(parent, listOfChildren) {
     }
 }
 
-function createElementWithClasses(typeOfElement, listOfClasses) {
+export function createElementWithClasses(typeOfElement, listOfClasses) {
     const element = document.createElement(typeOfElement);
     for (let classOnList of listOfClasses) {
         element.classList.add(classOnList);
@@ -123,10 +123,9 @@ function handleNewBoardEvants() {
     const inputValue = document.getElementById('board-title').value;
 
     dataHandler.createNewBoard(inputValue, function (response) {
-            dom.displayNewBoard(inputValue, response.board_id);
-            addFunctionToNewCardButtton(response.board_id);
-        }
-    );
+        dom.displayNewBoard(inputValue, response.board_id);
+        addFunctionToNewCardButtton(response.board_id);
+    });
 }
 
 function addFunctionToNewCardButtton(boardId) {
