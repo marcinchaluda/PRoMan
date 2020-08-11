@@ -84,7 +84,12 @@ export function createColumn (column, card) {
         task.setAttribute('task-id', card.id);
         task.setAttribute('order-number', card.order_number);
         task.textContent = card.title;
-        task.appendChild(createDeleteCardButton(task, card.id));
+
+        // #TODO extract to new function
+        const buttonPanel = document.createElement('div');
+        buttonPanel.classList.add('button-panel');
+        buttonPanel.appendChild(createDeleteCardButton(task, card.id));
+        task.appendChild(buttonPanel);
 
         column.children[taskContainer].appendChild(task);
     }
@@ -105,7 +110,12 @@ export function createNewTask(title, taskId, taskNumberOrder) {
     task.classList.add('task');
     task.setAttribute('task-id', taskId);
     task.setAttribute('order-number', taskNumberOrder);
-    task.appendChild(createDeleteCardButton(task, taskId));
+
+    // #TODO extract to new function
+    const buttonPanel = document.createElement('div');
+    buttonPanel.classList.add('button-panel');
+    buttonPanel.appendChild(createDeleteCardButton(task, taskId));
+    task.appendChild(buttonPanel);
 
     return task;
 }

@@ -10,7 +10,7 @@ export function deleteCardButtonsInit() {
 }
 
 export function createDeleteCardButton(task, cardId) {
-    const deleteButton = document.createElement('a');
+    const deleteButton = createElementWithClasses('a', ['card-trash']);
     deleteButton.type = 'button';
 
     const icon = createElementWithClasses('i', ['fas', 'fa-trash-alt']);
