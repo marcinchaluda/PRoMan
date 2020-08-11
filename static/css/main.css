@@ -41,7 +41,7 @@
 }
 
 .header a,  li a {
-    margin: 0 1.5em;
+    margin: 0  0 0 1.5em;
     padding: 0.2em 1em;
     color: #BFBFBF;
     text-decoration: none;
@@ -51,12 +51,14 @@
 
 .header a.btn-user {
     margin: 0 1em 0 0;
+    min-width: 80px;
 }
 
 .board-container li a {
     color: #73172F;
     border: 1px solid #73172F;
     background-color: whitesmoke;
+    cursor: pointer;
 }
 
 .board-container li a:hover {
@@ -118,7 +120,6 @@ footer {
 
 .board-details i:hover {
     cursor: pointer;
-    font-size: 1.7em;
     color: darkgoldenrod;
 
 }
@@ -218,7 +219,7 @@ footer {
 .content-section {
     border: 2px solid #73172F;
     max-width: 25vw;
-    min-width: 20vw;
+    min-width: 420px;
 }
 
 legend {
@@ -260,7 +261,7 @@ legend {
     text-align: center;
 }
 
-.submit-btn, .register-btn {
+.submit-btn, .register-btn, .go-back-btn {
     background-color: #73172F;
     color: #BFBFBF;
     padding: 0.5em 2.5em;
@@ -268,8 +269,10 @@ legend {
     border-radius: 10px;
     cursor: pointer;
 }
-
-.submit-btn:hover, .register-btn:hover {
+.go-back-btn {
+    text-decoration: none;
+}
+.submit-btn:hover, .register-btn:hover, .go-back-btn:hover {
     background-color: #BFBFBF;
     color: #73172F;
 }
