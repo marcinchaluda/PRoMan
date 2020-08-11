@@ -1,4 +1,3 @@
-
 import { dom } from './dom.js';
 import {initColumns} from "./drag_and_drop_handler.js";
 
@@ -9,14 +8,13 @@ export function generateBoards(boards) {
     let boardList = '';
 
     for(let board of boards){
-
-        boardList += createTemplateOfBoardsHTML(board.title, board.id, true, board);
+        boardList += createTemplateOfBoardsHTML(board.title, board.id);
         dom.loadCards(board.id);
     }
     return boardList;
 }
 
-export function createTemplateOfBoardsHTML(title, id, cards=false, boardData={}){
+export function createTemplateOfBoardsHTML(title, id){
     return `
             <li class="flex-row-start" boardId="${id}">
                 <div class="title flex-row-start">
@@ -29,9 +27,8 @@ export function createTemplateOfBoardsHTML(title, id, cards=false, boardData={})
                     <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
                 </div>
             </li>
-            <div class="cards-container flex-row-start hide-details"} containerBoardId="${id}">${cards ? generateBoardDetails(id) : ""}</div>
-        `
-
+            <div class="cards-container flex-row-start hide-details"} containerBoardId="${id}">${generateBoardDetails(id)}</div>
+        `;
 }
 
 export function generateBoardDetails(id) {
@@ -82,13 +79,12 @@ export function createColumn (column, card) {
 
     if (column.getAttribute('id') === columnName) {
         const task = document.createElement('div');
-        task.classList.add('task')
-        task.setAttribute('task-id', card.id)
-        task.setAttribute('order-number', card.order_number)
+        task.classList.add('task');
+        task.setAttribute('task-id', card.id);
+        task.setAttribute('order-number', card.order_number);
         task.textContent = card.title;
         column.children[taskContainer].appendChild(task);
-
-    };
+    }
 }
 
 export function getLastButton() {
@@ -97,8 +93,7 @@ export function getLastButton() {
 }
 
 export function initNewColumnsWithDragAndDrop(board_id) {
-    const tasks = document.querySelectorAll(`div[containerBoardId="${board_id}"] .tasks`);
-    initColumns(tasks);
+    initColumns(document.querySelectorAll(`div[containerBoardId="${board_id}"] .tasks`));
 }
 
 export function createNewTask(title, taskId, taskNumberOrder) {

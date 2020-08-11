@@ -49,6 +49,7 @@ def add_new_board(cursor: RealDictCursor, board_title: str) -> dict:
 def add_new_card(cursor: RealDictCursor, card_data: dict) -> dict:
     """Add new card to database"""
 
+    # TODO Refactor code, extract inner queries to functions
     cursor.execute("""
     INSERT INTO cards (title, board_id, status_id, order_number) 
     VALUES (%(c_title)s, %(c_board_id)s, %(c_status)s, 
