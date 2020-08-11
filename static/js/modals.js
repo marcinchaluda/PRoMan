@@ -269,6 +269,11 @@ if (document.title === 'ProMan') {
     body.appendChild(editCardModal);
     injectDataToModalTemplate('edit-card-modal', 'edited-card-title');
 
+// Add new basic modal to page for new column creation and fill with content
+const newColumnModal = createModal('new-column-modal', 'Create new column');
+body.appendChild(newColumnModal);
+injectDataToModalTemplate('new-column-modal', 'column-title');
+
 // Call modal on click New Board button
     const newBoardButton = document.getElementById('new-board-button');
     newBoardButton.onclick = function () {
