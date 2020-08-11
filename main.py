@@ -39,22 +39,28 @@ def boards():
     return {'status': 200}
 
 
-@app.route("/cards", methods=['GET', 'POST'])
+@app.route("/cards", methods=['GET', 'POST', 'DELETE'])
 @json_response
 def cards():
     """
     All cards that belongs to a board
     param board_id: id of the parent board
     """
+    method = request.method
 
-    if request.method == 'GET':
+    if method == 'GET':
         board_id = request.args.get('boardId')
         return data_manager.get_cards_data(board_id)
 
-    new_card_data = request.json
-    attributes = data_manager.add_new_card(new_card_data)
-    return {'status': 200,
-            'card': attributes}
+    if method == 'POST':
+        new_card_data = request.json
+        attributes = data_manager.add_new_card(new_card_data)
+        return {'status': 200,
+                'card': attributes}
+
+    card_id = request.json
+    data_manager.delete_record('cards', card_id)
+    return {'status': 200}
 
 
 @app.route("/login", methods=['GET', 'POST'])
