@@ -9,7 +9,7 @@ function init() {
         .then(() => {
             modalsInit();
             deleteBoardButtonsInit();
-            setTimeout(() => dragAndDropHandler.init(), 500);
+            setTimeout(() => dragAndDropHandler.init(), 1000);
         });
 }
 
