@@ -10,6 +10,7 @@ function init() {
             modalsInit();
             deleteButtonsInit();
         });
+    dom.handleFormButtons();
 }
 
 init();
