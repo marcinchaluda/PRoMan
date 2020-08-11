@@ -9,7 +9,7 @@ function init() {
             modalsInit();
             deleteButtonsInit();
         });
-    dom.handleFormButtons();
+    // dom.handleFormButtons();
 }
 
 init();

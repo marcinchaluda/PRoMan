@@ -173,6 +173,11 @@ const newCardModal = createModal('new-card-modal', 'Create new task');
 body.appendChild(newCardModal);
 injectDataToModalTemplate('new-card-modal', 'card-title');
 
+// Add new basic modal to page for new column creation and fill with content
+const newColumnModal = createModal('new-column-modal', 'Create new column');
+body.appendChild(newColumnModal);
+injectDataToModalTemplate('new-column-modal', 'column-title');
+
 // Call modal on click New Board button
 const newBoardButton = document.getElementById('new-board-button');
 newBoardButton.onclick = function () {
