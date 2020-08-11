@@ -249,8 +249,8 @@ legend {
 .invalid-feedback {
     text-align: center;
     padding: 0.5em 0.3em;
-    background-color: lightgreen;
-    color: black;
+    background-color: yellow;
+    color: red;
     flex-grow: 1;
     margin: 0.5em 0 0 1em;
 }
