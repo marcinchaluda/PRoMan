@@ -1,5 +1,6 @@
 import {dataHandler} from "./data_handler.js";
 import {dom} from "./dom.js";
+import {util} from "./util.js";
 
 export function modalsInit() {
     const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
@@ -16,11 +17,11 @@ export function modalsInit() {
 // Function create basic template for modal
 function createModal(id, headerText) {
     //TODO Try to put variables in for loop or to file
-    const modal = createElementWithClasses('div', ['modal']);
-    const modalContent = createElementWithClasses('div', ['modal-content']);
-    const modalHeader = createElementWithClasses('div', ['modal-header']);
-    const modalBody = createElementWithClasses('div', ['modal-body']);
-    const modalFooter = createElementWithClasses('div', ['modal-footer']);
+    const modal = util.createElementWithClasses('div', ['modal']);
+    const modalContent = util.createElementWithClasses('div', ['modal-content']);
+    const modalHeader = util.createElementWithClasses('div', ['modal-header']);
+    const modalBody = util.createElementWithClasses('div', ['modal-body']);
+    const modalFooter = util.createElementWithClasses('div', ['modal-footer']);
 
     const closeXButton = createCloseXButton(modal);
     const headerDescription = createHeader(headerText);
@@ -35,7 +36,7 @@ function createModal(id, headerText) {
 }
 
 function createHeader(headerText) {
-    const header = createElementWithClasses('h2', ['modal-h2']);
+    const header = util.createElementWithClasses('h2', ['modal-h2']);
     const textToAdd = document.createTextNode(headerText);
     header.appendChild(textToAdd);
 
@@ -43,7 +44,7 @@ function createHeader(headerText) {
 }
 
 function createCloseXButton(modal) {
-    const closeXButton = createElementWithClasses('span', ['close']);
+    const closeXButton = util.createElementWithClasses('span', ['close']);
     const textXButton = document.createTextNode('x');
     closeXButton.appendChild(textXButton);
 
@@ -58,15 +59,6 @@ function appendChildren(parent, listOfChildren) {
     for (const child of listOfChildren) {
         parent.appendChild(child);
     }
-}
-
-export function createElementWithClasses(typeOfElement, listOfClasses) {
-    const element = document.createElement(typeOfElement);
-    for (let classOnList of listOfClasses) {
-        element.classList.add(classOnList);
-    }
-
-    return element;
 }
 
 // Inject data to basic modal
@@ -96,7 +88,7 @@ function createNewTextInput(id) {
 }
 
 function createSaveButton() {
-    const newButton = createElementWithClasses('button', []);
+    const newButton = util.createElementWithClasses('button', []);
     newButton.setAttribute('type', 'submit');
 
     const textSaveButton = document.createTextNode('Save');
