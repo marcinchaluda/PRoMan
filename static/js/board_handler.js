@@ -13,15 +13,7 @@ export function boardButtonsInit() {
 }
 
 export function createDeleteBoardButton(boardId, elementToDelete) {
-    const deleteButton = document.createElement('a');
-    deleteButton.type = 'button';
-
-    const icon = createElementWithClasses('i', ['fas', 'fa-trash-alt']);
-    deleteButton.appendChild(icon);
-
-    const buttonDescription = document.createElement('span');
-    buttonDescription.innerText = 'Delete';
-    deleteButton.appendChild(buttonDescription);
+    const deleteButton = addButton(['fas', 'fa-trash-alt'],'Delete');
 
     deleteButton.onclick = function () {
         dataHandler.deleteBoard(boardId, function () {
@@ -34,15 +26,7 @@ export function createDeleteBoardButton(boardId, elementToDelete) {
 }
 
 export function createEditBoardButton(boardId) {
-    const editButton = document.createElement('a');
-    editButton.type = 'button';
-
-    const icon = createElementWithClasses('i', ['fas', 'fa-edit']);
-    editButton.appendChild(icon);
-
-    const buttonDescription = document.createElement('span');
-    buttonDescription.innerText = 'Edit';
-    editButton.appendChild(buttonDescription);
+    const editButton = addButton(['fas', 'fa-edit'],'Edit');
 
     editButton.onclick = function () {
         const editBoardModal = document.querySelector('#edit-board-modal')
@@ -50,4 +34,27 @@ export function createEditBoardButton(boardId) {
         localStorage.setItem('activeBoard', boardId);
     }
     return editButton;
+}
+
+function addButton(classes, descriptionText) {
+    const button = addButtonElement();
+    const icon = createElementWithClasses('i', classes);
+    button.appendChild(icon);
+    button.appendChild(addDescription(descriptionText));
+
+    return button;
+}
+
+function addButtonElement() {
+    const button = document.createElement('a');
+    button.type = 'button';
+
+    return button;
+}
+
+function addDescription(text) {
+    const buttonDescription = document.createElement('span');
+    buttonDescription.innerText = text;
+
+    return buttonDescription;
 }
