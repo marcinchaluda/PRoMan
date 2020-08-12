@@ -35,7 +35,8 @@ def boards():
                 'board_id': new_id['id']}
 
     if method == 'PUT':
-        print(request.json)
+        board_data = request.json
+        data_manager.update_title('boards', board_data['boardId'], board_data['title'])
         return {'status': 200}
 
     board_id = request.json

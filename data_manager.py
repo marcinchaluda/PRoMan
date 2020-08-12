@@ -109,3 +109,16 @@ def delete_record(cursor: RealDictCursor, table_name: str, record_id: int):
     """).format(table_title=sql.Identifier(table_name), r_id=sql.Literal(record_id))
 
     cursor.execute(query)
+
+
+@database_common.connection_handler
+def update_title(cursor: RealDictCursor, table_name: str, record_id: int, title: str):
+    query = sql.SQL("""
+        UPDATE {table_title}
+        SET title = {title}
+        WHERE id = {r_id}
+    """).format(table_title=sql.Identifier(table_name),
+                r_id=sql.Literal(record_id),
+                title=sql.Literal(title))
+
+    cursor.execute(query)
