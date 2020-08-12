@@ -111,7 +111,6 @@ export function createNewTask(title, taskId, taskNumberOrder) {
 export function markPrivateBoard(board_details, board_id) {
     if (board_details.board_private == true) {
        const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] div.title`);
-       console.log(boardTitleContainer)
        const lockIcon = '<i class="fas fa-user-lock"></i>';
        const icons = document.getElementsByClassName('div.title fas fa-user-lock');
        if (icons.length == 0) {
@@ -122,7 +121,6 @@ export function markPrivateBoard(board_details, board_id) {
 }
 
 function stylePrivateBoard(board_details, board_id) {
-    console.log(board_details.board_private, board_id)
     if (board_details.board_private == true){
         const li = document.querySelector(`li[boardId="${board_id}"]`);
         const cards = document.querySelectorAll(`div[containerBoardId="${board_id}"] .cell h3`);

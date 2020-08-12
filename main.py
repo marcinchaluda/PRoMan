@@ -26,7 +26,10 @@ def boards():
     method = request.method
 
     if method == 'GET':
-        return data_manager.get_boards_data()
+        user_id = session.get('user_id')
+        if user_id:
+            return data_manager.get_boards_data(user_id)
+        return data_manager.get_boards_data(user_id)
 
     if method == 'POST':
         board_details = request.json
@@ -85,6 +88,7 @@ def register():
 @app.route("/logout")
 def logout():
     session.pop('username', None)
+    session.clear()
     flash('You are successfully log out')
     return redirect(url_for('index'))
 

@@ -5,13 +5,12 @@ import database_common
 
 
 @database_common.connection_handler
-def get_boards_data(cursor: RealDictCursor) -> list:
+def get_boards_data(cursor: RealDictCursor, user_id: int) -> list:
     """Get id of last added record"""
 
-    query = """
-                SELECT *  
-                FROM boards
-            """
+    query = sql.SQL('SELECT * FROM boards WHERE board_private = false ')
+    if user_id:
+        query += sql.SQL('OR user_id = {id}').format(id=sql.Literal(user_id))
 
     cursor.execute(query)
 

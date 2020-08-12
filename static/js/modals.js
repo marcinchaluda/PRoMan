@@ -204,20 +204,22 @@ function hideModal(modalId) {
 
 // -------------------------------------------------------------------------------------
 
-const body = document.querySelector('body');
+if (document.title === 'ProMan') {
+    const body = document.querySelector('body');
 
 // Add new basic modal to page for new board creation and fill with content
-const newBoardModal = createModal('new-board-modal', 'Create new board');
-body.appendChild(newBoardModal);
-injectDataToModalTemplate('new-board-modal', 'board-title');
+    const newBoardModal = createModal('new-board-modal', 'Create new board');
+    body.appendChild(newBoardModal);
+    injectDataToModalTemplate('new-board-modal', 'board-title');
 
 // Add new basic modal to page for new card creation and fill with content
-const newCardModal = createModal('new-card-modal', 'Create new task');
-body.appendChild(newCardModal);
-injectDataToModalTemplate('new-card-modal', 'card-title');
+    const newCardModal = createModal('new-card-modal', 'Create new task');
+    body.appendChild(newCardModal);
+    injectDataToModalTemplate('new-card-modal', 'card-title');
 
 // Call modal on click New Board button
-const newBoardButton = document.getElementById('new-board-button');
-newBoardButton.onclick = function () {
-    newBoardModal.style.display = "block";
+    const newBoardButton = document.getElementById('new-board-button');
+    newBoardButton.onclick = function () {
+        newBoardModal.style.display = "block";
+    }
 }
