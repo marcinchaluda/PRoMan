@@ -69,7 +69,7 @@ export function createElementWithClasses(typeOfElement, listOfClasses) {
     return element;
 }
 
-// Inject data to basic modal to create modal for adding new boards
+// Inject data to basic modal
 function injectDataToModalTemplate(modalId, inputId) {
     const modalContent = document.querySelector(`#${modalId} > .modal-content`);
     const modalBody = document.querySelector(`#${modalId} > .modal-content > .modal-body`);
@@ -160,7 +160,7 @@ function hideModal(modalId) {
 }
 
 // -------------------------------------------------------------------------------------
-
+//TODO it is not DRY, do something
 const body = document.querySelector('body');
 
 // Add new basic modal to page for new board creation and fill with content
@@ -172,6 +172,11 @@ injectDataToModalTemplate('new-board-modal', 'board-title');
 const newCardModal = createModal('new-card-modal', 'Create new task');
 body.appendChild(newCardModal);
 injectDataToModalTemplate('new-card-modal', 'card-title');
+
+// Add new basic modal to page for card's edition and fill with content
+const editBoardModal = createModal('edit-board-modal', 'Edit board title');
+body.appendChild(editBoardModal);
+injectDataToModalTemplate('edit-board-modal', 'board-title');
 
 // Call modal on click New Board button
 const newBoardButton = document.getElementById('new-board-button');

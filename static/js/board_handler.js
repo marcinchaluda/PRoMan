@@ -8,6 +8,7 @@ export function boardButtonsInit() {
         const boardId = parentLiElement.getAttribute('boardid');
 
         boardTitleBar.appendChild(createDeleteBoardButton(boardId, parentLiElement));
+        boardTitleBar.appendChild(createEditBoardButton(boardId));
     }
 }
 
@@ -30,4 +31,23 @@ export function createDeleteBoardButton(boardId, elementToDelete) {
         });
     }
     return deleteButton;
+}
+
+function createEditBoardButton(boardId) {
+    const editButton = document.createElement('a');
+    editButton.type = 'button';
+
+    const icon = createElementWithClasses('i', ['fas', 'fa-edit']);
+    editButton.appendChild(icon);
+
+    const buttonDescription = document.createElement('span');
+    buttonDescription.innerText = 'Edit';
+    editButton.appendChild(buttonDescription);
+
+    editButton.onclick = function () {
+        const editBoardModal = document.querySelector('#edit-board-modal')
+        editBoardModal.style.display = "block";
+        localStorage.setItem('activeBoard', boardId);
+    }
+    return editButton;
 }
