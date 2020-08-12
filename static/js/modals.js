@@ -174,7 +174,7 @@ function handleNewBoardEvents() {
     }
     dataHandler.createNewBoard(boardDetails, function (response) {
         dom.displayNewBoard(boardDetails, response.board_id);
-        addFunctionToNewCardButton(response.board_id);
+        //addFunctionToNewCardButton(response.board_id);
     });
 }
 

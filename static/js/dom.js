@@ -33,23 +33,25 @@ export let dom = {
     },
 
     showBoards: function (boards) {
-        const boardList = generateBoards(boards);
-        const outerHtml = `
-            <ul class="board-container flex-column">
-                ${boardList}
-            </ul>
-        `;
+        const boardListPromise = generateBoards(boards)
+            .then(boardList => {
+                const outerHtml = `
+                    <ul class="board-container flex-column">
+                        ${boardList}
+                    </ul>
+                `;
 
-        let boardsContainer = document.querySelector('#boards');
-        boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+                let boardsContainer = document.querySelector('#boards');
+                boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
 
-        boards.forEach(board => {
-           if (board.board_private) {
-               markPrivateBoard(board, board['id']);
-           }
-        });
-        handleDetailButton();
-        handleRefreshButton();
+                boards.forEach(board => {
+                    if (board.board_private) {
+                        markPrivateBoard(board, board['id']);
+                    }
+                });
+                handleDetailButton();
+                handleRefreshButton();
+            });
     },
 
     loadCards: function (boardId) {

@@ -10,58 +10,91 @@ const defaultColumns = ['New', 'In Progress', 'Testing', 'Done'];
 const taskContainer = 1;
 
 export function generateBoards(boards) {
-    let boardList = '';
+    return new Promise(resolve => {
+        let boardList = '';
+        let boardIndex = 0;
+        for(let board of boards){
+            const templateOfBoardsPromise = createTemplateOfBoardsHTML(board.title, board.board_private, board.id);
+            templateOfBoardsPromise.then(result => {
+                boardList += result;
+                console.log(boardList)
+                if (boardIndex === Object.keys(boards).length - 1) {
+                    console.log(boardList)
+                    resolve(boardList);
+                }
+                boardIndex ++;
+            })
+            // boardList += createTemplateOfBoardsHTML(board.title, board.id);
+            // dom.loadCards(board.id);
+        }
+    })
 
-    for(let board of boards){
-        boardList += createTemplateOfBoardsHTML(board.title, board.board_private, board.id);
-        dom.loadCards(board.id);
-    }
-    return boardList;
 }
 
 export function createTemplateOfBoardsHTML(title, board_private, id){
-    board_private = board_private ? 'true' : 'false';
-    return `
-            <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
-                <div class="title flex-row-start">
-                    <div class="col-title"><h3>${title}</h3></div>
-                    <a href="#" type="button">
-                        <i class="fas fa-plus-circle"></i>New card
-                    </a>
-                </div>
-                <div class="board-details flex-row-end">
-                    <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
-                </div>
-            </li>
-            <div class="cards-container flex-row-start hide-details" containerBoardId="${id}">${generateBoardDetails(id)}</div>
-        `;
+        return new Promise(resolve => {
+        board_private = board_private ? 'true' : 'false';
+        const boardDetailsPromise = generateBoardDetails(id);
+        boardDetailsPromise.then(boardDetails => {
+                // console.log(boardDetails)
+                const boardsTemplate = `
+                    <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
+                        <div class="title flex-row-start">
+                            <h3>${title}</h3>
+                            <a href="#" type="button">
+                                <i class="fas fa-plus-circle"></i>New card
+                            </a>
+                        </div>
+                        <div class="board-details flex-row-end">
+                            <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
+                        </div>
+                    </li>
+                    <div class="cards-container flex-row-start hide-details" containerBoardId="${id}">${boardDetails}</div>
+                `;
+                // console.log(boardsTemplate)
+                resolve(boardsTemplate);
+            })
+    })
+
+
 }
 
 export function generateBoardDetails(id) {
-    let cardList = '';
-
-    for (let index in defaultColumns) {
-        console.log(index)
-        const columnData = {
-            title: defaultColumns[index],
-            board_id: id,
-            order_number: index
+    return new Promise(resolve => {
+        let cardList = '';
+        for (let index in defaultColumns) {
+            console.log(index)
+            const columnData = {
+                title: defaultColumns[index],
+                board_id: id,
+                order_number: index
+            }
+            createNewColumn(columnData)
+                .then(result => {
+                    let statusId = result;
+                    console.log(statusId)
+                    cardList += `
+                    <div class='cell' status-id="${statusId}" status-order-number='${index}'>
+                        <h3>${defaultColumns[index]}</h3>
+                        <div class="tasks flex-column" cardId="${id}"></div>
+                    </div>
+                    `;
+                    if (parseInt(index) === Object.keys(defaultColumns).length - 1) {
+                        // console.log(cardList)
+                        resolve(cardList);
+                     }
+                })
         }
+    })
+}
+
+function createNewColumn(columnData) {
+    return new Promise(resolve => {
         dataHandler.createColumn(columnData, (response) => {
             let statusId = response.id;
-            console.log(statusId)
-            cardList += `
-            <div class='cell' status-id="${statusId}" status-order-number='${index}'>
-                <h3>${defaultColumns[index]}</h3>
-                <div class="tasks flex-column" cardId="${id}"></div>
-            </div>
-            `;
-            if (parseInt(index) === Object.keys(defaultColumns).length - 1) {
-                console.log(cardList)
-                return cardList;
-            }
+            resolve(statusId);
         })
-    }
+    })
 }
 
 export function handleDetailButton() {
