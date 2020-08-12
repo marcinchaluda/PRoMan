@@ -26,13 +26,19 @@ def boards():
     method = request.method
 
     if method == 'GET':
-        return data_manager.get_boards_data()
+        user_id = session.get('user_id')
+        if user_id:
+            return data_manager.get_boards_data(user_id)
+        return data_manager.get_boards_data(user_id)
 
     if method == 'POST':
-        board_title = request.json
-        new_id = data_manager.add_new_board(board_title)
+        board_details = request.json
+        user_id = session['user_id']
+        new_board = data_manager.add_new_board(board_details['title'], board_details['board_private'], user_id)
         return {'status': 200,
-                'board_id': new_id['id']}
+                'board_id': new_board['id'],
+                'board_private': new_board['board_private'],
+                'user_id': user_id}
 
     if method == 'PUT':
         board_data = request.json
@@ -81,6 +87,7 @@ def login():
         if user is not None and form.username.data == user['username'] and registration.\
                 verify_password(form.password.data, user['password']):
             session['username'] = form.username.data
+            session['user_id'] = user['id']
             flash(f'{form.username.data} logged in')
             return redirect(url_for('index'))
         flash('Login Unsuccessful. Please check username and password')
@@ -105,6 +112,7 @@ def register():
 @app.route("/logout")
 def logout():
     session.pop('username', None)
+    session.clear()
     flash('You are successfully log out')
     return redirect(url_for('index'))
 

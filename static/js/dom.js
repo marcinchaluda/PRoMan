@@ -12,6 +12,7 @@ import {
     handleEvent,
     getLastButton,
     initNewColumnsWithDragAndDrop,
+    markPrivateBoard,
     handleRefreshButton
 } from './container_generator.js';
 
@@ -41,6 +42,12 @@ export let dom = {
 
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+
+        boards.forEach(board => {
+           if (board.board_private) {
+               markPrivateBoard(board, board['id']);
+           }
+        });
         handleDetailButton();
         handleRefreshButton();
     },
@@ -56,9 +63,9 @@ export let dom = {
         assignTask(cards);
     },
 
-    displayNewBoard: function (title, board_id) {
+    displayNewBoard: function (board_details, board_id) {
         const boardContainer = document.querySelector('.board-container');
-        const newBoard = createTemplateOfBoardsHTML(title, board_id);
+        const newBoard = createTemplateOfBoardsHTML(board_details['title'], board_details['board_private'], board_id);
         boardContainer.insertAdjacentHTML("beforeend", newBoard);
 
         handleEvent(getLastButton());
@@ -69,6 +76,8 @@ export let dom = {
 
         const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
         boardButtons.appendChild(deleteButton);
+
+        markPrivateBoard(board_details, board_id);
 
         const editButton = createEditBoardButton(board_id);
         boardButtons.appendChild(editButton);

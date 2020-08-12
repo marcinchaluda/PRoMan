@@ -11,16 +11,17 @@ const taskContainer = 1;
 export function generateBoards(boards) {
     let boardList = '';
 
-    for (let board of boards) {
-        boardList += createTemplateOfBoardsHTML(board.title, board.id);
+    for(let board of boards){
+        boardList += createTemplateOfBoardsHTML(board.title, board.board_private, board.id);
         dom.loadCards(board.id);
     }
     return boardList;
 }
 
-export function createTemplateOfBoardsHTML(title, id) {
+export function createTemplateOfBoardsHTML(title, board_private, id){
+    board_private = board_private ? 'true' : 'false';
     return `
-            <li class="flex-row-start" boardId="${id}">
+            <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
                 <div class="title flex-row-start">
                     <h3>${title}</h3>
                     <a href="#" type="button">
@@ -128,6 +129,29 @@ export function createNewTask(title, taskId, taskNumberOrder) {
     return task;
 }
 
+export function markPrivateBoard(board_details, board_id) {
+    if (board_details.board_private == true) {
+       const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] h3`);
+       const lockIcon = '<i class="fas fa-user-lock"></i>';
+       const icons = document.getElementsByClassName('div.title fas fa-user-lock');
+       if (icons.length == 0) {
+           boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
+       }
+    }
+    stylePrivateBoard(board_details, board_id);
+}
+
+function stylePrivateBoard(board_details, board_id) {
+    if (board_details.board_private == true){
+        const li = document.querySelector(`li[boardId="${board_id}"]`);
+        const cards = document.querySelectorAll(`div[containerBoardId="${board_id}"] .cell h3`);
+
+        li.classList.add('private');
+        cards.forEach(card => {
+            card.classList.add('private');
+        });
+    }
+}
 function addButtonsToCard(elementToDelete, cardId) {
     const buttonPanel = document.createElement('div');
     buttonPanel.classList.add('button-panel');
