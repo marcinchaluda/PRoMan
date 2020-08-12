@@ -109,8 +109,8 @@ function createNewBoardForm(modalBody, modalFooter, modalId) {
     const newForm = document.createElement('form');
     newForm.appendChild(modalBody);
     newForm.appendChild(modalFooter);
-    newForm.addEventListener('submit', function (evant) {
-        evant.preventDefault();
+    newForm.addEventListener('submit', function (event) {
+        event.preventDefault();
         choseEvent(modalId);
     });
 
@@ -170,6 +170,19 @@ function handleNewCardEvents() {
 
 function handleEditBoardEvents() {
     hideModal('#edit-board-modal');
+
+    const newBoardTitle = document.getElementById('edited-board-title').value;
+    const boardId = Number(localStorage.getItem('activeBoard'));
+
+    const data = {
+        title: newBoardTitle,
+        boardId: boardId
+    };
+
+    dataHandler.updateBoard(data, function(){
+        const boardTitle = document.querySelector(`li[boardid="${boardId}"] > .title > h3`);
+        boardTitle.innerText = newBoardTitle;
+    });
 }
 
 function hideModal(modalId) {
@@ -194,7 +207,7 @@ injectDataToModalTemplate('new-card-modal', 'card-title');
 // Add new basic modal to page for card's edition and fill with content
 const editBoardModal = createModal('edit-board-modal', 'Edit board title');
 body.appendChild(editBoardModal);
-injectDataToModalTemplate('edit-board-modal', 'board-title');
+injectDataToModalTemplate('edit-board-modal', 'edited-board-title');
 
 // Call modal on click New Board button
 const newBoardButton = document.getElementById('new-board-button');

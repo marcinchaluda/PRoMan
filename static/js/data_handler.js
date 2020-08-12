@@ -31,6 +31,22 @@ export let dataHandler = {
             .then(response => response.json())  // parse the response as JSON
             .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
+    _api_put: function (url, data, callback) {
+        // it is not called from outside
+        // sends the data to the API, and calls callback function
+        fetch(url, {
+            method: 'PUT',
+            credentials: 'same-origin',
+            body: JSON.stringify(data),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+            .then(response => response.json())  // parse the response as JSON
+            .then(json_response => callback(json_response));  // Call the `callback` with the returned object
+    },
+
     _api_delete: function (url, data, callback) {
         // it is not called from outside
         // sends the data to the API, and calls callback function
@@ -84,6 +100,14 @@ export let dataHandler = {
             callback(response);
         });
     },
+    updateBoard: function (boardTitle, callback) {
+        // creates new board, saves it and calls the callback function with its data
+        this._api_put('/boards', boardTitle, (response) => {
+            this._data['newBoard'] = response;
+            callback(response);
+        });
+    },
+
     createNewCard: function (cardData, callback) {
         // creates new card, saves it and calls the callback function with its data
         this._api_post('/cards', cardData, (response) => {
