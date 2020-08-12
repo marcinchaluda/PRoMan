@@ -8,7 +8,8 @@ import {
     createNewTask,
     handleEvent,
     getLastButton,
-    initNewColumnsWithDragAndDrop
+    initNewColumnsWithDragAndDrop,
+    markPrivateBoard
 } from './container_generator.js';
 
 import {initTask} from './drag_and_drop_handler.js';
@@ -34,18 +35,10 @@ export let dom = {
                 ${boardList}
             </ul>
         `;
-
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
 
-        boards.forEach(board => {
-           if (board.board_private) {
-               const boardTitleContainer = document.querySelector('li div.title');
-               const lockIcon = '<i class="fas fa-user-lock"></i>';
-               boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
-           }
-        });
-
+        markPrivateBoard(boards);
         handleDetailButton();
     },
 

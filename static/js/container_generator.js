@@ -106,3 +106,25 @@ export function createNewTask(title, taskId, taskNumberOrder) {
 
     return task;
 }
+
+export function markPrivateBoard(boards) {
+    boards.forEach(board => {
+       if (board.board_private) {
+           const boardTitleContainer = document.querySelector('li div.title');
+           const lockIcon = '<i class="fas fa-user-lock"></i>';
+
+           boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
+           stylePrivateBoard(board);
+       }
+    });
+}
+
+function stylePrivateBoard(board) {
+    const li = document.querySelector('li');
+    const cards = document.querySelectorAll(`div[containerBoardId="${board.id}"] .cell h3`);
+
+    li.classList.add('private');
+    cards.forEach(card => {
+       card.classList.add('private');
+    });
+}
