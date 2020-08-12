@@ -28,16 +28,18 @@ export let dom = {
     },
 
     showBoards: function (boards) {
-        const boardList = generateBoards(boards);
-        const outerHtml = `
-            <ul class="board-container flex-column">
-                ${boardList}
-            </ul>
-        `;
+        const boardListPromise = generateBoards(boards)
+            .then(boardList => {
+                const outerHtml = `
+                    <ul class="board-container flex-column">
+                        ${boardList}
+                    </ul>
+                `;
+                let boardsContainer = document.querySelector('#boards');
+                boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+            })
 
-        let boardsContainer = document.querySelector('#boards');
-        boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
-        handleDetailButton();
+        // handleDetailButton();
     },
 
     loadCards: function (boardId) {
@@ -56,13 +58,13 @@ export let dom = {
         const newBoard = createTemplateOfBoardsHTML(title, board_id);
         boardContainer.insertAdjacentHTML("beforeend", newBoard);
 
-        handleEvent(getLastButton());
-        initNewColumnsWithDragAndDrop(board_id);
-
-        const boardButtons = document.querySelector(`li[boardid="${board_id}"] > .title`);
-        const boardTitleBar = document.querySelector(`li[boardid="${board_id}"]`);
-        const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
-        boardButtons.appendChild(deleteButton);
+        // handleEvent(getLastButton());
+        // initNewColumnsWithDragAndDrop(board_id);
+        //
+        // const boardButtons = document.querySelector(`li[boardid="${board_id}"] > .title`);
+        // const boardTitleBar = document.querySelector(`li[boardid="${board_id}"]`);
+        // const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
+        // boardButtons.appendChild(deleteButton);
     },
 
     displayNewCard: function (parent, title, taskId, taskOrderNumber) {
