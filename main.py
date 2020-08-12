@@ -44,7 +44,7 @@ def boards():
     return {'status': 200}
 
 
-@app.route("/cards", methods=['GET', 'POST', 'DELETE'])
+@app.route("/cards", methods=['GET', 'POST', 'PUT', 'DELETE'])
 @json_response
 def cards():
     """
@@ -62,6 +62,11 @@ def cards():
         attributes = data_manager.add_new_card(new_card_data)
         return {'status': 200,
                 'card': attributes}
+
+    if method == 'PUT':
+        card_data = request.json
+        data_manager.update_title('cards', card_data['cardId'], card_data['title'])
+        return {'status': 200}
 
     card_id = request.json
     data_manager.delete_record('cards', card_id)

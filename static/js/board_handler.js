@@ -1,5 +1,5 @@
 import {dataHandler} from "./data_handler.js";
-import {createElementWithClasses} from "./modals.js";
+import {util} from "./util.js";
 
 export function boardButtonsInit() {
     const boardTitleBars = document.querySelectorAll('.board-container > .flex-row-start > .title');
@@ -13,7 +13,7 @@ export function boardButtonsInit() {
 }
 
 export function createDeleteBoardButton(boardId, elementToDelete) {
-    const deleteButton = addButton(['fas', 'fa-trash-alt'],'Delete');
+    const deleteButton = util.addButton(['fas', 'fa-trash-alt'],'Delete');
 
     deleteButton.onclick = function () {
         dataHandler.deleteBoard(boardId, function () {
@@ -26,7 +26,7 @@ export function createDeleteBoardButton(boardId, elementToDelete) {
 }
 
 export function createEditBoardButton(boardId) {
-    const editButton = addButton(['fas', 'fa-edit'],'Edit');
+    const editButton = util.addButton(['fas', 'fa-edit'],'Edit');
 
     editButton.onclick = function () {
         const editBoardModal = document.querySelector('#edit-board-modal')
@@ -34,27 +34,4 @@ export function createEditBoardButton(boardId) {
         localStorage.setItem('activeBoard', boardId);
     }
     return editButton;
-}
-
-function addButton(classes, descriptionText) {
-    const button = addButtonElement();
-    const icon = createElementWithClasses('i', classes);
-    button.appendChild(icon);
-    button.appendChild(addDescription(descriptionText));
-
-    return button;
-}
-
-function addButtonElement() {
-    const button = document.createElement('a');
-    button.type = 'button';
-
-    return button;
-}
-
-function addDescription(text) {
-    const buttonDescription = document.createElement('span');
-    buttonDescription.innerText = text;
-
-    return buttonDescription;
 }

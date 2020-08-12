@@ -1,5 +1,6 @@
 import {dataHandler} from "./data_handler.js";
 import {dom} from "./dom.js";
+import {util} from "./util.js";
 
 export function modalsInit() {
     const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
@@ -16,11 +17,11 @@ export function modalsInit() {
 // Function create basic template for modal
 function createModal(id, headerText) {
     //TODO Try to put variables in for loop or to file
-    const modal = createElementWithClasses('div', ['modal']);
-    const modalContent = createElementWithClasses('div', ['modal-content']);
-    const modalHeader = createElementWithClasses('div', ['modal-header']);
-    const modalBody = createElementWithClasses('div', ['modal-body']);
-    const modalFooter = createElementWithClasses('div', ['modal-footer']);
+    const modal = util.createElementWithClasses('div', ['modal']);
+    const modalContent = util.createElementWithClasses('div', ['modal-content']);
+    const modalHeader = util.createElementWithClasses('div', ['modal-header']);
+    const modalBody = util.createElementWithClasses('div', ['modal-body']);
+    const modalFooter = util.createElementWithClasses('div', ['modal-footer']);
 
     const closeXButton = createCloseXButton(modal);
     const headerDescription = createHeader(headerText);
@@ -35,7 +36,7 @@ function createModal(id, headerText) {
 }
 
 function createHeader(headerText) {
-    const header = createElementWithClasses('h2', ['modal-h2']);
+    const header = util.createElementWithClasses('h2', ['modal-h2']);
     const textToAdd = document.createTextNode(headerText);
     header.appendChild(textToAdd);
 
@@ -43,7 +44,7 @@ function createHeader(headerText) {
 }
 
 function createCloseXButton(modal) {
-    const closeXButton = createElementWithClasses('span', ['close']);
+    const closeXButton = util.createElementWithClasses('span', ['close']);
     const textXButton = document.createTextNode('x');
     closeXButton.appendChild(textXButton);
 
@@ -58,15 +59,6 @@ function appendChildren(parent, listOfChildren) {
     for (const child of listOfChildren) {
         parent.appendChild(child);
     }
-}
-
-export function createElementWithClasses(typeOfElement, listOfClasses) {
-    const element = document.createElement(typeOfElement);
-    for (let classOnList of listOfClasses) {
-        element.classList.add(classOnList);
-    }
-
-    return element;
 }
 
 // Inject data to basic modal
@@ -96,7 +88,7 @@ function createNewTextInput(id) {
 }
 
 function createSaveButton() {
-    const newButton = createElementWithClasses('button', []);
+    const newButton = util.createElementWithClasses('button', []);
     newButton.setAttribute('type', 'submit');
 
     const textSaveButton = document.createTextNode('Save');
@@ -127,6 +119,9 @@ function choseEvent(modalId) {
             break;
         case 'edit-board-modal':
             handleEditBoardEvents();
+            break;
+        case 'edit-card-modal':
+            handleEditCardEvents();
             break;
     }
 }
@@ -179,10 +174,28 @@ function handleEditBoardEvents() {
         boardId: boardId
     };
 
-    dataHandler.updateBoard(data, function(){
+    dataHandler.updateBoard(data, function () {
         const boardTitle = document.querySelector(`li[boardid="${boardId}"] > .title > h3`);
         boardTitle.innerText = newBoardTitle;
     });
+}
+
+function handleEditCardEvents() {
+    hideModal('#edit-card-modal');
+
+    const newCardTitle = document.getElementById('edited-card-title').value;
+    const cardId = Number(localStorage.getItem('activeCard'));
+
+    const data = {
+        title: newCardTitle,
+        cardId: cardId
+    };
+
+    dataHandler.updateCard(data, function () {
+        const cardTitle = document.querySelector(`.task[task-id="${cardId}"] > .task-title`);
+        cardTitle.innerText = newCardTitle;
+    });
+
 }
 
 function hideModal(modalId) {
@@ -204,10 +217,15 @@ const newCardModal = createModal('new-card-modal', 'Create new task');
 body.appendChild(newCardModal);
 injectDataToModalTemplate('new-card-modal', 'card-title');
 
-// Add new basic modal to page for card's edition and fill with content
+// Add new basic modal to page for board's edition and fill with content
 const editBoardModal = createModal('edit-board-modal', 'Edit board title');
 body.appendChild(editBoardModal);
 injectDataToModalTemplate('edit-board-modal', 'edited-board-title');
+
+// Add new basic modal to page for card's edition and fill with content
+const editCardModal = createModal('edit-card-modal', 'Edit card title');
+body.appendChild(editCardModal);
+injectDataToModalTemplate('edit-card-modal', 'edited-card-title');
 
 // Call modal on click New Board button
 const newBoardButton = document.getElementById('new-board-button');

@@ -5,6 +5,7 @@
 // object itself then you must use the 'this' keyword before. For example: 'this._data' below)
 export let dataHandler = {
     _data: {}, // it is a "cache for all data received: boards, cards and statuses. It is not accessed from outside.
+
     _api_get: function (url, callback) {
         // it is not called from outside
         // loads data from API, parses it and calls the callback with it
@@ -16,6 +17,7 @@ export let dataHandler = {
             .then(response => response.json())  // parse the response as JSON
             .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
+
     _api_post: function (url, data, callback) {
         // it is not called from outside
         // sends the data to the API, and calls callback function
@@ -31,6 +33,7 @@ export let dataHandler = {
             .then(response => response.json())  // parse the response as JSON
             .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
+
     _api_put: function (url, data, callback) {
         // it is not called from outside
         // sends the data to the API, and calls callback function
@@ -64,6 +67,7 @@ export let dataHandler = {
     },
     init: function () {
     },
+
     getBoards: function (callback) {
         // the boards are retrieved and then the callback function is called with the boards
 
@@ -74,6 +78,7 @@ export let dataHandler = {
             callback(response);
         });
     },
+
     getBoard: function (boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
         this._api_get(`/cards?boardId=${boardId}`, (response) => {
@@ -93,6 +98,7 @@ export let dataHandler = {
     getCard: function (cardId, callback) {
         // the card is retrieved and then the callback function is called with the card
     },
+
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
         this._api_post('/boards', boardTitle, (response) => {
@@ -100,9 +106,10 @@ export let dataHandler = {
             callback(response);
         });
     },
-    updateBoard: function (boardTitle, callback) {
+
+    updateBoard: function (boardData, callback) {
         // creates new board, saves it and calls the callback function with its data
-        this._api_put('/boards', boardTitle, (response) => {
+        this._api_put('/boards', boardData, (response) => {
             this._data['newBoard'] = response;
             callback(response);
         });
@@ -115,6 +122,7 @@ export let dataHandler = {
             callback(response);
         });
     },
+
     updateCardsPosition: function (cardsData, callback) {
         this._api_post('/update-cards-position', cardsData, callback);
     },
@@ -122,6 +130,14 @@ export let dataHandler = {
     updateCardsOrderNumbers: function (cardsOrderNumbers, callback) {
         this._api_post('/update-cards-order-numbers', cardsOrderNumbers, (response) => {
             this._data['cardsOrderNumbers'] = response;
+            callback(response);
+        });
+    },
+
+    updateCard: function (cardData, callback) {
+        // creates new board, saves it and calls the callback function with its data
+        this._api_put('/cards', cardData, (response) => {
+            this._data['newCardTitle'] = response;
             callback(response);
         });
     },

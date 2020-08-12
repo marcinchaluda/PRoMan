@@ -1,20 +1,9 @@
 import {dataHandler} from "./data_handler.js";
-import {createElementWithClasses} from "./modals.js";
-
-export function deleteCardButtonsInit() {
-    const tasks = document.querySelectorAll('.task');
-    for (let task of tasks) {
-        const cardId = task.getAttribute('task-id');
-        task.appendChild(createDeleteCardButton(task, cardId));
-    }
-}
+import {util} from "./util.js";
 
 export function createDeleteCardButton(task, cardId) {
-    const deleteButton = createElementWithClasses('a', ['card-trash']);
-    deleteButton.type = 'button';
-
-    const icon = createElementWithClasses('i', ['fas', 'fa-trash-alt']);
-    deleteButton.appendChild(icon);
+    const deleteButton = util.addButton(['fas', 'fa-trash-alt']);
+    deleteButton.classList.add('card-icon');
 
     deleteButton.onclick = function () {
         dataHandler.deleteCard(cardId, function () {
@@ -22,4 +11,16 @@ export function createDeleteCardButton(task, cardId) {
         });
     }
     return deleteButton;
+}
+
+export function createEditCardButton(cardId) {
+    const editButton = util.addButton(['fas', 'fa-edit']);
+    editButton.classList.add('card-icon');
+
+    editButton.onclick = function () {
+        const editCardModal = document.querySelector('#edit-card-modal');
+        editCardModal.style.display = "block";
+        localStorage.setItem('activeCard', cardId);
+    }
+    return editButton;
 }

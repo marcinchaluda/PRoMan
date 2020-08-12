@@ -284,6 +284,10 @@ legend {
 .account a {
     color: #73172F;
 }
+.task .task-title {
+    margin: 0.5em auto;
+    border: none;
+}
 
 .task .button-panel {
     margin: 0.5em auto;
@@ -293,11 +297,11 @@ legend {
     padding: 0.2em 0;
 }
 
-.card-trash:hover {
+.card-icon:hover {
     color: #73172F;
 }
 
-.card-trash {
+.card-icon {
     position: relative;
     right: 0;
 }
