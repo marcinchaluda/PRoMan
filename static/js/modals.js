@@ -204,10 +204,15 @@ const newCardModal = createModal('new-card-modal', 'Create new task');
 body.appendChild(newCardModal);
 injectDataToModalTemplate('new-card-modal', 'card-title');
 
-// Add new basic modal to page for card's edition and fill with content
+// Add new basic modal to page for board's edition and fill with content
 const editBoardModal = createModal('edit-board-modal', 'Edit board title');
 body.appendChild(editBoardModal);
 injectDataToModalTemplate('edit-board-modal', 'edited-board-title');
+
+// Add new basic modal to page for card's edition and fill with content
+const editCardModal = createModal('edit-card-modal', 'Edit card title');
+body.appendChild(editCardModal);
+injectDataToModalTemplate('edit-card-modal', 'edited-card-title');
 
 // Call modal on click New Board button
 const newBoardButton = document.getElementById('new-board-button');
