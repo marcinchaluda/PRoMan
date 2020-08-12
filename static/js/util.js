@@ -1,10 +1,13 @@
 export let util = {
 
-    addButton: function (iconClasses, descriptionText) {
+    addButton: function (iconClasses, descriptionText='') {
         const button = addButtonElement();
         const icon = this.createElementWithClasses('i', iconClasses);
         button.appendChild(icon);
-        button.appendChild(addDescription(descriptionText));
+
+        if (descriptionText) {
+            button.appendChild(addDescription(descriptionText));
+        }
 
         return button;
     },
