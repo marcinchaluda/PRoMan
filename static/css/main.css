@@ -304,8 +304,8 @@ legend {
 
 li div.title i.fa-user-lock {
     display: flex;
-    font-size: 1.6em;
-    padding-left: 1em;
+    font-size: 1.2em;
+    padding-right: 0.5em;
 }
 
 li.private {
@@ -315,4 +315,10 @@ li.private {
 h3.private {
     background-color: rgba(85, 107, 47, 0.8);
     color: #73172F;
+}
+
+div.title h3 {
+    display: flex;
+    width: 150px;
+    justify-content: center;
 }

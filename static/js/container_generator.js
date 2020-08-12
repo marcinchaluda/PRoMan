@@ -110,7 +110,7 @@ export function createNewTask(title, taskId, taskNumberOrder) {
 
 export function markPrivateBoard(board_details, board_id) {
     if (board_details.board_private == true) {
-       const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] div.title`);
+       const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] h3`);
        const lockIcon = '<i class="fas fa-user-lock"></i>';
        const icons = document.getElementsByClassName('div.title fas fa-user-lock');
        if (icons.length == 0) {

@@ -5,6 +5,7 @@ export function modalsInit() {
     const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
     for (let newCardButton of allButtonsAddNewCard) {
         newCardButton.onclick = function () {
+            const newCardModal = document.getElementById('new-card-modal');
             newCardModal.style.display = "block";
 
             const parentLiElement = newCardButton.closest("li");
@@ -83,7 +84,6 @@ function injectDataToModalTemplate(modalId, inputId) {
     }
 
     const saveButton = createSaveButton();
-    saveButton.setAttribute('form', 'boardValues');
     modalFooter.appendChild(saveButton);
 
     const newBoardForm = createNewBoardForm(modalBody, modalFooter, modalId);
@@ -141,9 +141,6 @@ function createSaveButton() {
 
 function createNewBoardForm(modalBody, modalFooter, modalId) {
     const newForm = document.createElement('form');
-    newForm.setAttribute('action', '/boards');
-    newForm.setAttribute('id', 'boardValues');
-    newForm.setAttribute('method', 'POST');
     newForm.appendChild(modalBody);
     newForm.appendChild(modalFooter);
     newForm.addEventListener('submit', function (evant) {
@@ -165,7 +162,6 @@ function handleNewBoardEvants() {
         board_private: boardPrivateValue,
     }
     dataHandler.createNewBoard(boardDetails, function (response) {
-        console.log(response)
         dom.displayNewBoard(boardDetails, response.board_id);
         addFunctionToNewCardButtton(response.board_id);
     });
@@ -173,7 +169,9 @@ function handleNewBoardEvants() {
 
 function addFunctionToNewCardButtton(boardId) {
     const newCardButton = document.querySelector(`li[boardid="${boardId}"] > div >a`);
+
     newCardButton.onclick = function () {
+        const newCardModal = document.getElementById('new-card-modal');
         newCardModal.style.display = "block";
         localStorage.setItem('activeBoard', boardId);
     }
