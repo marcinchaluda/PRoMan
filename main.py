@@ -17,7 +17,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/boards", methods=['GET', 'POST', 'DELETE'])
+@app.route("/boards", methods=['GET', 'POST', 'PUT', 'DELETE'])
 @json_response
 def boards():
     """
@@ -33,6 +33,10 @@ def boards():
         new_id = data_manager.add_new_board(board_title)
         return {'status': 200,
                 'board_id': new_id['id']}
+
+    if method == 'PUT':
+        print(request.json)
+        return {'status': 200}
 
     board_id = request.json
     data_manager.delete_record('boards', board_id)
