@@ -1,6 +1,6 @@
 import { dom } from "./dom.js";
 import { modalsInit } from "./modals.js";
-import { deleteBoardButtonsInit } from "./board_handler.js";
+import { boardButtonsInit } from "./board_handler.js";
 
 
 function init() {
@@ -8,7 +8,7 @@ function init() {
     dom.loadBoards()
         .then(() => {
             modalsInit();
-            deleteBoardButtonsInit();
+            boardButtonsInit();
         });
 }
 
