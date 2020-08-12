@@ -86,7 +86,10 @@ export function createColumn(column, card) {
         task.classList.add('task');
         task.setAttribute('task-id', card.id);
         task.setAttribute('order-number', card.order_number);
-        task.textContent = card.title;
+        const taskTitle = document.createElement('div');
+        taskTitle.classList.add('task-title');
+        taskTitle.textContent = card.title;
+        task.appendChild(taskTitle);
 
         task.appendChild(addButtonsToCard(task, card.id));
 
@@ -105,7 +108,10 @@ export function initNewColumnsWithDragAndDrop(board_id) {
 
 export function createNewTask(title, taskId, taskNumberOrder) {
     const task = document.createElement('div');
-    task.textContent = title;
+    const taskTitle = document.createElement('div');
+    taskTitle.classList.add('task-title');
+    taskTitle.textContent = title;
+    task.appendChild(taskTitle);
     task.classList.add('task');
     task.setAttribute('task-id', taskId);
     task.setAttribute('order-number', taskNumberOrder);

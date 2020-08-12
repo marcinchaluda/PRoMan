@@ -200,7 +200,7 @@ function handleEditCardEvents() {
     };
 
     dataHandler.updateCard(data, function () {
-        const cardTitle = document.querySelector(`.task[task-id="${cardId}"]`);
+        const cardTitle = document.querySelector(`.task[task-id="${cardId}"] > .task-title`);
         cardTitle.innerText = newCardTitle;
     });
 

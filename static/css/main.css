@@ -284,6 +284,10 @@ legend {
 .account a {
     color: #73172F;
 }
+.task .task-title {
+    margin: 0.5em auto;
+    border: none;
+}
 
 .task .button-panel {
     margin: 0.5em auto;
