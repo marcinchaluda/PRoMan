@@ -165,6 +165,7 @@ function handleNewBoardEvants() {
         board_private: boardPrivateValue,
     }
     dataHandler.createNewBoard(boardDetails, function (response) {
+        console.log(response)
         dom.displayNewBoard(boardDetails, response.board_id);
         addFunctionToNewCardButtton(response.board_id);
     });

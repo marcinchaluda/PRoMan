@@ -37,6 +37,15 @@ export let dom = {
 
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+
+        boards.forEach(board => {
+           if (board.board_private) {
+               const boardTitleContainer = document.querySelector('li div.title');
+               const lockIcon = '<i class="fas fa-user-lock"></i>';
+               boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
+           }
+        });
+
         handleDetailButton();
     },
 
@@ -52,7 +61,7 @@ export let dom = {
 
     displayNewBoard: function (board_details, board_id) {
         const boardContainer = document.querySelector('.board-container');
-        const newBoard = createTemplateOfBoardsHTML(board_details['title'], board_id);
+        const newBoard = createTemplateOfBoardsHTML(board_details['title'], board_details['board_private'], board_id);
         boardContainer.insertAdjacentHTML("beforeend", newBoard);
 
         handleEvent(getLastButton());

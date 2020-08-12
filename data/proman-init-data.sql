@@ -21,7 +21,7 @@ DROP TABLE IF EXISTS public.boards;
 CREATE TABLE boards (
     id serial NOT NULL,
     title text,
-    board_private BOOLEAN DEFAULT FALSE,
+    board_private BOOLEAN,
     user_id integer
 );
 

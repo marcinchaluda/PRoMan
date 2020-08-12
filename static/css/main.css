@@ -301,3 +301,13 @@ legend {
 .checkbox-container label {
     padding-left: 0.7em;
 }
+
+li div.title i.fa-user-lock {
+    display: flex;
+    font-size: 1.6em;
+    padding-left: 1em;
+}
+
+.private {
+    background-color: darkolivegreen;
+}

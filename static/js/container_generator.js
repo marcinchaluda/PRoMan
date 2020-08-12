@@ -8,15 +8,16 @@ export function generateBoards(boards) {
     let boardList = '';
 
     for(let board of boards){
-        boardList += createTemplateOfBoardsHTML(board.title, board.id);
+        boardList += createTemplateOfBoardsHTML(board.title, board.board_private, board.id);
         dom.loadCards(board.id);
     }
     return boardList;
 }
 
-export function createTemplateOfBoardsHTML(title, id){
+export function createTemplateOfBoardsHTML(title, board_private, id){
+    board_private = board_private ? 'true' : 'false';
     return `
-            <li class="flex-row-start" boardId="${id}">
+            <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
                 <div class="title flex-row-start">
                     <h3>${title}</h3>
                     <a href="#" type="button">
