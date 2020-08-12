@@ -94,14 +94,6 @@ export let dataHandler = {
     updateCardsPosition: function (cardsData, callback) {
         this._api_post('/update-cards-position', cardsData, callback);
     },
-
-    updateCardsOrderNumbers: function (cardsOrderNumbers, callback) {
-        this._api_post('/update-cards-order-numbers', cardsOrderNumbers, (response) => {
-            this._data['cardsOrderNumbers'] = response;
-            callback(response);
-        });
-    },
-
     deleteBoard: function (boardId, callback) {
         // delete board with provided id
         this._api_delete('/boards', boardId, (response) => {
@@ -109,7 +101,6 @@ export let dataHandler = {
             callback(response);
         });
     },
-
     deleteCard: function (cardId, callback) {
         // delete board with provided id
         this._api_delete('/cards', cardId, (response) => {
@@ -117,5 +108,8 @@ export let dataHandler = {
             callback(response);
         });
     },
+    createColumn: function(columnData, callback) {
+        this._api_post('/statuses', columnData, callback);
+    }
     // here comes more features
 };

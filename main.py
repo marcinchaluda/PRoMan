@@ -111,6 +111,21 @@ def update_cards_position():
     return {'status': 200}
 
 
+@app.route("/statuses", methods=['GET', 'POST'])
+@json_response
+def statuses():
+    """
+    Create new column
+    """
+    method = request.method
+
+    if method == 'POST':
+        column_data = request.json
+        column_id = data_manager.add_new_column(column_data)
+        return {'status': 200,
+                'id': column_id['id']}
+
+
 def main():
     app.run(debug=True)
 

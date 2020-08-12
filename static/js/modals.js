@@ -111,7 +111,17 @@ function createNewBoardForm(modalBody, modalFooter, modalId) {
     newForm.appendChild(modalFooter);
     newForm.addEventListener('submit', function (evant) {
         evant.preventDefault();
-        modalId === 'new-board-modal' ? handleNewBoardEvants() : handleNewCardEvants();
+        switch (modalId) {
+            case 'new-board-modal':
+                handleNewBoardEvants();
+                break;
+            case 'new-card-modal':
+                handleNewCardEvants();
+                break;
+            case 'new-column-modal':
+                handleNewColumnEvents();
+                break;
+        }
     });
 
     return newForm;
@@ -123,6 +133,7 @@ function handleNewBoardEvants() {
     const inputValue = document.getElementById('board-title').value;
 
     dataHandler.createNewBoard(inputValue, function (response) {
+
         dom.displayNewBoard(inputValue, response.board_id);
         addFunctionToNewCardButtton(response.board_id);
     });
@@ -152,6 +163,18 @@ function handleNewCardEvants() {
         const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
         dom.displayNewCard(column, newCardTitle, response.card.id, response.card.order_number);
     });
+}
+
+function handleNewColumnEvents() {
+    hideModal('#new-column-modal');
+
+    const newColumnTitle = document.getElementById('column-title').value;
+    const newColumnBoardId = Number(localStorage.getItem('activeBoard'));
+
+    const data = {
+        title: newColumnTitle,
+        boardId: newColumnBoardId
+    }
 }
 
 function hideModal(modalId) {

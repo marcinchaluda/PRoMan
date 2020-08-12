@@ -109,3 +109,15 @@ def delete_record(cursor: RealDictCursor, table_name: str, record_id: int):
     """).format(table_title=sql.Identifier(table_name), r_id=sql.Literal(record_id))
 
     cursor.execute(query)
+
+
+@database_common.connection_handler
+def add_new_column(cursor: RealDictCursor, column_data: dict):
+    """Add new column to database"""
+    cursor.execute("""
+                INSERT INTO statuses (title, board_id, order_number) 
+                VALUES (%(s_title)s, %(s_board_id)s, %(s_order_number)s)
+                RETURNING id
+            """, {'s_title': column_data['title'], 's_board_id': column_data['board_id'], 's_order_number': column_data['order_number']})
+
+    return cursor.fetchone()
