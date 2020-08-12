@@ -128,6 +128,9 @@ function choseEvent(modalId) {
         case 'edit-board-modal':
             handleEditBoardEvents();
             break;
+        case 'edit-card-modal':
+            handleEditCardEvents();
+            break;
     }
 }
 
@@ -179,10 +182,28 @@ function handleEditBoardEvents() {
         boardId: boardId
     };
 
-    dataHandler.updateBoard(data, function(){
+    dataHandler.updateBoard(data, function () {
         const boardTitle = document.querySelector(`li[boardid="${boardId}"] > .title > h3`);
         boardTitle.innerText = newBoardTitle;
     });
+}
+
+function handleEditCardEvents() {
+    hideModal('#edit-card-modal');
+
+    const newCardTitle = document.getElementById('edited-card-title').value;
+    const cardId = Number(localStorage.getItem('activeCard'));
+
+    const data = {
+        title: newCardTitle,
+        cardId: cardId
+    };
+
+    dataHandler.updateCard(data, function () {
+        const cardTitle = document.querySelector(`.task[task-id="${cardId}"]`);
+        cardTitle.innerText = newCardTitle;
+    });
+
 }
 
 function hideModal(modalId) {

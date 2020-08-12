@@ -93,6 +93,7 @@ export let dataHandler = {
     getCard: function (cardId, callback) {
         // the card is retrieved and then the callback function is called with the card
     },
+
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
         this._api_post('/boards', boardTitle, (response) => {
@@ -100,6 +101,7 @@ export let dataHandler = {
             callback(response);
         });
     },
+
     updateBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
         this._api_put('/boards', boardTitle, (response) => {
@@ -122,6 +124,14 @@ export let dataHandler = {
     updateCardsOrderNumbers: function (cardsOrderNumbers, callback) {
         this._api_post('/update-cards-order-numbers', cardsOrderNumbers, (response) => {
             this._data['cardsOrderNumbers'] = response;
+            callback(response);
+        });
+    },
+
+    updateCard: function (cardData, callback) {
+        // creates new board, saves it and calls the callback function with its data
+        this._api_put('/cards', cardData, (response) => {
+            this._data['newCardTitle'] = response;
             callback(response);
         });
     },
