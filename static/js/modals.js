@@ -111,24 +111,38 @@ function createNewBoardForm(modalBody, modalFooter, modalId) {
     newForm.appendChild(modalFooter);
     newForm.addEventListener('submit', function (evant) {
         evant.preventDefault();
-        modalId === 'new-board-modal' ? handleNewBoardEvants() : handleNewCardEvants();
+        choseEvent(modalId);
     });
 
     return newForm;
 }
 
-function handleNewBoardEvants() {
+function choseEvent(modalId) {
+    switch (modalId) {
+        case 'new-board-modal':
+            handleNewBoardEvents();
+            break;
+        case 'new-card-modal':
+            handleNewCardEvents();
+            break;
+        case 'edit-board-modal':
+            handleEditBoardEvents();
+            break;
+    }
+}
+
+function handleNewBoardEvents() {
     hideModal('#new-board-modal');
 
     const inputValue = document.getElementById('board-title').value;
 
     dataHandler.createNewBoard(inputValue, function (response) {
         dom.displayNewBoard(inputValue, response.board_id);
-        addFunctionToNewCardButtton(response.board_id);
+        addFunctionToNewCardButton(response.board_id);
     });
 }
 
-function addFunctionToNewCardButtton(boardId) {
+function addFunctionToNewCardButton(boardId) {
     const newCardButton = document.querySelector(`li[boardid="${boardId}"] > div >a`);
     newCardButton.onclick = function () {
         newCardModal.style.display = "block";
@@ -136,7 +150,7 @@ function addFunctionToNewCardButtton(boardId) {
     }
 }
 
-function handleNewCardEvants() {
+function handleNewCardEvents() {
     hideModal('#new-card-modal');
 
     const newCardTitle = document.getElementById('card-title').value;
@@ -152,6 +166,10 @@ function handleNewCardEvants() {
         const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
         dom.displayNewCard(column, newCardTitle, response.card.id, response.card.order_number);
     });
+}
+
+function handleEditBoardEvents() {
+    hideModal('#edit-board-modal');
 }
 
 function hideModal(modalId) {
