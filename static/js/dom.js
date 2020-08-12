@@ -11,7 +11,8 @@ import {
     createNewTask,
     handleEvent,
     getLastButton,
-    initNewColumnsWithDragAndDrop
+    initNewColumnsWithDragAndDrop,
+    handleRefreshButton
 } from './container_generator.js';
 
 import {dragAndDropHandler, initTask} from './drag_and_drop_handler.js';
@@ -41,6 +42,7 @@ export let dom = {
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
         handleDetailButton();
+        handleRefreshButton();
     },
 
     loadCards: function (boardId) {

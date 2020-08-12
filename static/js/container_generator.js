@@ -1,4 +1,4 @@
-import {dom} from './dom.js';
+import { dom } from './dom.js';
 import {initColumns} from "./drag_and_drop_handler.js";
 import {
     createDeleteCardButton,
@@ -55,6 +55,11 @@ export function handleDetailButton() {
     detailBtn.forEach(button => {
         handleEvent(button);
     });
+}
+
+export function handleRefreshButton() {
+    const refreshButton = document.getElementById('refresh-button');
+    refreshButton.addEventListener('click', () => window.location.reload());
 }
 
 export function handleEvent(button) {
