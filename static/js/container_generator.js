@@ -86,6 +86,7 @@ export function createColumn(column, card) {
         task.classList.add('task');
         task.setAttribute('task-id', card.id);
         task.setAttribute('order-number', card.order_number);
+        //TODO extract to new function during refactor
         const taskTitle = document.createElement('div');
         taskTitle.classList.add('task-title');
         taskTitle.textContent = card.title;
@@ -108,6 +109,7 @@ export function initNewColumnsWithDragAndDrop(board_id) {
 
 export function createNewTask(title, taskId, taskNumberOrder) {
     const task = document.createElement('div');
+    //TODO extract to new function during refactor
     const taskTitle = document.createElement('div');
     taskTitle.classList.add('task-title');
     taskTitle.textContent = title;
