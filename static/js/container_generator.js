@@ -1,21 +1,24 @@
-import { dom } from './dom.js';
+import {dom} from './dom.js';
 import {initColumns} from "./drag_and_drop_handler.js";
-import { createDeleteCardButton } from "./card_handler.js";
+import {
+    createDeleteCardButton,
+    createEditCardButton
+} from "./card_handler.js";
 
-const defaultColumns = {0: 'New', 1: 'In Progress', 2: 'Testing', 3:'Done'};
+const defaultColumns = {0: 'New', 1: 'In Progress', 2: 'Testing', 3: 'Done'};
 const taskContainer = 1;
 
 export function generateBoards(boards) {
     let boardList = '';
 
-    for(let board of boards){
+    for (let board of boards) {
         boardList += createTemplateOfBoardsHTML(board.title, board.id);
         dom.loadCards(board.id);
     }
     return boardList;
 }
 
-export function createTemplateOfBoardsHTML(title, id){
+export function createTemplateOfBoardsHTML(title, id) {
     return `
             <li class="flex-row-start" boardId="${id}">
                 <div class="title flex-row-start">
@@ -54,7 +57,7 @@ export function handleDetailButton() {
     });
 }
 
-export function handleEvent (button) {
+export function handleEvent(button) {
     button.addEventListener('click', function () {
         button.getAttribute('boardId');
         const cardsContainer = button.parentElement.parentElement.nextElementSibling;
@@ -75,7 +78,7 @@ export function assignTask(cards) {
     });
 }
 
-export function createColumn (column, card) {
+export function createColumn(column, card) {
     const columnName = defaultColumns[card.status_id];
 
     if (column.getAttribute('id') === columnName) {
@@ -85,11 +88,7 @@ export function createColumn (column, card) {
         task.setAttribute('order-number', card.order_number);
         task.textContent = card.title;
 
-        // #TODO extract to new function
-        const buttonPanel = document.createElement('div');
-        buttonPanel.classList.add('button-panel');
-        buttonPanel.appendChild(createDeleteCardButton(task, card.id));
-        task.appendChild(buttonPanel);
+        task.appendChild(addButtonsToCard(task, card.id));
 
         column.children[taskContainer].appendChild(task);
     }
@@ -111,11 +110,16 @@ export function createNewTask(title, taskId, taskNumberOrder) {
     task.setAttribute('task-id', taskId);
     task.setAttribute('order-number', taskNumberOrder);
 
-    // #TODO extract to new function
-    const buttonPanel = document.createElement('div');
-    buttonPanel.classList.add('button-panel');
-    buttonPanel.appendChild(createDeleteCardButton(task, taskId));
-    task.appendChild(buttonPanel);
+    task.appendChild(addButtonsToCard(task, taskId));
 
     return task;
+}
+
+function addButtonsToCard(elementToDelete, cardId) {
+    const buttonPanel = document.createElement('div');
+    buttonPanel.classList.add('button-panel');
+    buttonPanel.appendChild(createDeleteCardButton(elementToDelete, cardId));
+    buttonPanel.appendChild(createEditCardButton(cardId));
+
+    return buttonPanel;
 }
