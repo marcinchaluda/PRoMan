@@ -81,6 +81,7 @@ export let dataHandler = {
         // console.log(boardDetails)
         // creates new board, saves it and calls the callback function with its data
         this._api_post('/boards', boardDetails, (response) => {
+            console.log(response)
             this._data['newBoard'] = response;
             callback(response);
         });
@@ -110,5 +111,6 @@ export let dataHandler = {
             callback(response);
         });
     },
+
     // here comes more features
 };

@@ -308,7 +308,7 @@ li div.title i.fa-user-lock {
     padding-left: 1em;
 }
 
-.board-container li.private {
+li.private {
     background-color: rgba(85, 107, 47, 0.8);
 }
 

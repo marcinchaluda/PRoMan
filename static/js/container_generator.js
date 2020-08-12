@@ -5,6 +5,7 @@ const defaultColumns = {0: 'New', 1: 'In Progress', 2: 'Testing', 3:'Done'};
 const taskContainer = 1;
 
 export function generateBoards(boards) {
+    // TODO add style to private board
     let boardList = '';
 
     for(let board of boards){
@@ -107,24 +108,28 @@ export function createNewTask(title, taskId, taskNumberOrder) {
     return task;
 }
 
-export function markPrivateBoard(boards) {
-    boards.forEach(board => {
-       if (board.board_private) {
-           const boardTitleContainer = document.querySelector('li div.title');
-           const lockIcon = '<i class="fas fa-user-lock"></i>';
-
+export function markPrivateBoard(board_details, board_id) {
+    if (board_details.board_private == true) {
+       const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] div.title`);
+       console.log(boardTitleContainer)
+       const lockIcon = '<i class="fas fa-user-lock"></i>';
+       const icons = document.getElementsByClassName('div.title fas fa-user-lock');
+       if (icons.length == 0) {
            boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
-           stylePrivateBoard(board);
        }
-    });
+    }
+    stylePrivateBoard(board_details, board_id);
 }
 
-function stylePrivateBoard(board) {
-    const li = document.querySelector('li');
-    const cards = document.querySelectorAll(`div[containerBoardId="${board.id}"] .cell h3`);
+function stylePrivateBoard(board_details, board_id) {
+    console.log(board_details.board_private, board_id)
+    if (board_details.board_private == true){
+        const li = document.querySelector(`li[boardId="${board_id}"]`);
+        const cards = document.querySelectorAll(`div[containerBoardId="${board_id}"] .cell h3`);
 
-    li.classList.add('private');
-    cards.forEach(card => {
-       card.classList.add('private');
-    });
+        li.classList.add('private');
+        cards.forEach(card => {
+            card.classList.add('private');
+        });
+    }
 }

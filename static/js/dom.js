@@ -9,7 +9,7 @@ import {
     handleEvent,
     getLastButton,
     initNewColumnsWithDragAndDrop,
-    markPrivateBoard
+    markPrivateBoard,
 } from './container_generator.js';
 
 import {initTask} from './drag_and_drop_handler.js';
@@ -38,7 +38,11 @@ export let dom = {
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
 
-        markPrivateBoard(boards);
+        boards.forEach(board => {
+           if (board.board_private) {
+               markPrivateBoard(board, board['id']);
+           }
+        });
         handleDetailButton();
     },
 
@@ -64,6 +68,8 @@ export let dom = {
         const boardTitleBar = document.querySelector(`li[boardid="${board_id}"]`);
         const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
         boardButtons.appendChild(deleteButton);
+
+        markPrivateBoard(board_details, board_id);
     },
 
     displayNewCard: function (parent, title, taskId, taskOrderNumber) {
@@ -71,4 +77,5 @@ export let dom = {
         initTask(newTask);
         parent.appendChild(newTask);
     },
+
 };
