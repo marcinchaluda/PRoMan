@@ -47,6 +47,7 @@
     text-decoration: none;
     border: 1px solid #BFBFBF;
     border-radius: 10px;
+    max-height: 26px;
 }
 
 .header a.btn-user {
@@ -69,6 +70,8 @@
 .login-details {
     width: 25vw;
     margin-right: 2em;
+    min-width: 80px;
+    max-height: 26px;
 }
 
 i {

@@ -50,9 +50,9 @@ export let dom = {
         assignTask(cards);
     },
 
-    displayNewBoard: function (title, board_id) {
+    displayNewBoard: function (board_details, board_id) {
         const boardContainer = document.querySelector('.board-container');
-        const newBoard = createTemplateOfBoardsHTML(title, board_id);
+        const newBoard = createTemplateOfBoardsHTML(board_details['title'], board_id);
         boardContainer.insertAdjacentHTML("beforeend", newBoard);
 
         handleEvent(getLastButton());

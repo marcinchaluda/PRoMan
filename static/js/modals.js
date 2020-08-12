@@ -83,6 +83,7 @@ function injectDataToModalTemplate(modalId, inputId) {
     }
 
     const saveButton = createSaveButton();
+    saveButton.setAttribute('form', 'boardValues');
     modalFooter.appendChild(saveButton);
 
     const newBoardForm = createNewBoardForm(modalBody, modalFooter, modalId);
@@ -93,6 +94,7 @@ function injectDataToModalTemplate(modalId, inputId) {
 function createNewTextInput(id) {
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
+    newInput.setAttribute('name', 'title');
     newInput.setAttribute('id', id);
     newInput.setAttribute('placeholder', 'Insert name');
 
@@ -101,8 +103,8 @@ function createNewTextInput(id) {
 
 function createCheckboxContainer() {
     const container = document.createElement('div');
-    const boardPrivateCheckbox = createNewCheckbox();
-    const checkboxLabel = createLabelForCheckbox();
+    const boardPrivateCheckbox = createNewCheckbox('private', 'board-private');
+    const checkboxLabel = createLabelForCheckbox('private', 'board-private');
     container.classList.add('checkbox-container');
     container.appendChild(boardPrivateCheckbox);
     container.appendChild(checkboxLabel);
@@ -110,20 +112,19 @@ function createCheckboxContainer() {
     return container;
 }
 
-function createNewCheckbox() {
+function createNewCheckbox(boardPrivate, id) {
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
-    checkbox.setAttribute('id', 'board-private');
-    checkbox.setAttribute('name', 'board-private');
-    checkbox.setAttribute('value', 'private');
-
+    checkbox.setAttribute('id', id);
+    checkbox.setAttribute('name', id);
+    checkbox.setAttribute('value', boardPrivate);
     return checkbox;
 }
 
-function createLabelForCheckbox() {
+function createLabelForCheckbox(boardPrivate, id) {
     const label = document.createElement('label');
-    label.setAttribute('for', 'board-private');
-    label.innerText = 'Create private board';
+    label.setAttribute('for', id);
+    label.innerText = `Create ${boardPrivate} board`;
 
     return label;
 }
@@ -140,11 +141,15 @@ function createSaveButton() {
 
 function createNewBoardForm(modalBody, modalFooter, modalId) {
     const newForm = document.createElement('form');
+    newForm.setAttribute('action', '/boards');
+    newForm.setAttribute('id', 'boardValues');
+    newForm.setAttribute('method', 'POST');
     newForm.appendChild(modalBody);
     newForm.appendChild(modalFooter);
     newForm.addEventListener('submit', function (evant) {
         evant.preventDefault();
         modalId === 'new-board-modal' ? handleNewBoardEvants() : handleNewCardEvants();
+
     });
 
     return newForm;
@@ -154,9 +159,13 @@ function handleNewBoardEvants() {
     hideModal('#new-board-modal');
 
     const inputValue = document.getElementById('board-title').value;
-
-    dataHandler.createNewBoard(inputValue, function (response) {
-        dom.displayNewBoard(inputValue, response.board_id);
+    const boardPrivateValue = document.getElementById("board-private").checked;
+    const boardDetails = {
+        title: inputValue,
+        board_private: boardPrivateValue,
+    }
+    dataHandler.createNewBoard(boardDetails, function (response) {
+        dom.displayNewBoard(boardDetails, response.board_id);
         addFunctionToNewCardButtton(response.board_id);
     });
 }
