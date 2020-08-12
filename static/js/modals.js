@@ -86,7 +86,7 @@ function injectDataToModalTemplate(modalId, inputId) {
 function createNewTextInput(id) {
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
-    newInput.setAttribute('maxlength','15');
+    newInput.setAttribute('maxlength', '15');
     newInput.setAttribute('id', id);
     newInput.setAttribute('placeholder', 'Insert name');
 
@@ -156,6 +156,9 @@ function choseEvent(modalId) {
             break;
         case 'edit-card-modal':
             handleEditCardEvents();
+            break;
+        case 'new-column-modal':
+            handleNewColumnEvents();
             break;
     }
 }
@@ -236,6 +239,18 @@ function handleEditCardEvents() {
         cardTitle.innerText = newCardTitle;
     });
 
+}
+
+function handleNewColumnEvents() {
+    hideModal('#new-column-modal');
+
+    const newColumnTitle = document.getElementById('column-title').value;
+    const newColumnBoardId = Number(localStorage.getItem('activeBoard'));
+
+    const data = {
+        title: newColumnTitle,
+        boardId: newColumnBoardId
+    }
 }
 
 function hideModal(modalId) {

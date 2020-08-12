@@ -28,6 +28,8 @@ CREATE TABLE boards (
 DROP TABLE IF EXISTS public.statuses;
 CREATE TABLE statuses (
     id serial NOT NULL,
+    order_number integer,
+    board_id integer,
     title text
 );
 
@@ -36,7 +38,7 @@ CREATE TABLE cards (
     id serial NOT NULL,
     board_id integer,
     title text,
-    status_id integer DEFAULT 0,
+    status_id integer,
     order_number integer,
     archived BOOLEAN DEFAULT FALSE
 );
@@ -64,6 +66,9 @@ ALTER TABLE ONLY cards
 
 ALTER TABLE ONLY boards
     ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY statuses
+    ADD CONSTRAINT fk_boards_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
 
 INSERT INTO users VALUES (1, 'admin', 'admin@admin.pl', '$2b$12$x2Q2A0gWpGL3/0Kur4UBqeihA68Zs23mGBWAJ04CNXfwxHz7ZRfT2');
 SELECT pg_catalog.setval('users_id_seq', 1, true);

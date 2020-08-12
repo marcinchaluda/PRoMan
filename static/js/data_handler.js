@@ -157,5 +157,8 @@ export let dataHandler = {
             callback(response);
         });
     },
+    createColumn: function(columnData, callback) {
+        this._api_post('/statuses', columnData, callback);
+    }
     // here comes more features
 };
