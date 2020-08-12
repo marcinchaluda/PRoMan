@@ -33,7 +33,7 @@ export function createDeleteBoardButton(boardId, elementToDelete) {
     return deleteButton;
 }
 
-function createEditBoardButton(boardId) {
+export function createEditBoardButton(boardId) {
     const editButton = document.createElement('a');
     editButton.type = 'button';
 
