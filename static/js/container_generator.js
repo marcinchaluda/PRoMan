@@ -59,34 +59,34 @@ export function createTemplateOfBoardsHTML(title, board_private, id, isNewBoard=
 export function generateBoardDetails(id, isNewBoard) {
     return new Promise(resolve => {
         if (isNewBoard) {
-            generateDefaultColumns(resolve, id);
+            generateDefaultColumns(resolve, id).then(r => resolve());
         } else {
             generateColumns(resolve, id);
         }
     })
 }
 
-function generateDefaultColumns(resolve, id) {
+async function generateDefaultColumns(resolve, id) {
     let cardList = '';
-    for (let index in defaultColumns) {
+    for (let [index, columnName] of defaultColumns.entries()) {
         console.log(index)
         const columnData = {
-            title: defaultColumns[index],
+            title: columnName,
             board_id: id,
             order_number: index
         }
-        createNewColumnPromise(columnData)
+        await createNewColumnPromise(columnData)
             .then(result => {
                 let statusId = result;
                 console.log(statusId);
                 cardList += `
                 <div class='cell' status-id="${statusId}" status-order-number='${index}'>
-                    <h3>${defaultColumns[index]}</h3>
+                    <h3>${columnName}</h3>
                     <div class="tasks flex-column" cardId="${id}"></div>
                 </div>
                 `;
-                if (parseInt(index) === Object.keys(defaultColumns).length - 1) {
-                    console.log(cardList);
+                if (index === defaultColumns.length - 1) {
+                    console.log(index);
                     resolve(cardList);
                 }
             })
