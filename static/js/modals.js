@@ -249,7 +249,8 @@ function handleNewColumnEvents() {
 
     const data = {
         title: newColumnTitle,
-        boardId: newColumnBoardId
+        boardId: newColumnBoardId,
+
     }
 }
 
