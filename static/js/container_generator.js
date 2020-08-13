@@ -188,11 +188,9 @@ function generateColumns(resolve, id) {
                 if (columnIndex === Object.keys(columns).length - 1) {
                     resolve(cardList);
                 }
-                columnIndex++;
             }
         });
 }
-
 
 function stylePrivateBoard(board_details, board_id) {
     if (board_details.board_private === true) {
@@ -207,8 +205,8 @@ function stylePrivateBoard(board_details, board_id) {
 }
 
 function addButtonsToCard(elementToDelete, cardId) {
-    const buttonPanel = document.createElement('div');
-    buttonPanel.classList.add('button-panel');
+    const buttonPanel = util.createElementWithClasses('div', ['button-panel']);
+
     buttonPanel.appendChild(createDeleteCardButton(elementToDelete, cardId));
     buttonPanel.appendChild(createEditCardButton(cardId));
 
