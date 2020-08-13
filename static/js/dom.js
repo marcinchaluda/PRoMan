@@ -2,7 +2,8 @@ import {dataHandler} from "./data_handler.js";
 import {
     createDeleteBoardButton,
     createEditBoardButton,
-    createNewCardButton
+    createNewCardButton,
+    createNewColumnButton
 } from "./board_handler.js";
 import {
     generateBoards,
@@ -74,6 +75,9 @@ export let dom = {
                     const editButton = createEditBoardButton(board.id);
                     boardButtons.appendChild(editButton);
 
+                    const addColumnButton = createNewColumnButton(board.id);
+                    boardButtons.appendChild(addColumnButton);
+
                 }
             })
 
@@ -114,6 +118,9 @@ export let dom = {
 
                 const editButton = createEditBoardButton(board_id);
                 boardButtons.appendChild(editButton);
+
+                const addColumnButton = createNewColumnButton(board_id);
+                boardButtons.appendChild(addColumnButton);
 
                 markPrivateBoard(board_details, board_id);
             })
