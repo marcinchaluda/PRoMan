@@ -117,7 +117,7 @@ export let generator = {
 
     handleRefreshButton: function () {
         const refreshButton = document.getElementById('refresh-button');
-        refreshButton.addEventListener('click', () => window.location.reload());
+        refreshButton.onclick = window.location.reload;
     },
 
     assignCards: function (cards) {
