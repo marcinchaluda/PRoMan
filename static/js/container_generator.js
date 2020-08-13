@@ -10,29 +10,29 @@ export function generateBoards(boards) {
     return new Promise(resolve => {
         let boardList = '';
         let boardIndex = 0;
-        for(let board of boards){
-            const templateOfBoardsPromise = createTemplateOfBoardsHTML(board.title, board.id);
-            templateOfBoardsPromise.then(result => {
-                boardList += result;
-                console.log(boardList)
-                if (boardIndex === Object.keys(boards).length - 1) {
-                    console.log(boardList)
-                    resolve(boardList);
-                }
-                boardIndex ++;
-            })
-            // boardList += createTemplateOfBoardsHTML(board.title, board.id);
-            // dom.loadCards(board.id);
+        if (Object.keys(boards).length === 0) {
+            resolve(boardList);
+        } else {
+            for(let board of boards){
+                const templateOfBoardsPromise = createTemplateOfBoardsHTML(board.title, board.id);
+                templateOfBoardsPromise.then(result => {
+                    boardList += result;
+                    if (boardIndex === Object.keys(boards).length - 1) {
+                        resolve(boardList);
+                    }
+                    boardIndex ++;
+                })
+                // dom.loadCards(board.id);
+            }
         }
     })
 
 }
 
-export function createTemplateOfBoardsHTML(title, id){
+export function createTemplateOfBoardsHTML(title, id, isNewBoard=false){
     return new Promise(resolve => {
-        const boardDetailsPromise = generateBoardDetails(id);
+        const boardDetailsPromise = generateBoardDetails(id, isNewBoard);
         boardDetailsPromise.then(boardDetails => {
-                // console.log(boardDetails)
                 const boardsTemplate = `
                     <li class="flex-row-start" boardId="${id}">
                         <div class="title flex-row-start">
@@ -47,44 +47,77 @@ export function createTemplateOfBoardsHTML(title, id){
                     </li>
                     <div class="cards-container flex-row-start hide-details" containerBoardId="${id}">${boardDetails}</div>
                 `;
-                // console.log(boardsTemplate)
                 resolve(boardsTemplate);
             })
     })
-
-
 }
 
-export function generateBoardDetails(id) {
+export function generateBoardDetails(id, isNewBoard= false) {
     return new Promise(resolve => {
-        let cardList = '';
-        for (let index in defaultColumns) {
-            console.log(index)
-            const columnData = {
-                title: defaultColumns[index],
-                board_id: id,
-                order_number: index
-            }
-            createNewColumn(columnData)
-                .then(result => {
-                    let statusId = result;
-                    console.log(statusId)
-                    cardList += `
-                    <div class='cell' status-id="${statusId}" status-order-number='${index}'>
-                        <h3>${defaultColumns[index]}</h3>
-                        <div class="tasks flex-column" cardId="${id}"></div>
-                    </div>
-                    `;
-                    if (parseInt(index) === Object.keys(defaultColumns).length - 1) {
-                        // console.log(cardList)
-                        resolve(cardList);
-                     }
-                })
+        if (isNewBoard === true) {
+            generateDefaultColumns(resolve, id);
+        } else if (isNewBoard === false) {
+            generateColumns(resolve, id);
         }
     })
 }
 
-function createNewColumn(columnData) {
+function generateDefaultColumns(resolve, id) {
+    let cardList = '';
+    for (let index in defaultColumns) {
+        console.log(index)
+        const columnData = {
+            title: defaultColumns[index],
+            board_id: id,
+            order_number: index
+        }
+        createNewColumnPromise(columnData)
+            .then(result => {
+                let statusId = result;
+                cardList += `
+                <div class='cell' status-id="${statusId}" status-order-number='${index}'>
+                    <h3>${defaultColumns[index]}</h3>
+                    <div class="tasks flex-column" cardId="${id}"></div>
+                </div>
+                `;
+                if (parseInt(index) === Object.keys(defaultColumns).length - 1) {
+                    resolve(cardList);
+                }
+            })
+    }
+}
+
+function generateColumns(resolve, id) {
+    let cardList = '';
+    getColumnsByBoardId(id)
+        .then(result => {
+            const columns = result;
+            let columnIndex = 0;
+            for (let column of columns) {
+                cardList += `
+                <div class='cell' status-id="${column.id}" status-order-number='${column.order_number}'>
+                    <h3>${column.title}</h3>
+                    <div class="tasks flex-column" cardId="${id}"></div>
+                </div>
+                `;
+                if (columnIndex === Object.keys(columns).length - 1) {
+                    resolve(cardList);
+                }
+                columnIndex++;
+            }
+        })
+}
+
+export function getColumnsByBoardId(id) {
+    return new Promise(resolve => {
+        dataHandler.getColumnsByBoardId(id, response => {
+            const columns = response.columns;
+            resolve(columns);
+        })
+    })
+}
+
+function createNewColumnPromise(columnData) {
     return new Promise(resolve => {
         dataHandler.createColumn(columnData, (response) => {
             let statusId = response.id;
@@ -92,7 +125,6 @@ function createNewColumn(columnData) {
         })
     })
 }
-
 
 export function handleDetailButton() {
     const detailBtn = document.querySelectorAll('.detail-button');
@@ -113,20 +145,14 @@ export function handleEvent (button) {
     });
 }
 
-export function assignTask(cards) {
-
+export function assignCards(cards) {
     cards.forEach(card => {
-        const tasks = [...document.querySelector(`[containerBoardId="${card.board_id}"]`).children];
-        tasks.forEach(column => {
-            createColumn(column, card);
-        });
+        let column = document.querySelector(`.cell[status-id="${card.status_id}"]`);
+        createColumn(column.querySelector(".tasks"), card);
     });
 }
 
 export function createColumn (column, card) {
-    const columnName = defaultColumns[card.status_id];
-
-    if (column.getAttribute('id') === columnName) {
         const task = document.createElement('div');
         task.classList.add('task');
         task.setAttribute('task-id', card.id);
@@ -139,8 +165,7 @@ export function createColumn (column, card) {
         buttonPanel.appendChild(createDeleteCardButton(task, card.id));
         task.appendChild(buttonPanel);
 
-        column.children[taskContainer].appendChild(task);
-    }
+        column.appendChild(task);
 }
 
 export function getLastButton() {

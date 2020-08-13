@@ -139,7 +139,7 @@ function handleNewBoardEvants() {
     });
 }
 
-function addFunctionToNewCardButtton(boardId) {
+export function addFunctionToNewCardButtton(boardId) {
     const newCardButton = document.querySelector(`li[boardid="${boardId}"] > div >a`);
     newCardButton.onclick = function () {
         newCardModal.style.display = "block";
@@ -152,15 +152,15 @@ function handleNewCardEvants() {
 
     const newCardTitle = document.getElementById('card-title').value;
     const newCardBoardId = Number(localStorage.getItem('activeBoard'));
-
+    const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
+    const statusId = parseInt(column.parentElement.getAttribute("status-id"));
     const data = {
         title: newCardTitle,
         boardId: newCardBoardId,
-        statusId: 0
+        statusId: statusId
     };
 
     dataHandler.createNewCard(data, function (response) {
-        const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
         dom.displayNewCard(column, newCardTitle, response.card.id, response.card.order_number);
     });
 }

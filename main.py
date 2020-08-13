@@ -124,6 +124,11 @@ def statuses():
         column_id = data_manager.add_new_column(column_data)
         return {'status': 200,
                 'id': column_id['id']}
+    if method == 'GET':
+        board_id = request.args.get('boardId')
+        columns_data = data_manager.get_columns_by_board_id(board_id)
+        return {'status': 200,
+                'columns': columns_data}
 
 
 def main():
