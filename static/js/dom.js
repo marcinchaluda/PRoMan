@@ -63,7 +63,7 @@ export let dom = {
     },
 
     displayNewCard: function (parent, title, taskId, taskOrderNumber) {
-        const newTask = generator.createNewTask(title, taskId, taskOrderNumber);
+        const newTask = generator.createNewTask(taskId, title, taskOrderNumber);
         initTask(newTask);
         parent.appendChild(newTask);
     },

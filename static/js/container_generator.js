@@ -4,6 +4,7 @@ import {
     createEditCardButton
 } from "./card_handler.js";
 import {dataHandler} from "./data_handler.js";
+import {util} from "./util.js";
 
 const defaultColumns = ['New', 'In Progress', 'Testing', 'Done'];
 
@@ -122,25 +123,10 @@ export let generator = {
 
     assignCards: function (cards) {
         cards.forEach(card => {
-            let column = document.querySelector(`.cell[status-id="${card.status_id}"]`);
-            this.createColumn(column.querySelector(".tasks"), card);
+            let column = document.querySelector(`.cell[status-id="${card.status_id}"] .tasks`);
+            const task = this.createNewTask(card.id, card.title, card.order_number);
+            column.appendChild(task);
         });
-    },
-
-    createColumn: function (column, card) {
-        const task = document.createElement('div');
-        task.classList.add('task');
-        task.setAttribute('task-id', card.id);
-        task.setAttribute('order-number', card.order_number);
-        //TODO extract to new function during refactor
-        const taskTitle = document.createElement('div');
-        taskTitle.classList.add('task-title');
-        taskTitle.textContent = card.title;
-        task.appendChild(taskTitle);
-
-        task.appendChild(addButtonsToCard(task, card.id));
-
-        column.appendChild(task);
     },
 
     getLastButton: function () {
@@ -152,16 +138,14 @@ export let generator = {
         initColumns(document.querySelectorAll(`div[containerBoardId="${board_id}"] .tasks`));
     },
 
-    createNewTask: function (title, taskId, taskNumberOrder) {
-        const task = document.createElement('div');
-        //TODO extract to new function during refactor
-        const taskTitle = document.createElement('div');
-        taskTitle.classList.add('task-title');
+    createNewTask: function (taskId, title, orderNumber) {
+        const task = util.createElementWithClasses('div', ['task'])
+        task.setAttribute('task-id', taskId);
+        task.setAttribute('order-number', orderNumber);
+
+        const taskTitle = util.createElementWithClasses('div', ['task-title']);
         taskTitle.textContent = title;
         task.appendChild(taskTitle);
-        task.classList.add('task');
-        task.setAttribute('task-id', taskId);
-        task.setAttribute('order-number', taskNumberOrder);
 
         task.appendChild(addButtonsToCard(task, taskId));
 
@@ -191,7 +175,6 @@ export let generator = {
         });
     }
 }
-
 
 function generateColumns(resolve, id) {
     let cardList = '';
