@@ -12,22 +12,23 @@ const taskContainer = 1;
 export function generateBoards(boards) {
     return new Promise(resolve => {
         let boardList = '';
+        let boardIndex = 0;
         if (Object.keys(boards).length === 0) {
             resolve(boardList);
         } else {
-            for(let [index, board] of boards.entries()){
+            for(let board of boards){
                 const templateOfBoardsPromise = createTemplateOfBoardsHTML(board.title, board.board_private ,board.id);
                 templateOfBoardsPromise.then(result => {
                     boardList += result;
-                    if (index === Object.keys(boards).length - 1) {
+                    if (boardIndex === Object.keys(boards).length - 1) {
                         resolve(boardList);
                     }
+                    boardIndex ++;
                 })
                 // dom.loadCards(board.id);
             }
         }
     })
-
 }
 
 export function createTemplateOfBoardsHTML(title, board_private, id, isNewBoard=false){
