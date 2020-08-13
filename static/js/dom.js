@@ -15,10 +15,12 @@ import {
     initNewColumnsWithDragAndDrop,
     assignCards,
     markPrivateBoard,
-    handleRefreshButton
+    handleRefreshButton,
+    createNewColumn,
+    stylePrivateBoard
 } from './container_generator.js';
 import {addFunctionToNewCardButton, modalsInit} from "./modals.js";
-import {dragAndDropHandler, initTask} from './drag_and_drop_handler.js';
+import {dragAndDropHandler, initTask, initColumn} from './drag_and_drop_handler.js';
 
 
 export let dom = {
@@ -123,4 +125,13 @@ export let dom = {
         initTask(newTask);
         parent.appendChild(newTask);
     },
+
+    displayNewColumn: function(data) {
+        const cardsContainer = document.querySelector(`div[containerboardid="${data.board_id}"]`);
+        const newColumn = createNewColumn(data);
+
+        initColumn(newColumn);
+
+        cardsContainer.appendChild(newColumn);
+    }
 };

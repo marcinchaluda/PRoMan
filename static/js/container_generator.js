@@ -5,6 +5,7 @@ import {
     createEditCardButton
 } from "./card_handler.js";
 import {dataHandler} from "./data_handler.js";
+import {util} from "./util.js"
 
 const defaultColumns = ['New', 'In Progress', 'Testing', 'Done'];
 const taskContainer = 1;
@@ -217,7 +218,7 @@ export function markPrivateBoard(board_details, board_id) {
     stylePrivateBoard(board_details, board_id);
 }
 
-function stylePrivateBoard(board_details, board_id) {
+export function stylePrivateBoard(board_details, board_id) {
     if (board_details.board_private === true){
         const li = document.querySelector(`li[boardId="${board_id}"]`);
         const cards = document.querySelectorAll(`div[containerBoardId="${board_id}"] .cell h3`);
@@ -235,4 +236,24 @@ function addButtonsToCard(elementToDelete, cardId) {
     buttonPanel.appendChild(createEditCardButton(cardId));
 
     return buttonPanel;
+}
+
+export function createNewColumn(data) {
+    const cellElement = util.createElementWithClasses("div", ["cell"]);
+    cellElement.setAttribute("status-id", data.status_id);
+    cellElement.setAttribute("status-order-number", data.order_number);
+
+    const titleElement = util.createElementWithClasses("h3");
+    titleElement.textContent = data.title;
+    if (document.querySelector(`li[boardid="${data.board_id}"]`).getAttribute("boardprivate")  === 'true') {
+        titleElement.classList.add("private");
+    }
+
+    const tasksElement = util.createElementWithClasses("div", ["tasks", "flex-column"]);
+    tasksElement.setAttribute("cardid", data.board_id);
+
+    cellElement.appendChild(titleElement);
+    cellElement.appendChild(tasksElement);
+
+    return cellElement;
 }

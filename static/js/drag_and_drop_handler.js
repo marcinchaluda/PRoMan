@@ -35,7 +35,7 @@ export function initColumns(columns) {
     }
 }
 
-function initColumn(column) {
+export function initColumn(column) {
     column.addEventListener("dragenter", columnEnterHandler);
     column.addEventListener("dragover", columnOverHandler);
     column.addEventListener("dragleave", columnLeaveHandler);
