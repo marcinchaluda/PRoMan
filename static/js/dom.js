@@ -43,7 +43,7 @@ export let dom = {
                 for (let board of boards) {
                     this.loadCards(board.id)
 
-                    handleEvent(getLastButton());
+                    // handleEvent(getLastButton());
                     initNewColumnsWithDragAndDrop(board.id);
 
                     const boardButtons = document.querySelector(`li[boardid="${board.id}"] > .title`);

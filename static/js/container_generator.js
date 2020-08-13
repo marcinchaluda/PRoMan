@@ -4,7 +4,7 @@ import { createDeleteCardButton } from "./card_handler.js";
 import {dataHandler} from "./data_handler.js";
 
 const defaultColumns = {0: 'New', 1: 'In Progress', 2: 'Testing', 3:'Done'};
-const taskContainer = 1;
+// const taskContainer = 1;
 
 export function generateBoards(boards) {
     return new Promise(resolve => {
@@ -52,11 +52,11 @@ export function createTemplateOfBoardsHTML(title, id, isNewBoard=false){
     })
 }
 
-export function generateBoardDetails(id, isNewBoard= false) {
+export function generateBoardDetails(id, isNewBoard) {
     return new Promise(resolve => {
-        if (isNewBoard === true) {
+        if (isNewBoard) {
             generateDefaultColumns(resolve, id);
-        } else if (isNewBoard === false) {
+        } else {
             generateColumns(resolve, id);
         }
     })
@@ -74,6 +74,7 @@ function generateDefaultColumns(resolve, id) {
         createNewColumnPromise(columnData)
             .then(result => {
                 let statusId = result;
+                console.log(statusId);
                 cardList += `
                 <div class='cell' status-id="${statusId}" status-order-number='${index}'>
                     <h3>${defaultColumns[index]}</h3>
@@ -81,6 +82,7 @@ function generateDefaultColumns(resolve, id) {
                 </div>
                 `;
                 if (parseInt(index) === Object.keys(defaultColumns).length - 1) {
+                    console.log(cardList);
                     resolve(cardList);
                 }
             })
