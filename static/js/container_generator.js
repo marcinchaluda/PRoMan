@@ -152,13 +152,12 @@ export let generator = {
     },
 
     markPrivateBoard: function (board_details, board_id) {
-        if (board_details.board_private === true) {
-            const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] .col-title`);
+        const icons = document.getElementsByClassName('div.title fas fa-user-lock');
+
+        if (board_details.board_private && icons.length === 0) {
             const lockIcon = '<i class="fas fa-user-lock"></i>';
-            const icons = document.getElementsByClassName('div.title fas fa-user-lock');
-            if (icons.length === 0) {
-                boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
-            }
+            const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] .col-title`);
+            boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
         }
         stylePrivateBoard(board_details, board_id);
     },
