@@ -2,18 +2,18 @@ import {dataHandler} from "./data_handler.js";
 import {dom} from "./dom.js";
 import {util} from "./util.js";
 
-export function modalsInit() {
-    const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
-    for (let newCardButton of allButtonsAddNewCard) {
-        newCardButton.onclick = function () {
-            const newCardModal = document.getElementById('new-card-modal');
-            newCardModal.style.display = "block";
-
-            const parentLiElement = newCardButton.closest("li");
-            localStorage.setItem('activeBoard', parentLiElement.getAttribute('boardid'));
-        }
-    }
-}
+// export function modalsInit() {
+//     const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
+//     for (let newCardButton of allButtonsAddNewCard) {
+//         newCardButton.onclick = function () {
+//             const newCardModal = document.getElementById('new-card-modal');
+//             newCardModal.style.display = "block";
+//
+//             const parentLiElement = newCardButton.closest("li");
+//             localStorage.setItem('activeBoard', parentLiElement.getAttribute('boardid'));
+//         }
+//     }
+// }
 
 // Function create basic template for modal
 function createModal(id, headerText) {

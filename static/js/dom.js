@@ -1,9 +1,6 @@
 import {dataHandler} from "./data_handler.js";
 import {
-    createDeleteBoardButton,
-    createEditBoardButton,
-    createNewCardButton,
-    createNewColumnButton
+    addBoardButtons
 } from "./board_handler.js";
 import {
     generateBoards,
@@ -17,25 +14,19 @@ import {
     markPrivateBoard,
     handleRefreshButton
 } from './container_generator.js';
-import {addFunctionToNewCardButton, modalsInit} from "./modals.js";
+
 import {dragAndDropHandler, initTask} from './drag_and_drop_handler.js';
 
 
 export let dom = {
     init: function () {
         dom.loadBoards()
-            .then(() => {
-                // modalsInit();
-            });
     },
 
     loadBoards: function () {
-        return new Promise((resolve => {
-            dataHandler.getBoards(function (boards) {
-                dom.showBoards(boards);
-                resolve();
-            });
-        }));
+        dataHandler.getBoards(function (boards) {
+            dom.showBoards(boards);
+        });
     },
 
     showBoards: function (boards) {
@@ -59,29 +50,14 @@ export let dom = {
                         markPrivateBoard(board, board['id']);
                     }
 
-                    // handleEvent(getLastButton());
                     initNewColumnsWithDragAndDrop(board.id);
 
                     const boardButtons = document.querySelector(`li[boardid="${board.id}"] > .title`);
                     const boardTitleBar = document.querySelector(`li[boardid="${board.id}"]`);
 
-                    const newCardButton = createNewCardButton(board.id);
-                    boardButtons.appendChild(newCardButton);
-
-                    const deleteButton = createDeleteBoardButton(board.id, boardTitleBar);
-                    boardButtons.appendChild(deleteButton);
-                    addFunctionToNewCardButton(board.id);
-
-                    const editButton = createEditBoardButton(board.id);
-                    boardButtons.appendChild(editButton);
-
-                    const addColumnButton = createNewColumnButton(board.id);
-                    boardButtons.appendChild(addColumnButton);
-
+                    addBoardButtons(boardButtons, board.id, boardTitleBar);
                 }
             })
-
-        // handleDetailButton();
     },
 
     loadCards: function (boardId) {
@@ -108,20 +84,7 @@ export let dom = {
                 const boardButtons = document.querySelector(`li[boardid="${board_id}"] > .title`);
                 const boardTitleBar = document.querySelector(`li[boardid="${board_id}"]`);
 
-                const newCardButton = createNewCardButton(board_id);
-                boardButtons.appendChild(newCardButton);
-
-                const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
-                boardButtons.appendChild(deleteButton);
-
-                addFunctionToNewCardButton(board_id);
-
-                const editButton = createEditBoardButton(board_id);
-                boardButtons.appendChild(editButton);
-
-                const addColumnButton = createNewColumnButton(board_id);
-                boardButtons.appendChild(addColumnButton);
-
+                addBoardButtons(boardButtons, board_id, boardTitleBar);
                 markPrivateBoard(board_details, board_id);
             })
     },
