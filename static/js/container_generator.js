@@ -102,8 +102,7 @@ export let generator = {
     createNewColumnPromise: function (columnData) {
         return new Promise(resolve => {
             dataHandler.createColumn(columnData, (response) => {
-                let statusId = response.id;
-                resolve(statusId);
+                resolve(response.id);
             });
         });
     },
