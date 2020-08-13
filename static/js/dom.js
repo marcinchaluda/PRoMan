@@ -55,7 +55,7 @@ export let dom = {
                 const boardContainer = document.querySelector('.board-container');
                 boardContainer.insertAdjacentHTML("beforeend", newBoard);
 
-                generator.handleEvent();
+                generator.handleEvent(generator.getLastButton());
                 generator.initNewColumnsWithDragAndDrop(board_id);
                 addBoardButtons(board_id);
                 generator.markPrivateBoard(board_details, board_id);

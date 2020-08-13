@@ -111,7 +111,7 @@ export let generator = {
         const detailBtn = document.querySelectorAll('.detail-button');
 
         detailBtn.forEach(button => {
-            this.handleEvent(button);
+            generator.handleEvent(button);
         });
     },
 
@@ -141,6 +141,11 @@ export let generator = {
         task.appendChild(addButtonsToCard(task, card.id));
 
         column.appendChild(task);
+    },
+
+    getLastButton: function () {
+        const buttons = [...document.querySelectorAll('.board-details > i')];
+        return buttons[buttons.length - 1];
     },
 
     initNewColumnsWithDragAndDrop: function (board_id) {
@@ -175,8 +180,7 @@ export let generator = {
         stylePrivateBoard(board_details, board_id);
     },
 
-    handleEvent: function () {
-        const button = getLastButton();
+    handleEvent: function (button) {
         button.addEventListener('click', function () {
             button.getAttribute('boardId');
             const cardsContainer = button.parentElement.parentElement.nextElementSibling;
@@ -230,9 +234,4 @@ function addButtonsToCard(elementToDelete, cardId) {
     buttonPanel.appendChild(createEditCardButton(cardId));
 
     return buttonPanel;
-}
-
-function getLastButton() {
-    const buttons = [...document.querySelectorAll('.board-details > i')];
-    return buttons[buttons.length - 1];
 }
