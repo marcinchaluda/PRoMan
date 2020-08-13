@@ -16,11 +16,13 @@ import {
 } from './container_generator.js';
 
 import {dragAndDropHandler, initTask} from './drag_and_drop_handler.js';
+import {util} from "./util.js";
 
 
 export let dom = {
     init: function () {
-        dom.loadBoards()
+        dom.loadBoards();
+        handleRefreshButton();
     },
 
     loadBoards: function () {
@@ -33,30 +35,14 @@ export let dom = {
         const boardListPromise = generateBoards(boards);
         boardListPromise
             .then(boardList => {
-                const outerHtml = `
-                    <ul class="board-container flex-column">
-                        ${boardList}
-                    </ul>
-                `;
+                const outerHtml = util.createElementWithClasses('ul', ['board-container', 'flex-column']);
+                outerHtml.innerHTML = boardList;
 
-                let boardsContainer = document.querySelector('#boards');
-                boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+                const boardsContainer = document.querySelector('#boards');
+                boardsContainer.appendChild(outerHtml);
+
                 handleDetailButton();
-                handleRefreshButton();
-                for (let board of boards) {
-                    this.loadCards(board.id)
-
-                    if (board.board_private) {
-                        markPrivateBoard(board, board['id']);
-                    }
-
-                    initNewColumnsWithDragAndDrop(board.id);
-
-                    const boardButtons = document.querySelector(`li[boardid="${board.id}"] > .title`);
-                    const boardTitleBar = document.querySelector(`li[boardid="${board.id}"]`);
-
-                    addBoardButtons(boardButtons, board.id, boardTitleBar);
-                }
+                fillBoardContent(boards);
             })
     },
 
@@ -78,13 +64,10 @@ export let dom = {
             .then(newBoard => {
                 const boardContainer = document.querySelector('.board-container');
                 boardContainer.insertAdjacentHTML("beforeend", newBoard);
+
                 handleEvent(getLastButton());
                 initNewColumnsWithDragAndDrop(board_id);
-
-                const boardButtons = document.querySelector(`li[boardid="${board_id}"] > .title`);
-                const boardTitleBar = document.querySelector(`li[boardid="${board_id}"]`);
-
-                addBoardButtons(boardButtons, board_id, boardTitleBar);
+                addBoardButtons(board_id);
                 markPrivateBoard(board_details, board_id);
             })
     },
@@ -95,3 +78,16 @@ export let dom = {
         parent.appendChild(newTask);
     },
 };
+
+function fillBoardContent(boards) {
+    for (let board of boards) {
+        dom.loadCards(board.id)
+
+        if (board.board_private) {
+            markPrivateBoard(board, board['id']);
+        }
+
+        initNewColumnsWithDragAndDrop(board.id);
+        addBoardButtons(board.id);
+    }
+}

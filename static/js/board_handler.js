@@ -1,11 +1,14 @@
 import {dataHandler} from "./data_handler.js";
 import {util} from "./util.js";
 
-export function addBoardButtons(buttonBar, boardId, elementToDelete) {
-    buttonBar.appendChild(createNewCardButton(boardId));
-    buttonBar.appendChild(createDeleteBoardButton(boardId, elementToDelete));
-    buttonBar.appendChild(createEditBoardButton(boardId));
-    buttonBar.appendChild(createNewColumnButton(boardId));
+export function addBoardButtons(boardId) {
+    const boardButtons = document.querySelector(`li[boardid="${boardId}"] > .title`);
+    const boardTitleBar = document.querySelector(`li[boardid="${boardId}"]`);
+
+    boardButtons.appendChild(createNewCardButton(boardId));
+    boardButtons.appendChild(createDeleteBoardButton(boardId, boardTitleBar));
+    boardButtons.appendChild(createEditBoardButton(boardId));
+    boardButtons.appendChild(createNewColumnButton(boardId));
 }
 
 function createNewCardButton(boardId) {
