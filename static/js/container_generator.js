@@ -17,7 +17,7 @@ export function generateBoards(boards) {
             resolve(boardList);
         } else {
             for(let board of boards){
-                const templateOfBoardsPromise = createTemplateOfBoardsHTML(board.title, board.id);
+                const templateOfBoardsPromise = createTemplateOfBoardsHTML(board.title, board.board_private ,board.id);
                 templateOfBoardsPromise.then(result => {
                     boardList += result;
                     if (boardIndex === Object.keys(boards).length - 1) {

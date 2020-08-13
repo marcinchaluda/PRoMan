@@ -15,7 +15,7 @@ import {
     markPrivateBoard,
     handleRefreshButton
 } from './container_generator.js';
-import {addFunctionToNewCardButtton} from "./modals.js";
+import {addFunctionToNewCardButton} from "./modals.js";
 import {dragAndDropHandler, initTask} from './drag_and_drop_handler.js';
 
 
@@ -60,7 +60,7 @@ export let dom = {
                     const boardTitleBar = document.querySelector(`li[boardid="${board.id}"]`);
                     const deleteButton = createDeleteBoardButton(board.id, boardTitleBar);
                     boardButtons.appendChild(deleteButton);
-                    addFunctionToNewCardButtton(board.id);
+                    addFunctionToNewCardButton(board.id);
                 }
             })
 
@@ -79,6 +79,7 @@ export let dom = {
     },
 
     displayNewBoard: function (board_details, board_id) {
+        console.log(board_id)
         const newBoardPromise = createTemplateOfBoardsHTML(board_details['title'], board_details['board_private'], board_id, true);
         newBoardPromise
             .then(newBoard => {

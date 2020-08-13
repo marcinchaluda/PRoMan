@@ -178,7 +178,7 @@ function handleNewBoardEvents() {
     });
 }
 
-function addFunctionToNewCardButton(boardId) {
+export function addFunctionToNewCardButton(boardId) {
     const newCardButton = document.querySelector(`li[boardid="${boardId}"] > div >a`);
 
     newCardButton.onclick = function () {
