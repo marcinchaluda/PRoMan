@@ -12,21 +12,21 @@ const taskContainer = 1;
 export function generateBoards(boards) {
     return new Promise(resolve => {
         let boardList = '';
-        let boardIndex = 0;
         if (Object.keys(boards).length === 0) {
             resolve(boardList);
         } else {
-            for(let board of boards){
+            for(let [index, board] of boards.entries()){
                 const templateOfBoardsPromise = createTemplateOfBoardsHTML(board.title, board.board_private ,board.id);
                 templateOfBoardsPromise.then(result => {
                     boardList += result;
-                    if (boardIndex === Object.keys(boards).length - 1) {
+                    if (index === Object.keys(boards).length - 1) {
                         resolve(boardList);
                     }
-                    boardIndex ++;
-                })
+                });
+
                 // dom.loadCards(board.id);
             }
+
         }
     })
 
@@ -53,6 +53,7 @@ export function createTemplateOfBoardsHTML(title, board_private, id, isNewBoard=
                     </li>
                     <div class="cards-container flex-row-start hide-details" containerBoardId="${id}">${boardDetails}</div>
                 `;
+            // console.log(boardsTemplate)
                 resolve(boardsTemplate);
             })
     })
