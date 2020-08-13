@@ -177,10 +177,8 @@ export let generator = {
 function generateColumns(resolve, id) {
     let cardList = '';
     generator.getColumnsByBoardId(id)
-        .then(result => {
-            const columns = result;
-            let columnIndex = 0;
-            for (let column of columns) {
+        .then(columns => {
+            for (let [columnIndex, column] of columns.entries()) {
                 cardList += `
                 <div class='cell' status-id="${column.id}" status-order-number='${column.order_number}'>
                     <h3>${column.title}</h3>
