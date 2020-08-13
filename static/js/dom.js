@@ -7,20 +7,24 @@ import {
     generateBoards,
     handleDetailButton,
     createTemplateOfBoardsHTML,
-    assignTask,
     createNewTask,
     handleEvent,
     getLastButton,
     initNewColumnsWithDragAndDrop,
+    assignCards,
     markPrivateBoard,
     handleRefreshButton
 } from './container_generator.js';
-
+import {addFunctionToNewCardButton, modalsInit} from "./modals.js";
 import {dragAndDropHandler, initTask} from './drag_and_drop_handler.js';
 
 
 export let dom = {
     init: function () {
+        dom.loadBoards()
+            .then(() => {
+                modalsInit();
+            });
     },
 
     loadBoards: function () {
@@ -33,54 +37,77 @@ export let dom = {
     },
 
     showBoards: function (boards) {
-        const boardList = generateBoards(boards);
-        const outerHtml = `
-            <ul class="board-container flex-column">
-                ${boardList}
-            </ul>
-        `;
+        const boardListPromise = generateBoards(boards);
+        boardListPromise
+            .then(boardList => {
+                const outerHtml = `
+                    <ul class="board-container flex-column">
+                        ${boardList}
+                    </ul>
+                `;
 
-        let boardsContainer = document.querySelector('#boards');
-        boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+                let boardsContainer = document.querySelector('#boards');
+                boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+                handleDetailButton();
+                handleRefreshButton();
+                for (let board of boards) {
+                    this.loadCards(board.id)
 
-        boards.forEach(board => {
-           if (board.board_private) {
-               markPrivateBoard(board, board['id']);
-           }
-        });
-        handleDetailButton();
-        handleRefreshButton();
+                    if (board.board_private) {
+                        markPrivateBoard(board, board['id']);
+                    }
+
+                    // handleEvent(getLastButton());
+                    initNewColumnsWithDragAndDrop(board.id);
+
+                    const boardButtons = document.querySelector(`li[boardid="${board.id}"] > .title`);
+                    const boardTitleBar = document.querySelector(`li[boardid="${board.id}"]`);
+                    const deleteButton = createDeleteBoardButton(board.id, boardTitleBar);
+                    boardButtons.appendChild(deleteButton);
+                    addFunctionToNewCardButton(board.id);
+
+                    const editButton = createEditBoardButton(board.id);
+                    boardButtons.appendChild(editButton);
+
+                }
+            })
+
+        // handleDetailButton();
     },
 
     loadCards: function (boardId) {
-        dataHandler.getBoard(boardId, function (response) {
+        dataHandler.getCardsByBoardId(boardId, function (response) {
             dom.showCards(response);
             dragAndDropHandler.init();
         });
     },
 
     showCards: function (cards) {
-        assignTask(cards);
+        assignCards(cards);
     },
 
     displayNewBoard: function (board_details, board_id) {
-        const boardContainer = document.querySelector('.board-container');
-        const newBoard = createTemplateOfBoardsHTML(board_details['title'], board_details['board_private'], board_id);
-        boardContainer.insertAdjacentHTML("beforeend", newBoard);
 
-        handleEvent(getLastButton());
-        initNewColumnsWithDragAndDrop(board_id);
+        const newBoardPromise = createTemplateOfBoardsHTML(board_details['title'], board_details['board_private'], board_id, true);
+        newBoardPromise
+            .then(newBoard => {
+                const boardContainer = document.querySelector('.board-container');
+                boardContainer.insertAdjacentHTML("beforeend", newBoard);
+                handleEvent(getLastButton());
+                initNewColumnsWithDragAndDrop(board_id);
 
-        const boardButtons = document.querySelector(`li[boardid="${board_id}"] > .title`);
-        const boardTitleBar = document.querySelector(`li[boardid="${board_id}"]`);
+                const boardButtons = document.querySelector(`li[boardid="${board_id}"] > .title`);
+                const boardTitleBar = document.querySelector(`li[boardid="${board_id}"]`);
+                const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
+                boardButtons.appendChild(deleteButton);
 
-        const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
-        boardButtons.appendChild(deleteButton);
+                addFunctionToNewCardButton(board_id);
 
-        markPrivateBoard(board_details, board_id);
+                const editButton = createEditBoardButton(board_id);
+                boardButtons.appendChild(editButton);
 
-        const editButton = createEditBoardButton(board_id);
-        boardButtons.appendChild(editButton);
+                markPrivateBoard(board_details, board_id);
+            })
     },
 
     displayNewCard: function (parent, title, taskId, taskOrderNumber) {

@@ -4,50 +4,134 @@ import {
     createDeleteCardButton,
     createEditCardButton
 } from "./card_handler.js";
+import {dataHandler} from "./data_handler.js";
 
-const defaultColumns = {0: 'New', 1: 'In Progress', 2: 'Testing', 3: 'Done'};
+const defaultColumns = ['New', 'In Progress', 'Testing', 'Done'];
 const taskContainer = 1;
 
 export function generateBoards(boards) {
-    let boardList = '';
+    return new Promise(resolve => {
+        let boardList = '';
+        let boardIndex = 0;
+        if (Object.keys(boards).length === 0) {
+            resolve(boardList);
+        } else {
+            for(let board of boards){
+                const templateOfBoardsPromise = createTemplateOfBoardsHTML(board.title, board.board_private ,board.id);
+                templateOfBoardsPromise.then(result => {
+                    boardList += result;
+                    if (boardIndex === Object.keys(boards).length - 1) {
+                        resolve(boardList);
+                    }
+                    boardIndex ++;
+                })
+                // dom.loadCards(board.id);
+            }
+        }
+    })
 
-    for(let board of boards){
-        boardList += createTemplateOfBoardsHTML(board.title, board.board_private, board.id);
-        dom.loadCards(board.id);
-    }
-    return boardList;
 }
 
-export function createTemplateOfBoardsHTML(title, board_private, id){
-    board_private = board_private ? 'true' : 'false';
-    return `
-            <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
-                <div class="title flex-row-start">
-                    <div class="col-title"><h3>${title}</h3></div>
-                    <a href="#" type="button">
-                        <i class="fas fa-plus-circle"></i>New card
-                    </a>
-                </div>
-                <div class="board-details flex-row-end">
-                    <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
-                </div>
-            </li>
-            <div class="cards-container flex-row-start hide-details" containerBoardId="${id}">${generateBoardDetails(id)}</div>
-        `;
+export function createTemplateOfBoardsHTML(title, board_private, id, isNewBoard=false){
+        return new Promise(resolve => {
+        board_private = board_private ? 'true' : 'false';
+        const boardDetailsPromise = generateBoardDetails(id, isNewBoard);
+        boardDetailsPromise.then(boardDetails => {
+                const boardsTemplate = `
+                    <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
+                        <div class="title flex-row-start">
+                            <div class="col-title">
+                                <h3>${title}</h3>
+                            </div>                       
+                            <a href="#" type="button">
+                                <i class="fas fa-plus-circle"></i>New card
+                            </a>
+                        </div>
+                        <div class="board-details flex-row-end">
+                            <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
+                        </div>
+                    </li>
+                    <div class="cards-container flex-row-start hide-details" containerBoardId="${id}">${boardDetails}</div>
+                `;
+                resolve(boardsTemplate);
+            })
+    })
 }
 
-export function generateBoardDetails(id) {
+export function generateBoardDetails(id, isNewBoard) {
+    return new Promise(resolve => {
+        if (isNewBoard) {
+            generateDefaultColumns(resolve, id).then(r => resolve());
+        } else {
+            generateColumns(resolve, id);
+        }
+    })
+}
+
+async function generateDefaultColumns(resolve, id) {
     let cardList = '';
-
-    for (let index in defaultColumns) {
-        cardList += `
-            <div class='cell' id="${defaultColumns[index]}" status-id='${index}'>
-                <h3>${defaultColumns[index]}</h3>
-                <div class="tasks flex-column" cardId="${id}"></div>
-            </div>
-        `;
+    for (let [index, columnName] of defaultColumns.entries()) {
+        console.log(index)
+        const columnData = {
+            title: columnName,
+            board_id: id,
+            order_number: index
+        }
+        await createNewColumnPromise(columnData)
+            .then(result => {
+                let statusId = result;
+                console.log(statusId);
+                cardList += `
+                <div class='cell' status-id="${statusId}" status-order-number='${index}'>
+                    <h3>${columnName}</h3>
+                    <div class="tasks flex-column" cardId="${id}"></div>
+                </div>
+                `;
+                if (index === defaultColumns.length - 1) {
+                    console.log(index);
+                    resolve(cardList);
+                }
+            })
     }
-    return cardList;
+}
+
+function generateColumns(resolve, id) {
+    let cardList = '';
+    getColumnsByBoardId(id)
+        .then(result => {
+            const columns = result;
+            let columnIndex = 0;
+            for (let column of columns) {
+                cardList += `
+                <div class='cell' status-id="${column.id}" status-order-number='${column.order_number}'>
+                    <h3>${column.title}</h3>
+                    <div class="tasks flex-column" cardId="${id}"></div>
+                </div>
+                `;
+                if (columnIndex === Object.keys(columns).length - 1) {
+                    resolve(cardList);
+                }
+                columnIndex++;
+            }
+        })
+}
+
+export function getColumnsByBoardId(id) {
+    return new Promise(resolve => {
+        dataHandler.getColumnsByBoardId(id, response => {
+            const columns = response.columns;
+            resolve(columns);
+        })
+    })
+}
+
+function createNewColumnPromise(columnData) {
+    return new Promise(resolve => {
+        dataHandler.createColumn(columnData, (response) => {
+            let statusId = response.id;
+            resolve(statusId);
+        })
+    })
 }
 
 export function handleDetailButton() {
@@ -74,20 +158,14 @@ export function handleEvent(button) {
     });
 }
 
-export function assignTask(cards) {
-
+export function assignCards(cards) {
     cards.forEach(card => {
-        const tasks = [...document.querySelector(`[containerBoardId="${card.board_id}"]`).children];
-        tasks.forEach(column => {
-            createColumn(column, card);
-        });
+        let column = document.querySelector(`.cell[status-id="${card.status_id}"]`);
+        createColumn(column.querySelector(".tasks"), card);
     });
 }
 
-export function createColumn(column, card) {
-    const columnName = defaultColumns[card.status_id];
-
-    if (column.getAttribute('id') === columnName) {
+export function createColumn (column, card) {
         const task = document.createElement('div');
         task.classList.add('task');
         task.setAttribute('task-id', card.id);
@@ -100,8 +178,7 @@ export function createColumn(column, card) {
 
         task.appendChild(addButtonsToCard(task, card.id));
 
-        column.children[taskContainer].appendChild(task);
-    }
+        column.appendChild(task);
 }
 
 export function getLastButton() {
@@ -130,11 +207,11 @@ export function createNewTask(title, taskId, taskNumberOrder) {
 }
 
 export function markPrivateBoard(board_details, board_id) {
-    if (board_details.board_private == true) {
+    if (board_details.board_private === true) {
        const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] .col-title`);
        const lockIcon = '<i class="fas fa-user-lock"></i>';
        const icons = document.getElementsByClassName('div.title fas fa-user-lock');
-       if (icons.length == 0) {
+       if (icons.length === 0) {
            boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
        }
     }
@@ -142,7 +219,7 @@ export function markPrivateBoard(board_details, board_id) {
 }
 
 function stylePrivateBoard(board_details, board_id) {
-    if (board_details.board_private == true){
+    if (board_details.board_private === true){
         const li = document.querySelector(`li[boardId="${board_id}"]`);
         const cards = document.querySelectorAll(`div[containerBoardId="${board_id}"] .cell h3`);
 
