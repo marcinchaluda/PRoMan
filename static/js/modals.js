@@ -122,7 +122,7 @@ function createLabelForCheckbox(boardPrivate, id) {
 }
 
 function createSaveButton() {
-    const newButton = util.createElementWithClasses('button', []);
+    const newButton = util.createElementWithClasses('button');
     newButton.setAttribute('type', 'submit');
 
     const textSaveButton = document.createTextNode('Save');
