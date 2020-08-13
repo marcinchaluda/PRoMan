@@ -86,6 +86,7 @@ function injectDataToModalTemplate(modalId, inputId) {
 function createNewTextInput(id) {
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
+    newInput.setAttribute('maxlength','15');
     newInput.setAttribute('id', id);
     newInput.setAttribute('placeholder', 'Insert name');
 
