@@ -111,7 +111,7 @@ export let generator = {
         const detailBtn = document.querySelectorAll('.detail-button');
 
         detailBtn.forEach(button => {
-            generator.handleEvent(button);
+            generator.handleBoardDetailsEvent(button);
         });
     },
 
