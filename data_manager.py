@@ -133,3 +133,13 @@ def add_new_column(cursor: RealDictCursor, column_data: dict):
             """, {'s_title': column_data['title'], 's_board_id': column_data['board_id'], 's_order_number': column_data['order_number']})
 
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_columns_by_board_id(cursor: RealDictCursor, board_id: int):
+    cursor.execute("""
+                SELECT * FROM statuses
+                WHERE board_id = %(s_board_id)s
+                ORDER BY order_number
+                """, {'s_board_id': board_id})
+    return cursor.fetchall()

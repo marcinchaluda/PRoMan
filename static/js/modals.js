@@ -193,15 +193,15 @@ function handleNewCardEvents() {
 
     const newCardTitle = document.getElementById('card-title').value;
     const newCardBoardId = Number(localStorage.getItem('activeBoard'));
-
+    const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
+    const statusId = parseInt(column.parentElement.getAttribute("status-id"));
     const data = {
         title: newCardTitle,
         boardId: newCardBoardId,
-        statusId: 0
+        statusId: statusId
     };
 
     dataHandler.createNewCard(data, function (response) {
-        const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
         dom.displayNewCard(column, newCardTitle, response.card.id, response.card.order_number);
     });
 }
@@ -285,9 +285,9 @@ if (document.title === 'ProMan') {
     injectDataToModalTemplate('edit-card-modal', 'edited-card-title');
 
 // Add new basic modal to page for new column creation and fill with content
-const newColumnModal = createModal('new-column-modal', 'Create new column');
-body.appendChild(newColumnModal);
-injectDataToModalTemplate('new-column-modal', 'column-title');
+    const newColumnModal = createModal('new-column-modal', 'Create new column');
+    body.appendChild(newColumnModal);
+    injectDataToModalTemplate('new-column-modal', 'column-title');
 
 // Call modal on click New Board button
     const newBoardButton = document.getElementById('new-board-button');
