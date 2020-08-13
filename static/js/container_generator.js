@@ -164,7 +164,7 @@ export let generator = {
         stylePrivateBoard(board_details, board_id);
     },
 
-    handleEvent: function (button) {
+    handleBoardDetailsEvent: function (button) {
         button.addEventListener('click', function () {
             button.getAttribute('boardId');
             const cardsContainer = button.parentElement.parentElement.nextElementSibling;
