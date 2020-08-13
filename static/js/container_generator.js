@@ -56,11 +56,11 @@ export function createTemplateOfBoardsHTML(title, board_private, id, isNewBoard=
     })
 }
 
-export function generateBoardDetails(id, isNewBoard= false) {
+export function generateBoardDetails(id, isNewBoard) {
     return new Promise(resolve => {
-        if (isNewBoard === true) {
+        if (isNewBoard) {
             generateDefaultColumns(resolve, id);
-        } else if (isNewBoard === false) {
+        } else {
             generateColumns(resolve, id);
         }
     })
@@ -78,6 +78,7 @@ function generateDefaultColumns(resolve, id) {
         createNewColumnPromise(columnData)
             .then(result => {
                 let statusId = result;
+                console.log(statusId);
                 cardList += `
                 <div class='cell' status-id="${statusId}" status-order-number='${index}'>
                     <h3>${defaultColumns[index]}</h3>
@@ -85,6 +86,7 @@ function generateDefaultColumns(resolve, id) {
                 </div>
                 `;
                 if (parseInt(index) === Object.keys(defaultColumns).length - 1) {
+                    console.log(cardList);
                     resolve(cardList);
                 }
             })

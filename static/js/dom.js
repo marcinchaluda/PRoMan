@@ -53,7 +53,7 @@ export let dom = {
                         markPrivateBoard(board, board['id']);
                     }
 
-                    handleEvent(getLastButton());
+                    // handleEvent(getLastButton());
                     initNewColumnsWithDragAndDrop(board.id);
 
                     const boardButtons = document.querySelector(`li[boardid="${board.id}"] > .title`);
