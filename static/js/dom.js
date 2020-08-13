@@ -1,7 +1,8 @@
 import {dataHandler} from "./data_handler.js";
 import {
     createDeleteBoardButton,
-    createEditBoardButton
+    createEditBoardButton,
+    createNewCardButton
 } from "./board_handler.js";
 import {
     generateBoards,
@@ -23,7 +24,7 @@ export let dom = {
     init: function () {
         dom.loadBoards()
             .then(() => {
-                modalsInit();
+                // modalsInit();
             });
     },
 
@@ -62,6 +63,10 @@ export let dom = {
 
                     const boardButtons = document.querySelector(`li[boardid="${board.id}"] > .title`);
                     const boardTitleBar = document.querySelector(`li[boardid="${board.id}"]`);
+
+                    const newCardButton = createNewCardButton(board.id);
+                    boardButtons.appendChild(newCardButton);
+
                     const deleteButton = createDeleteBoardButton(board.id, boardTitleBar);
                     boardButtons.appendChild(deleteButton);
                     addFunctionToNewCardButton(board.id);
@@ -98,6 +103,10 @@ export let dom = {
 
                 const boardButtons = document.querySelector(`li[boardid="${board_id}"] > .title`);
                 const boardTitleBar = document.querySelector(`li[boardid="${board_id}"]`);
+
+                const newCardButton = createNewCardButton(board_id);
+                boardButtons.appendChild(newCardButton);
+
                 const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
                 boardButtons.appendChild(deleteButton);
 

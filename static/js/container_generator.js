@@ -43,9 +43,6 @@ export function createTemplateOfBoardsHTML(title, board_private, id, isNewBoard=
                             <div class="col-title">
                                 <h3>${title}</h3>
                             </div>                       
-                            <a href="#" type="button">
-                                <i class="fas fa-plus-circle"></i>New card
-                            </a>
                         </div>
                         <div class="board-details flex-row-end">
                             <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
