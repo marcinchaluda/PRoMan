@@ -23,7 +23,7 @@ export function createTemplateOfBoardsHTML(title, board_private, id){
     return `
             <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
                 <div class="title flex-row-start">
-                    <h3>${title}</h3>
+                    <div class="col-title"><h3>${title}</h3></div>
                     <a href="#" type="button">
                         <i class="fas fa-plus-circle"></i>New card
                     </a>
@@ -131,7 +131,7 @@ export function createNewTask(title, taskId, taskNumberOrder) {
 
 export function markPrivateBoard(board_details, board_id) {
     if (board_details.board_private == true) {
-       const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] h3`);
+       const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] .col-title`);
        const lockIcon = '<i class="fas fa-user-lock"></i>';
        const icons = document.getElementsByClassName('div.title fas fa-user-lock');
        if (icons.length == 0) {

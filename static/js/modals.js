@@ -214,7 +214,7 @@ function handleEditBoardEvents() {
     };
 
     dataHandler.updateBoard(data, function () {
-        const boardTitle = document.querySelector(`li[boardid="${boardId}"] > .title > h3`);
+        const boardTitle = document.querySelector(`li[boardid="${boardId}"] .col-title h3`);
         boardTitle.innerText = newBoardTitle;
     });
 }

@@ -30,14 +30,13 @@
     color: #BFBFBF;
 }
 
-.header h1, .board-container h3 {
+.header h1 {
     padding: 0 1em;
     border-right: 1px solid #BFBFBF;
 }
 
 .board-container h3 {
     padding-top: 0.2em;
-    border-right: 1px solid #73172F;
 }
 
 .header a,  li a {
@@ -68,7 +67,7 @@
 }
 
 .login-details {
-    width: 25vw;
+    width: 40vw;
     margin-right: 2em;
     min-width: 80px;
     max-height: 26px;
@@ -191,7 +190,7 @@ footer {
 .form-container {
     margin: 20vh auto;
     text-align: center;
-    height: 100vh;
+    height: 50vh;
     width: 25vw;
 }
 
@@ -209,6 +208,12 @@ footer {
     padding: 0.3em;
     text-align: center;
     margin: 1em auto 0 auto;
+}
+
+.form-container .alert {
+    margin-bottom: 2em;
+    width: 60vw;
+    transform: translate(-30%);
 }
 
 .alert a.close {
@@ -302,10 +307,10 @@ legend {
     padding-left: 0.7em;
 }
 
-li div.title i.fa-user-lock {
+li div.col-title i.fa-user-lock {
     display: flex;
-    font-size: 1.2em;
-    padding-right: 0.5em;
+    font-size: 1.5em;
+    padding-left: 0.5em;
 }
 
 li.private {
@@ -319,9 +324,9 @@ h3.private {
 
 div.title h3 {
     display: flex;
-    width: 150px;
     justify-content: center;
 }
+
 .task .task-title {
     margin: 0.5em auto;
     border: none;
@@ -342,4 +347,11 @@ div.title h3 {
 .card-icon {
     position: relative;
     right: 0;
+}
+
+.col-title {
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    border-right: 1px solid #73172F;
 }
