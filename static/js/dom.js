@@ -15,12 +15,16 @@ import {
     markPrivateBoard,
     handleRefreshButton
 } from './container_generator.js';
-import {addFunctionToNewCardButton} from "./modals.js";
+import {addFunctionToNewCardButton, modalsInit} from "./modals.js";
 import {dragAndDropHandler, initTask} from './drag_and_drop_handler.js';
 
 
 export let dom = {
     init: function () {
+        dom.loadBoards()
+            .then(() => {
+                modalsInit();
+            });
     },
 
     loadBoards: function () {
@@ -61,6 +65,10 @@ export let dom = {
                     const deleteButton = createDeleteBoardButton(board.id, boardTitleBar);
                     boardButtons.appendChild(deleteButton);
                     addFunctionToNewCardButton(board.id);
+
+                    const editButton = createEditBoardButton(board.id);
+                    boardButtons.appendChild(editButton);
+
                 }
             })
 
@@ -79,7 +87,7 @@ export let dom = {
     },
 
     displayNewBoard: function (board_details, board_id) {
-        console.log(board_id)
+
         const newBoardPromise = createTemplateOfBoardsHTML(board_details['title'], board_details['board_private'], board_id, true);
         newBoardPromise
             .then(newBoard => {
@@ -93,12 +101,12 @@ export let dom = {
                 const deleteButton = createDeleteBoardButton(board_id, boardTitleBar);
                 boardButtons.appendChild(deleteButton);
 
-                markPrivateBoard(board_details, board_id);
-
-                addFunctionToNewCardButtton(board_id);
+                addFunctionToNewCardButton(board_id);
 
                 const editButton = createEditBoardButton(board_id);
                 boardButtons.appendChild(editButton);
+
+                markPrivateBoard(board_details, board_id);
             })
     },
 
