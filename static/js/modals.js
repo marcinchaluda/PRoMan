@@ -176,7 +176,7 @@ function handleNewCardEvents() {
     };
 
     dataHandler.createNewCard(data, function (response) {
-        dom.displayNewCard(column, newCardTitle, response.card.id, response.card.order_number);
+        dom.displayNewCard(column, newCardTitle, response.card.id, column.children.length);
     });
 }
 
