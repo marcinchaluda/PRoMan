@@ -12,7 +12,7 @@ export let util = {
         return button;
     },
 
-    createElementWithClasses: function (typeOfElement, listOfClasses) {
+    createElementWithClasses: function (typeOfElement, listOfClasses=[]) {
         const element = document.createElement(typeOfElement);
         for (let classOnList of listOfClasses) {
             element.classList.add(classOnList);
