@@ -130,8 +130,6 @@ export let dom = {
         const cardsContainer = document.querySelector(`div[containerboardid="${data.board_id}"]`);
         const newColumn = createNewColumn(data);
 
-        initColumn(newColumn);
-
         cardsContainer.appendChild(newColumn);
     }
 };

@@ -1,5 +1,5 @@
 import { dom } from './dom.js';
-import {initColumns} from "./drag_and_drop_handler.js";
+import {initColumns, initColumn} from "./drag_and_drop_handler.js";
 import {
     createDeleteCardButton,
     createEditCardButton
@@ -251,6 +251,7 @@ export function createNewColumn(data) {
 
     const tasksElement = util.createElementWithClasses("div", ["tasks", "flex-column"]);
     tasksElement.setAttribute("cardid", data.board_id);
+    initColumn(tasksElement);
 
     cellElement.appendChild(titleElement);
     cellElement.appendChild(tasksElement);
