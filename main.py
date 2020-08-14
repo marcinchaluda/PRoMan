@@ -84,13 +84,16 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = data_manager.is_user_exist(form.username.data)
+
         if user is not None and form.username.data == user['username'] and registration.\
                 verify_password(form.password.data, user['password']):
             session['username'] = form.username.data
             session['user_id'] = user['id']
             flash(f'{form.username.data} logged in')
             return redirect(url_for('index'))
+
         flash('Login Unsuccessful. Please check username and password')
+
     return render_template('login.html', title='Login', form=form)
 
 
@@ -103,9 +106,11 @@ def register():
             'email': form.email.data,
             'password': registration.hash_password(form.password.data),
         }
+
         data_manager.add_new_user(user_data)
         flash(f'Account for {form.username.data} created! You are now able to log in')
         return redirect(url_for('login'))
+
     return render_template('register.html', title='Register', form=form)
 
 
@@ -126,6 +131,7 @@ def update_cards_position():
     cards_position = request.json
     for card_position in cards_position:
         data_manager.update_card_position(card_position)
+
     return {'status': 200}
 
 
@@ -142,11 +148,11 @@ def statuses():
         column_id = data_manager.add_new_column(column_data)
         return {'status': 200,
                 'id': column_id['id']}
-    if method == 'GET':
-        board_id = request.args.get('boardId')
-        columns_data = data_manager.get_columns_by_board_id(board_id)
-        return {'status': 200,
-                'columns': columns_data}
+
+    board_id = request.args.get('boardId')
+    columns_data = data_manager.get_columns_by_board_id(board_id)
+    return {'status': 200,
+            'columns': columns_data}
 
 
 def main():
