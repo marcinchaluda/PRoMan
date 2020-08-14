@@ -159,18 +159,7 @@ function handleNewBoardEvents() {
     }
     dataHandler.createNewBoard(boardDetails, function (response) {
         dom.displayNewBoard(boardDetails, response.board_id);
-        //addFunctionToNewCardButton(response.board_id);
     });
-}
-
-export function addFunctionToNewCardButton(boardId) {
-    const newCardButton = document.querySelector(`li[boardid="${boardId}"] > div >a`);
-
-    newCardButton.onclick = function () {
-        const newCardModal = document.getElementById('new-card-modal');
-        newCardModal.style.display = "block";
-        localStorage.setItem('activeBoard', boardId);
-    }
 }
 
 function handleNewCardEvents() {
@@ -241,8 +230,7 @@ function handleNewColumnEvents() {
     }
 
     dataHandler.createColumn(data, response => {
-            const statusId = response.id;
-            data.status_id = statusId;
+            data.status_id = response.id;
             dom.displayNewColumn(data);
     });
 
