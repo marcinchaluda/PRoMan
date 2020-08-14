@@ -109,7 +109,6 @@ function columnDropHandler(event) {
         }
 
         dataHandler.updateCardsPosition(newTasksData, response => {
-            // console.log(response.status)
         })
     }
 }
