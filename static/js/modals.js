@@ -2,22 +2,7 @@ import {dataHandler} from "./data_handler.js";
 import {dom} from "./dom.js";
 import {util} from "./util.js";
 
-// export function modalsInit() {
-//     const allButtonsAddNewCard = document.querySelectorAll('.board-container > .flex-row-start > .title > a');
-//     for (let newCardButton of allButtonsAddNewCard) {
-//         newCardButton.onclick = function () {
-//             const newCardModal = document.getElementById('new-card-modal');
-//             newCardModal.style.display = "block";
-//
-//             const parentLiElement = newCardButton.closest("li");
-//             localStorage.setItem('activeBoard', parentLiElement.getAttribute('boardid'));
-//         }
-//     }
-// }
-
-// Function create basic template for modal
 function createModal(id, headerText) {
-    //TODO Try to put variables in for loop or to file
     const modal = util.createElementWithClasses('div', ['modal']);
     const modalContent = util.createElementWithClasses('div', ['modal-content']);
     const modalHeader = util.createElementWithClasses('div', ['modal-header']);
@@ -268,40 +253,25 @@ function hideModal(modalId) {
     modal.style.display = "none";
 }
 
-// -------------------------------------------------------------------------------------
-
 if (document.title === 'ProMan') {
-    //TODO it is not DRY, do something
     const body = document.querySelector('body');
 
-// Add new basic modal to page for new board creation and fill with content
-    const newBoardModal = createModal('new-board-modal', 'Create new board');
-    body.appendChild(newBoardModal);
-    injectDataToModalTemplate('new-board-modal', 'board-title');
+    const modals = {
+        newBoard: {id: 'new-board-modal', headerText: 'Create new board', inputId: 'board-title'},
+        newCard: {id: 'new-card-modal', headerText: 'Create new task', inputId: 'card-title'},
+        editBoard: {id: 'edit-board-modal', headerText: 'Edit board title', inputId: 'edited-board-title'},
+        editCard: {id: 'edit-card-modal', headerText: 'Edit card title', inputId: 'edited-card-title'},
+        newColumn: {id: 'new-column-modal', headerText: 'Create new column', inputId: 'column-title'},
+    }
 
-// Add new basic modal to page for new card creation and fill with content
-    const newCardModal = createModal('new-card-modal', 'Create new task');
-    body.appendChild(newCardModal);
-    injectDataToModalTemplate('new-card-modal', 'card-title');
+    Object.keys(modals).forEach(function (key) {
+        const newModal = createModal(modals[key]['id'], modals[key]['headerText']);
+        body.appendChild(newModal);
+        injectDataToModalTemplate(modals[key]['id'], modals[key]['inputId'])
+    });
 
-// Add new basic modal to page for board's edition and fill with content
-    const editBoardModal = createModal('edit-board-modal', 'Edit board title');
-    body.appendChild(editBoardModal);
-    injectDataToModalTemplate('edit-board-modal', 'edited-board-title');
-
-// Add new basic modal to page for card's edition and fill with content
-    const editCardModal = createModal('edit-card-modal', 'Edit card title');
-    body.appendChild(editCardModal);
-    injectDataToModalTemplate('edit-card-modal', 'edited-card-title');
-
-// Add new basic modal to page for new column creation and fill with content
-    const newColumnModal = createModal('new-column-modal', 'Create new column');
-    body.appendChild(newColumnModal);
-    injectDataToModalTemplate('new-column-modal', 'column-title');
-
-// Call modal on click New Board button
     const newBoardButton = document.getElementById('new-board-button');
     newBoardButton.onclick = function () {
-        newBoardModal.style.display = "block";
+        document.getElementById('new-board-modal').style.display = "block";
     }
 }
