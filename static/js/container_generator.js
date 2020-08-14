@@ -1,4 +1,4 @@
-import {initColumns} from "./drag_and_drop_handler.js";
+import {initColumns, initColumn} from "./drag_and_drop_handler.js";
 import {
     createDeleteCardButton,
     createEditCardButton
@@ -134,7 +134,29 @@ export let generator = {
             button.className = button.classList.contains('fa-ellipsis-h') ?
                 'detail-button fas fa-times' : 'detail-button fas fa-ellipsis-h';
         });
+    },
+
+    createNewColumn: function (data) {
+        const cellElement = util.createElementWithClasses("div", ["cell"]);
+        cellElement.setAttribute("status-id", data.status_id);
+        cellElement.setAttribute("status-order-number", data.order_number);
+
+        const titleElement = util.createElementWithClasses("h3");
+        titleElement.textContent = data.title;
+        if (document.querySelector(`li[boardid="${data.board_id}"]`).getAttribute("boardprivate") === 'true') {
+            titleElement.classList.add("private");
+        }
+
+        const tasksElement = util.createElementWithClasses("div", ["tasks", "flex-column"]);
+        tasksElement.setAttribute("cardid", data.board_id);
+        initColumn(tasksElement);
+
+        cellElement.appendChild(titleElement);
+        cellElement.appendChild(tasksElement);
+
+        return cellElement;
     }
+
 }
 
 function generateColumns(resolve, id) {
@@ -156,7 +178,7 @@ function generateColumns(resolve, id) {
 }
 
 function stylePrivateBoard(board_details, board_id) {
-    if (board_details.board_private === true) {
+    if (board_details.board_private) {
         const li = document.querySelector(`li[boardId="${board_id}"]`);
         const cards = document.querySelectorAll(`div[containerBoardId="${board_id}"] .cell h3`);
 

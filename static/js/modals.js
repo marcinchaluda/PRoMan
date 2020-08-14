@@ -246,11 +246,21 @@ function handleNewColumnEvents() {
 
     const newColumnTitle = document.getElementById('column-title').value;
     const newColumnBoardId = Number(localStorage.getItem('activeBoard'));
+    const columnContainerChildren = document.querySelector(`div[containerboardid="${newColumnBoardId}"]`).children;
+    const newColumnOrderNumber = parseInt(columnContainerChildren[columnContainerChildren.length - 1].getAttribute("status-order-number")) + 1;
 
     const data = {
         title: newColumnTitle,
-        boardId: newColumnBoardId
+        board_id: newColumnBoardId,
+        order_number: newColumnOrderNumber
     }
+
+    dataHandler.createColumn(data, response => {
+            const statusId = response.id;
+            data.status_id = statusId;
+            dom.displayNewColumn(data);
+    });
+
 }
 
 function hideModal(modalId) {

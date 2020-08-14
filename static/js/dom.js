@@ -67,6 +67,13 @@ export let dom = {
         initTask(newTask);
         parent.appendChild(newTask);
     },
+
+    displayNewColumn: function(data) {
+        const cardsContainer = document.querySelector(`div[containerboardid="${data.board_id}"]`);
+        const newColumn = generator.createNewColumn(data);
+
+        cardsContainer.appendChild(newColumn);
+    }
 };
 
 function fillBoardContent(boards) {

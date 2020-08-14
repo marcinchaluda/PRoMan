@@ -29,8 +29,7 @@ def get_connection_string():
 
 def open_database():
     try:
-        # connection_string = get_connection_string()
-        connection_string = "postgres://mfmmmmtuxlasav:467e269b1494a616673cdf5b2cfe0161abc7e1d66b43cdba093fea6be158b5c6@ec2-46-137-124-19.eu-west-1.compute.amazonaws.com/d2vcgamf7t02ve"
+        connection_string = get_connection_string()
         connection = psycopg2.connect(connection_string)
         connection.autocommit = True
     except psycopg2.DatabaseError as exception:

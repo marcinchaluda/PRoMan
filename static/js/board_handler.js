@@ -48,13 +48,13 @@ function createEditBoardButton(boardId) {
 }
 
 function createNewColumnButton(boardId) {
-    const newCardButton = util.addButton(['fas', 'fa-columns'], 'New column');
+    const newColumnButton = util.addButton(['fas', 'fa-columns'], 'New column');
 
-    newCardButton.onclick = function () {
+    newColumnButton.onclick = function () {
         const newColumnModal = document.getElementById('new-column-modal');
         newColumnModal.style.display = "block";
 
         localStorage.setItem('activeBoard', boardId);
     }
-    return newCardButton;
+    return newColumnButton;
 }
