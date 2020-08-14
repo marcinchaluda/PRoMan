@@ -55,7 +55,7 @@ export let dom = {
                 const boardContainer = document.querySelector('.board-container');
                 boardContainer.insertAdjacentHTML("beforeend", newBoard);
 
-                generator.handleEvent(generator.getLastButton());
+                generator.handleBoardDetailsEvent(generator.getLastButton());
                 generator.initNewColumnsWithDragAndDrop(board_id);
                 addBoardButtons(board_id);
                 generator.markPrivateBoard(board_details, board_id);
@@ -63,7 +63,7 @@ export let dom = {
     },
 
     displayNewCard: function (parent, title, taskId, taskOrderNumber) {
-        const newTask = generator.createNewTask(title, taskId, taskOrderNumber);
+        const newTask = generator.createNewTask(taskId, title, taskOrderNumber);
         initTask(newTask);
         parent.appendChild(newTask);
     },

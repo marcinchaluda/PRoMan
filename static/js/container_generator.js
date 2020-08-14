@@ -4,6 +4,7 @@ import {
     createEditCardButton
 } from "./card_handler.js";
 import {dataHandler} from "./data_handler.js";
+import {util} from "./util.js";
 
 const defaultColumns = ['New', 'In Progress', 'Testing', 'Done'];
 
@@ -64,8 +65,7 @@ export let generator = {
     createNewColumnPromise: function (columnData) {
         return new Promise(resolve => {
             dataHandler.createColumn(columnData, (response) => {
-                let statusId = response.id;
-                resolve(statusId);
+                resolve(response.id);
             });
         });
     },
@@ -74,36 +74,21 @@ export let generator = {
         const detailBtn = document.querySelectorAll('.detail-button');
 
         detailBtn.forEach(button => {
-            generator.handleEvent(button);
+            generator.handleBoardDetailsEvent(button);
         });
     },
 
     handleRefreshButton: function () {
         const refreshButton = document.getElementById('refresh-button');
-        refreshButton.addEventListener('click', () => window.location.reload());
+        refreshButton.onclick = window.location.reload;
     },
 
     assignCards: function (cards) {
         cards.forEach(card => {
-            let column = document.querySelector(`.cell[status-id="${card.status_id}"]`);
-            this.createColumn(column.querySelector(".tasks"), card);
+            let column = document.querySelector(`.cell[status-id="${card.status_id}"] .tasks`);
+            const task = this.createNewTask(card.id, card.title, card.order_number);
+            column.appendChild(task);
         });
-    },
-
-    createColumn: function (column, card) {
-        const task = document.createElement('div');
-        task.classList.add('task');
-        task.setAttribute('task-id', card.id);
-        task.setAttribute('order-number', card.order_number);
-        //TODO extract to new function during refactor
-        const taskTitle = document.createElement('div');
-        taskTitle.classList.add('task-title');
-        taskTitle.textContent = card.title;
-        task.appendChild(taskTitle);
-
-        task.appendChild(addButtonsToCard(task, card.id));
-
-        column.appendChild(task);
     },
 
     getLastButton: function () {
@@ -115,16 +100,14 @@ export let generator = {
         initColumns(document.querySelectorAll(`div[containerBoardId="${board_id}"] .tasks`));
     },
 
-    createNewTask: function (title, taskId, taskNumberOrder) {
-        const task = document.createElement('div');
-        //TODO extract to new function during refactor
-        const taskTitle = document.createElement('div');
-        taskTitle.classList.add('task-title');
+    createNewTask: function (taskId, title, orderNumber) {
+        const task = util.createElementWithClasses('div', ['task'])
+        task.setAttribute('task-id', taskId);
+        task.setAttribute('order-number', orderNumber);
+
+        const taskTitle = util.createElementWithClasses('div', ['task-title']);
         taskTitle.textContent = title;
         task.appendChild(taskTitle);
-        task.classList.add('task');
-        task.setAttribute('task-id', taskId);
-        task.setAttribute('order-number', taskNumberOrder);
 
         task.appendChild(addButtonsToCard(task, taskId));
 
@@ -132,18 +115,17 @@ export let generator = {
     },
 
     markPrivateBoard: function (board_details, board_id) {
-        if (board_details.board_private === true) {
-            const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] .col-title`);
+        const icons = document.getElementsByClassName('div.title fas fa-user-lock');
+
+        if (board_details.board_private && icons.length === 0) {
             const lockIcon = '<i class="fas fa-user-lock"></i>';
-            const icons = document.getElementsByClassName('div.title fas fa-user-lock');
-            if (icons.length === 0) {
-                boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
-            }
+            const boardTitleContainer = document.querySelector(`li[boardId="${board_id}"] .col-title`);
+            boardTitleContainer.insertAdjacentHTML("afterbegin", lockIcon);
         }
         stylePrivateBoard(board_details, board_id);
     },
 
-    handleEvent: function (button) {
+    handleBoardDetailsEvent: function (button) {
         button.addEventListener('click', function () {
             button.getAttribute('boardId');
             const cardsContainer = button.parentElement.parentElement.nextElementSibling;
@@ -155,14 +137,11 @@ export let generator = {
     }
 }
 
-
 function generateColumns(resolve, id) {
     let cardList = '';
     generator.getColumnsByBoardId(id)
-        .then(result => {
-            const columns = result;
-            let columnIndex = 0;
-            for (let column of columns) {
+        .then(columns => {
+            for (let [columnIndex, column] of columns.entries()) {
                 cardList += `
                 <div class='cell' status-id="${column.id}" status-order-number='${column.order_number}'>
                     <h3>${column.title}</h3>
@@ -172,11 +151,9 @@ function generateColumns(resolve, id) {
                 if (columnIndex === Object.keys(columns).length - 1) {
                     resolve(cardList);
                 }
-                columnIndex++;
             }
         });
 }
-
 
 function stylePrivateBoard(board_details, board_id) {
     if (board_details.board_private === true) {
@@ -191,8 +168,8 @@ function stylePrivateBoard(board_details, board_id) {
 }
 
 function addButtonsToCard(elementToDelete, cardId) {
-    const buttonPanel = document.createElement('div');
-    buttonPanel.classList.add('button-panel');
+    const buttonPanel = util.createElementWithClasses('div', ['button-panel']);
+
     buttonPanel.appendChild(createDeleteCardButton(elementToDelete, cardId));
     buttonPanel.appendChild(createEditCardButton(cardId));
 
