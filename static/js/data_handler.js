@@ -156,10 +156,12 @@ export let dataHandler = {
             callback(response);
         });
     },
+
     createColumn: function(columnData, callback) {
         this._api_post('/statuses', columnData, callback);
     },
-    getColumnsByBoardId: function(boardId, callback) {
+
+    getColumnsByBoardsId: function(boardId, callback) {
         this._api_get(`/statuses?boardId=${boardId}`, callback);
     }
     // here comes more features
