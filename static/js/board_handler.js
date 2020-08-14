@@ -5,24 +5,22 @@ export function addBoardButtons(boardId) {
     const boardButtons = document.querySelector(`li[boardid="${boardId}"] > .title`);
     const boardTitleBar = document.querySelector(`li[boardid="${boardId}"]`);
 
-    boardButtons.appendChild(createNewCardButton(boardId));
+    boardButtons.appendChild(createButton('new-card-modal', ['fas', 'fa-plus-circle'], 'New card', boardId));
     boardButtons.appendChild(createDeleteBoardButton(boardId, boardTitleBar));
-    boardButtons.appendChild(createEditBoardButton(boardId));
-    boardButtons.appendChild(createNewColumnButton(boardId));
+    boardButtons.appendChild(createButton('edit-board-modal', ['fas', 'fa-edit'], 'Edit', boardId));
+    boardButtons.appendChild(createButton('new-column-modal', ['fas', 'fa-columns'], 'New column', boardId));
 }
+function createButton(modalId, iconClasses, titleText, boardId) {
+    const button = util.addButton(iconClasses, titleText);
 
-function createNewCardButton(boardId) {
-    const newCardButton = util.addButton(['fas', 'fa-plus-circle'], 'New card');
-
-    newCardButton.onclick = function () {
-        const newCardModal = document.getElementById('new-card-modal');
-        newCardModal.style.display = "block";
+    button.onclick = function () {
+        const modalToShow = document.getElementById(modalId);
+        modalToShow.style.display = "block";
 
         localStorage.setItem('activeBoard', boardId);
     }
-    return newCardButton;
+    return button;
 }
-
 function createDeleteBoardButton(boardId, elementToDelete) {
     const deleteButton = util.addButton(['fas', 'fa-trash-alt'], 'Delete');
 
@@ -34,27 +32,4 @@ function createDeleteBoardButton(boardId, elementToDelete) {
         });
     }
     return deleteButton;
-}
-
-function createEditBoardButton(boardId) {
-    const editButton = util.addButton(['fas', 'fa-edit'], 'Edit');
-
-    editButton.onclick = function () {
-        const editBoardModal = document.querySelector('#edit-board-modal')
-        editBoardModal.style.display = "block";
-        localStorage.setItem('activeBoard', boardId);
-    }
-    return editButton;
-}
-
-function createNewColumnButton(boardId) {
-    const newColumnButton = util.addButton(['fas', 'fa-columns'], 'New column');
-
-    newColumnButton.onclick = function () {
-        const newColumnModal = document.getElementById('new-column-modal');
-        newColumnModal.style.display = "block";
-
-        localStorage.setItem('activeBoard', boardId);
-    }
-    return newColumnButton;
 }
