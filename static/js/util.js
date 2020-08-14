@@ -1,6 +1,6 @@
 export let util = {
 
-    addButton: function (iconClasses, descriptionText='') {
+    addButton: function (iconClasses, descriptionText = '') {
         const button = addButtonElement();
         const icon = this.createElementWithClasses('i', iconClasses);
         button.appendChild(icon);
@@ -12,7 +12,7 @@ export let util = {
         return button;
     },
 
-    createElementWithClasses: function (typeOfElement, listOfClasses=[]) {
+    createElementWithClasses: function (typeOfElement, listOfClasses = []) {
         const element = document.createElement(typeOfElement);
         for (let classOnList of listOfClasses) {
             element.classList.add(classOnList);
@@ -20,6 +20,12 @@ export let util = {
 
         return element;
     },
+
+    appendChildren: function (parent, listOfChildren) {
+        for (const child of listOfChildren) {
+            parent.appendChild(child);
+        }
+    }
 }
 
 function addButtonElement() {

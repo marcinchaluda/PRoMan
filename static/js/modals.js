@@ -12,8 +12,8 @@ function createModal(id, headerText) {
     const closeXButton = createCloseXButton(modal);
     const headerDescription = createHeader(headerText);
 
-    appendChildren(modalHeader, [headerDescription, closeXButton]);
-    appendChildren(modalContent, [modalHeader, modalBody, modalFooter]);
+    util.appendChildren(modalHeader, [headerDescription, closeXButton]);
+    util.appendChildren(modalContent, [modalHeader, modalBody, modalFooter]);
 
     modal.appendChild(modalContent);
     modal.setAttribute('id', id);
@@ -41,13 +41,7 @@ function createCloseXButton(modal) {
     return closeXButton;
 }
 
-function appendChildren(parent, listOfChildren) {
-    for (const child of listOfChildren) {
-        parent.appendChild(child);
-    }
-}
-
-// Inject data to basic modal
+// Inject data to basic modal template
 function injectDataToModalTemplate(modalId, inputId) {
     const modalContent = document.querySelector(`#${modalId} > .modal-content`);
     const modalBody = document.querySelector(`#${modalId} > .modal-content > .modal-body`);
@@ -55,14 +49,13 @@ function injectDataToModalTemplate(modalId, inputId) {
 
     const boardTitleInput = createNewTextInput(inputId);
     modalBody.appendChild(boardTitleInput);
+
     if (modalId === 'new-board-modal') {
         const checkboxContainer = createCheckboxContainer();
         modalBody.appendChild(checkboxContainer);
     }
 
-    const saveButton = createSaveButton();
-    modalFooter.appendChild(saveButton);
-
+    modalFooter.appendChild(createSaveButton());
     const newBoardForm = createNewBoardForm(modalBody, modalFooter, modalId);
 
     modalContent.appendChild(newBoardForm);
@@ -79,10 +72,10 @@ function createNewTextInput(id) {
 }
 
 function createCheckboxContainer() {
-    const container = document.createElement('div');
+    const container = util.createElementWithClasses('div', ['checkbox-container']);
     const boardPrivateCheckbox = createNewCheckbox('private', 'board-private');
     const checkboxLabel = createLabelForCheckbox('private', 'board-private');
-    container.classList.add('checkbox-container');
+
     container.appendChild(boardPrivateCheckbox);
     container.appendChild(checkboxLabel);
 
@@ -151,11 +144,9 @@ function choseEvent(modalId) {
 function handleNewBoardEvents() {
     hideModal('#new-board-modal');
 
-    const inputValue = document.getElementById('board-title').value;
-    const boardPrivateValue = document.getElementById("board-private").checked;
     const boardDetails = {
-        title: inputValue,
-        board_private: boardPrivateValue,
+        title: document.getElementById('board-title').value,
+        board_private: document.getElementById("board-private").checked,
     }
     dataHandler.createNewBoard(boardDetails, function (response) {
         dom.displayNewBoard(boardDetails, response.board_id);
@@ -223,7 +214,8 @@ function handleNewColumnEvents() {
     const newColumnTitle = document.getElementById('column-title').value;
     const newColumnBoardId = Number(localStorage.getItem('activeBoard'));
     const columnContainerChildren = document.querySelector(`div[containerboardid="${newColumnBoardId}"]`).children;
-    const newColumnOrderNumber = parseInt(columnContainerChildren[columnContainerChildren.length - 1].getAttribute("status-order-number")) + 1;
+    const lastColumn = columnContainerChildren[columnContainerChildren.length - 1];
+    const newColumnOrderNumber = parseInt(lastColumn.getAttribute("status-order-number")) + 1;
 
     const data = {
         title: newColumnTitle,
