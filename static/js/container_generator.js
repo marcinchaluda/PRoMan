@@ -11,21 +11,8 @@ export let generator = {
     generateBoards: function (boards) {
         return new Promise(resolve => {
             let boardList = '';
-            let boardIndex = 0;
-            if (Object.keys(boards).length === 0) {
-                resolve(boardList);
-            } else {
-                for (let board of boards) {
-                    const templateOfBoardsPromise = this.createTemplateOfBoardsHTML(board.title, board.board_private, board.id);
-                    templateOfBoardsPromise.then(result => {
-                        boardList += result;
-                        if (boardIndex === Object.keys(boards).length - 1) {
-                            resolve(boardList);
-                        }
-                        boardIndex++;
-                    });
-                }
-            }
+
+            (Object.keys(boards).length === 0) ? resolve(boardList) : generateBoardList(resolve, boardList, boards);
         });
     },
 
@@ -34,19 +21,7 @@ export let generator = {
             board_private = board_private ? 'true' : 'false';
             const boardDetailsPromise = this.generateBoardDetails(id, isNewBoard);
             boardDetailsPromise.then(boardDetails => {
-                const boardsTemplate = `
-                    <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
-                        <div class="title flex-row-start">
-                            <div class="col-title">
-                                <h3>${title}</h3>
-                            </div>                       
-                        </div>
-                        <div class="board-details flex-row-end">
-                            <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
-                        </div>
-                    </li>
-                    <div class="cards-container flex-row-start hide-details" containerBoardId="${id}">${boardDetails}</div>
-                `;
+                const boardsTemplate = getBoardTemplate(title, board_private, id, boardDetails);
                 resolve(boardsTemplate);
             });
         });
@@ -54,35 +29,23 @@ export let generator = {
 
     generateBoardDetails: function (id, isNewBoard) {
         return new Promise(resolve => {
-            if (isNewBoard) {
-                this.generateDefaultColumns(resolve, id).then(r => resolve());
-            } else {
-                generateColumns(resolve, id);
-            }
+            (isNewBoard) ? this.generateDefaultColumns(resolve, id).then(r => resolve()) : generateColumns(resolve, id);
         });
     },
 
     generateDefaultColumns: async function (resolve, id) {
         let cardList = '';
         for (let [index, columnName] of defaultColumns.entries()) {
-            console.log(index)
             const columnData = {
                 title: columnName,
                 board_id: id,
                 order_number: index
             }
-            await this.createNewColumnPromise(columnData)
-                .then(result => {
-                    let statusId = result;
-                    console.log(statusId);
-                    cardList += `
-                <div class='cell' status-id="${statusId}" status-order-number='${index}'>
-                    <h3>${columnName}</h3>
-                    <div class="tasks flex-column" cardId="${id}"></div>
-                </div>
-                `;
+            await this.createNewColumnPromise()
+                .then(statusId => {
+                    cardList += getColumn(columnData, statusId);
+
                     if (index === defaultColumns.length - 1) {
-                        console.log(index);
                         resolve(cardList);
                     }
                 });
@@ -234,4 +197,39 @@ function addButtonsToCard(elementToDelete, cardId) {
     buttonPanel.appendChild(createEditCardButton(cardId));
 
     return buttonPanel;
+}
+
+function generateBoardList(resolve, boardList, boards) {
+    (async () => {
+        for (let board of boards) {
+            const templateOfBoardsPromise = generator.createTemplateOfBoardsHTML(board.title, board.board_private, board.id);
+            await templateOfBoardsPromise.then(result => {
+                boardList += result;
+            });
+        }
+        return resolve(boardList);
+    })();
+}
+
+function getColumn(columnData, statusId) {
+    return `
+            <div class='cell' status-id="${statusId}" status-order-number='${columnData.order_number}'>
+                <h3>${columnData.title}</h3>
+                <div class="tasks flex-column" cardId="${columnData.board_id}"></div>
+            </div>
+           `;
+}
+
+function getBoardTemplate(title, board_private, id, boardDetails) {
+    return `
+            <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
+                <div class="title flex-row-start">
+                    <div class="col-title"><h3>${title}</h3></div>                       
+                </div>
+                <div class="board-details flex-row-end">
+                    <i class="detail-button fas fa-ellipsis-h" boardId="${id}"></i>
+                </div>
+            </li>
+            <div class="cards-container flex-row-start hide-details" containerBoardId="${id}">${boardDetails}</div>
+           `;
 }
