@@ -169,14 +169,16 @@ function handleNewCardEvents() {
     const newCardBoardId = Number(localStorage.getItem('activeBoard'));
     const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
     const statusId = parseInt(column.parentElement.getAttribute("status-id"));
+    const orderNumber = column.children.length;
     const data = {
         title: newCardTitle,
         boardId: newCardBoardId,
-        statusId: statusId
+        statusId: statusId,
+        orderNumber: orderNumber
     };
 
     dataHandler.createNewCard(data, function (response) {
-        dom.displayNewCard(column, newCardTitle, response.card.id, column.children.length);
+        dom.displayNewCard(column, newCardTitle, response.id, orderNumber);
     });
 }
 

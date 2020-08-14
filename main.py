@@ -67,7 +67,7 @@ def cards():
         new_card_data = request.json
         attributes = data_manager.add_new_card(new_card_data)
         return {'status': 200,
-                'card': attributes}
+                'id': attributes["id"]}
 
     if method == 'PUT':
         card_data = request.json
