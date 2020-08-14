@@ -42,7 +42,7 @@ export let generator = {
                 board_id: id,
                 order_number: index
             }
-            await this.createNewColumnPromise()
+            await this.createNewColumnPromise(columnData)
                 .then(statusId => {
                     cardList += getColumn(columnData, statusId);
 
@@ -55,7 +55,7 @@ export let generator = {
 
     getColumnsByBoardId: function (id) {
         return new Promise(resolve => {
-            dataHandler.getColumnsByBoardId(id, response => {
+            dataHandler.getColumnsByBoardsId(id, response => {
                 const columns = response.columns;
                 resolve(columns);
             });
