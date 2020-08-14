@@ -145,6 +145,7 @@ def statuses():
 
     if method == 'POST':
         column_data = request.json
+        print(column_data)
         column_id = data_manager.add_new_column(column_data)
         return {'status': 200,
                 'id': column_id['id']}
