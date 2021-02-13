@@ -1,4 +1,4 @@
-# ProMan (sprint 1)
+# ProMan (sprint 1) hosted on: https://proman-pro.herokuapp.com/
 
 ## Story
 
